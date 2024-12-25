@@ -12,6 +12,10 @@ class AppTableNames:
     VehicleColorTableName = "vehicle_colors"
     VehicleTableName = "vehicles"
     OrganizationTableName = "organizations"
+    OrderStatusTableName = "order_status"
+    OrderTableName = "orders"
+    SAPRequestTableName = "sap_requests"
+    KaspiPaymentsTableName = "kaspi_payments"
 
 
 class AppModelNames:
@@ -28,3 +32,7 @@ class AppModelNames:
     VehicleColorModelName = "VehicleColorModel"
     VehicleModelName = "VehicleModel"
     OrganizationModelName = "OrganizationModel"
+    OrderStatusModelName = "OrderStatusModel"
+    OrderModelName = "OrderModel"
+    SAPRequestModelName = "SapRequestModel"
+    KaspiPaymentsModelName = "KaspiPaymentModel"

@@ -39,6 +39,6 @@ class VehicleModel(Base):
     ]
     registration_number: Mapped[DbColumnConstants.StandardVarchar]
     car_model: Mapped[DbColumnConstants.StandardVarchar]
-    is_trailed: Mapped[DbColumnConstants.StandardBooleanFalse]
+    is_trailer: Mapped[DbColumnConstants.StandardBooleanFalse]
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]

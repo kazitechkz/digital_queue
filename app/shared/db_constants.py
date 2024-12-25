@@ -1,9 +1,22 @@
-from datetime import datetime, date
+from datetime import datetime, date, time
 from typing import Annotated, Optional
 
-from sqlalchemy import text, String, Text, Numeric, Date, Integer, Boolean, ForeignKey
+from sqlalchemy import (
+    text,
+    String,
+    Text,
+    Numeric,
+    Date,
+    Integer,
+    Boolean,
+    ForeignKey,
+    Computed,
+    DateTime,
+    Time,
+)
 from sqlalchemy.orm import mapped_column
 
+from app.infrastructure.config import app_config
 from app.shared.field_constants import FieldConstants
 
 
@@ -65,6 +78,45 @@ class AppDbValueConstants:
     )
 
 
+class DbModelValue:
+    # quan
+    @property
+    def get_quan(self) -> str:
+        if app_config.app_database == "postgresql":
+            return "(quan_t * 1000)::INTEGER"
+        return "CAST(quan_t * 1000 AS SIGNED)"
+
+    @property
+    def get_quan_release_t(self) -> str:
+        if app_config.app_database == "postgresql":
+            return "(quan_released / 1000.0)::FLOAT8"
+        return "(quan_released / 1000.0)"
+
+    @property
+    def get_quan_booked_t(self) -> str:
+        if app_config.app_database == "postgresql":
+            return "quan_booked / 1000.0)::FLOAT8"
+        return "(quan_booked  / 1000.0)"
+
+    @property
+    def get_quan_left(self) -> str:
+        if app_config.app_database == "postgresql":
+            return "(quan_t * 1000)::INTEGER - quan_booked - quan_released"
+        return "CAST(quan_t * 1000 AS SIGNED) - quan_booked - quan_released"
+
+    @property
+    def get_quan_left_t(self) -> str:
+        if app_config.app_database == "postgresql":
+            return "((quan_t * 1000)::INTEGER - quan_booked - quan_released) / 1000.0"
+        return "(CAST(quan_t * 1000 AS SIGNED) - quan_booked - quan_released) / 1000.0"
+
+    @property
+    def get_tomorrow(self) -> str:
+        if app_config.app_database == "postgresql":
+            return "(created_at + INTERVAL '1 day')"
+        return "DATE_ADD(created_at, INTERVAL 1 DAY)"
+
+
 class DbColumnConstants:
     ID = Annotated[int, mapped_column(primary_key=True)]
     CreatedAt = Annotated[
@@ -85,6 +137,12 @@ class DbColumnConstants:
     ]
     StandardNullableVarchar = Annotated[
         str, mapped_column(String(length=FieldConstants.STANDARD_LENGTH), nullable=True)
+    ]
+    StandardNullableVarcharIndex = Annotated[
+        str,
+        mapped_column(
+            String(length=FieldConstants.STANDARD_LENGTH), nullable=True, index=True
+        ),
     ]
     StandardUniqueIIN = Annotated[
         str,
@@ -154,8 +212,16 @@ class DbColumnConstants:
         Optional[date], mapped_column(Date(), nullable=True)
     ]
     StandardDate = Annotated[date, mapped_column(Date())]
-
+    StandardDateTime = Annotated[datetime, mapped_column(DateTime())]
+    StandardNullableDateTime = Annotated[
+        Optional[date], mapped_column(DateTime(), nullable=True)
+    ]
+    StandardNullableTime = Annotated[
+        Optional[time], mapped_column(Time(), nullable=True)
+    ]
+    StandardTime = Annotated[time, mapped_column(Time())]
     StandardInteger = Annotated[int, mapped_column(Integer())]
+    StandardIntegerDefaultZero = Annotated[int, mapped_column(Integer(), default=0)]
     StandardNullableInteger = Annotated[
         Optional[int], mapped_column(Integer(), nullable=True)
     ]
@@ -232,3 +298,47 @@ class DbColumnConstants:
             ),
         ]
     )
+
+    # Вычисляемые столбцы для Integer
+    StandardComputedInteger = lambda table_exp, is_persisted=None: Annotated[
+        int,
+        mapped_column(
+            Computed(
+                f"{table_exp}",
+                persisted=is_persisted,
+            )
+        ),
+    ]
+
+    StandardComputedNullableInteger = lambda table_exp, is_persisted=None: Annotated[
+        Optional[int],
+        mapped_column(
+            Computed(
+                f"{table_exp}",
+                persisted=is_persisted,
+            ),
+            nullable=True,
+        ),
+    ]
+
+    # Вычисляемые столбцы для Float
+    StandardComputedFloat = lambda table_exp, is_persisted=None: Annotated[
+        float,
+        mapped_column(
+            Computed(
+                f"{table_exp}",
+                persisted=is_persisted,
+            )
+        ),
+    ]
+
+    StandardComputedNullableFloat = lambda table_exp, is_persisted=None: Annotated[
+        Optional[float],
+        mapped_column(
+            Computed(
+                f"{table_exp}",
+                persisted=is_persisted,
+            ),
+            nullable=True,
+        ),
+    ]

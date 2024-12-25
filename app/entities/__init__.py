@@ -11,6 +11,7 @@ from .vehicle_color import VehicleColorModel
 from .organization import OrganizationModel
 from .vehicle import VehicleModel
 
+
 __all__ = [
     "RoleModel",
     "UserTypeModel",
