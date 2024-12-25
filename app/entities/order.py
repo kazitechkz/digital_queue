@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import DateTime, Computed
+from sqlalchemy import Computed, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.infrastructure.database import Base
@@ -133,8 +133,8 @@ class OrderModel(Base):
             AppTableNames.UserTableName, onupdate="cascade", ondelete="set null"
         )
     ]
-    canceled_by_sid:Mapped[DbColumnConstants.StandardNullableVarcharIndex]
-    canceled_by_name:Mapped[DbColumnConstants.StandardNullableVarchar]
+    canceled_by_sid: Mapped[DbColumnConstants.StandardNullableVarcharIndex]
+    canceled_by_name: Mapped[DbColumnConstants.StandardNullableVarchar]
 
     checked_payment_by_id: Mapped[
         DbColumnConstants.ForeignKeyNullableInteger(

@@ -3,7 +3,7 @@ from typing import Optional
 from sqlalchemy.orm import Mapped, relationship
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.app_constants import AppModelNames, AppTableNames
 from app.shared.db_constants import DbColumnConstants
 
 

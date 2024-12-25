@@ -9,11 +9,6 @@ class KaspiPaymentModel(Base):
     __tablename__ = AppTableNames.KaspiPaymentsTableName
 
     id: Mapped[DbColumnConstants.ID]
-    order_id: Mapped[
-        DbColumnConstants.ForeignKeyNullableInteger(
-            AppTableNames.OrderTableName, onupdate="cascade", ondelete="set null"
-        )
-    ]
     zakaz: Mapped[DbColumnConstants.StandardVarcharIndex]  # № заказа
     account: Mapped[DbColumnConstants.StandardVarcharIndex]  # Счёт
     txn_id: Mapped[DbColumnConstants.StandardNullableVarcharIndex]  # ID транзакции

@@ -16,6 +16,7 @@ class AppTableNames:
     OrderTableName = "orders"
     SAPRequestTableName = "sap_requests"
     KaspiPaymentsTableName = "kaspi_payments"
+    PaymentDocumentTableName = "payment_documents"
 
 
 class AppModelNames:
@@ -36,3 +37,4 @@ class AppModelNames:
     OrderModelName = "OrderModel"
     SAPRequestModelName = "SapRequestModel"
     KaspiPaymentsModelName = "KaspiPaymentModel"
+    PaymentDocumentModelName = "PaymentDocumentModel"

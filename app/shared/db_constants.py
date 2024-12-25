@@ -1,19 +1,8 @@
-from datetime import datetime, date, time
+from datetime import date, datetime, time
 from typing import Annotated, Optional
 
-from sqlalchemy import (
-    text,
-    String,
-    Text,
-    Numeric,
-    Date,
-    Integer,
-    Boolean,
-    ForeignKey,
-    Computed,
-    DateTime,
-    Time,
-)
+from sqlalchemy import (Boolean, Computed, Date, DateTime, ForeignKey, Integer,
+                        Numeric, String, Text, Time, text)
 from sqlalchemy.orm import mapped_column
 
 from app.infrastructure.config import app_config
