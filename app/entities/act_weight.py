@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Mapped
+
 from app.infrastructure.database import Base
 from app.shared.app_constants import AppTableNames
 from app.shared.db_constants import DbColumnConstants, DbModelValue

@@ -144,8 +144,12 @@ class OrderModel(Base):
     checked_payment_by: Mapped[DbColumnConstants.StandardNullableVarchar]
     checked_payment_at: Mapped[DbColumnConstants.StandardNullableDateTime]
 
-    payment_return_id: Mapped[Optional[int]] = DbColumnConstants.ForeignKeyNullableInteger(
-        AppTableNames.PaymentReturnTableName, onupdate="cascade", ondelete="set null"
+    payment_return_id: Mapped[Optional[int]] = (
+        DbColumnConstants.ForeignKeyNullableInteger(
+            AppTableNames.PaymentReturnTableName,
+            onupdate="cascade",
+            ondelete="set null",
+        )
     )
 
     created_at: Mapped[DbColumnConstants.CreatedAt]

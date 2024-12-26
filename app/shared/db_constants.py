@@ -12,34 +12,43 @@ from app.shared.field_constants import FieldConstants
 class AppDbValueConstants:
     # roles
     ADMINISTRATOR_VALUE = "administrator"
-    MODERATOR_VALUE = "moderator"
-    COMPANY_LEAD_VALUE = "company_lead"
-    COMPANY_MANAGER_VALUE = "company_manager"
-    EMPLOYEE_VALUE = "employee"
+    ADMINISTRATOR_KEYCLOAK_VALUE = "administrator"
+
+    SECURITY_VALUE = "security"
+    SECURITY_KEYCLOAK_VALUE = "security"
+
+    SECURITY_LOADER_VALUE = "security_loader"
+    SECURITY_LOADER_KEYCLOAK_VALUE = "security_loader"
+
+    LOADER_VALUE = "loader"
+    LOADER_KEYCLOAK_VALUE = "loader"
+
+    WEIGHER_VALUE = "weigher"
+    WEIGHER_KEYCLOAK_VALUE = "weigher"
+
+    MANAGER_VALUE = "manager"
+    MANAGER_KEYCLOAK_VALUE = "manager"
+
+    CLIENT_VALUE = "client"
+    CLIENT_KEYCLOAK_VALUE = "client"
     # Роли, которые нельзя удалить или изменить
     IMMUTABLE_ROLES = frozenset(
         [
             ADMINISTRATOR_VALUE,
-            MODERATOR_VALUE,
-            COMPANY_LEAD_VALUE,
-            COMPANY_MANAGER_VALUE,
-            EMPLOYEE_VALUE,
+            SECURITY_VALUE,
+            SECURITY_LOADER_VALUE,
+            LOADER_VALUE,
+            WEIGHER_VALUE,
+            MANAGER_VALUE,
+            CLIENT_VALUE,
         ]
     )
-    # Languages
-    RUSSIAN_VALUE = "ru"
-    KAZAKH_VALUE = "kk"
-    ENGLISH_VALUE = "en"
-    IMMUTABLE_LANGUAGES = frozenset(
-        [
-            RUSSIAN_VALUE,
-            KAZAKH_VALUE,
-            ENGLISH_VALUE,
-        ]
-    )
+
     # UserTypes
     INDIVIDUAL_VALUE = "individual"
+    INDIVIDUAL_KEYCLOAK_VALUE = "individual"
     LEGAL_VALUE = "legal"
+    LEGAL_KEYCLOAK_VALUE = "legal"
     IMMUTABLE_USER_TYPES = frozenset(
         [
             INDIVIDUAL_VALUE,
