@@ -26,6 +26,11 @@ class UserModel(Base):
             ondelete="set null",
         )
     ]
+    file_id: Mapped[
+        DbColumnConstants.ForeignKeyNullableInteger(
+            AppTableNames.FileTableName, onupdate="set null", ondelete="cascade"
+        )
+    ]
     name: Mapped[DbColumnConstants.StandardVarchar]
     given_name: Mapped[DbColumnConstants.StandardNullableVarchar]
     family_name: Mapped[DbColumnConstants.StandardNullableVarchar]

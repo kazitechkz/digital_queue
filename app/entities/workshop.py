@@ -9,6 +9,11 @@ from app.shared.db_constants import DbColumnConstants
 class WorkshopModel(Base):
     __tablename__ = AppTableNames.WorkshopTableName
     id: Mapped[DbColumnConstants.ID]
+    file_id: Mapped[
+        DbColumnConstants.ForeignKeyNullableInteger(
+            AppTableNames.FileTableName, onupdate="set null", ondelete="cascade"
+        )
+    ]
     title: Mapped[DbColumnConstants.StandardText]
     description: Mapped[DbColumnConstants.StandardNullableText]
     sap_id: Mapped[DbColumnConstants.StandardUniqueValue]

@@ -37,8 +37,14 @@ class VehicleModel(Base):
             onupdate="cascade",
         )
     ]
+    file_id: Mapped[
+        DbColumnConstants.ForeignKeyNullableInteger(
+            AppTableNames.FileTableName, onupdate="set null", ondelete="cascade"
+        )
+    ]
     registration_number: Mapped[DbColumnConstants.StandardVarchar]
     car_model: Mapped[DbColumnConstants.StandardVarchar]
     is_trailer: Mapped[DbColumnConstants.StandardBooleanFalse]
+    vehicle_info: Mapped[DbColumnConstants.StandardNullableText]
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]

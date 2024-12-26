@@ -43,29 +43,29 @@ class OrderModel(Base):
     quan_t: Mapped[DbColumnConstants.StandardPrice]
     quan: Mapped[
         DbColumnConstants.StandardComputedInteger(
-            table_exp=DbModelValue().get_quan, is_persisted=True
+            table_exp=DbModelValue().quan, is_persisted=True
         )
     ]
     quan_released: Mapped[DbColumnConstants.StandardIntegerDefaultZero]
     quan_released_t: Mapped[
         DbColumnConstants.StandardComputedFloat(
-            table_exp=DbModelValue().get_quan_release_t, is_persisted=True
+            table_exp=DbModelValue().quan_released_t, is_persisted=True
         )
     ]
     quan_booked: Mapped[DbColumnConstants.StandardIntegerDefaultZero]
     quan_booked_t: Mapped[
         DbColumnConstants.StandardComputedFloat(
-            table_exp=DbModelValue().get_quan_booked_t, is_persisted=True
+            table_exp=DbModelValue().quan_booked_t, is_persisted=True
         )
     ]
     quan_left: Mapped[
         DbColumnConstants.StandardComputedInteger(
-            table_exp=DbModelValue().get_quan_left, is_persisted=True
+            table_exp=DbModelValue().quan_left, is_persisted=True
         )
     ]
     quan_left_t: Mapped[
         DbColumnConstants.StandardComputedFloat(
-            table_exp=DbModelValue().get_quan_left_t, is_persisted=True
+            table_exp=DbModelValue().quan_left_t, is_persisted=True
         )
     ]
 
@@ -124,7 +124,7 @@ class OrderModel(Base):
     cancel_at: Mapped[DbColumnConstants.StandardNullableDateTime]
     must_paid_at: Mapped[Optional[datetime]] = mapped_column(
         DateTime(),
-        Computed(DbModelValue().get_tomorrow, persisted=True),
+        Computed(DbModelValue().tomorrow, persisted=True),
         nullable=True,
     )
 

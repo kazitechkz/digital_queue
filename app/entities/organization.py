@@ -8,6 +8,11 @@ from app.shared.db_constants import DbColumnConstants
 class OrganizationModel(Base):
     __tablename__ = AppTableNames.OrganizationTableName
     id: Mapped[DbColumnConstants.ID]
+    file_id: Mapped[
+        DbColumnConstants.ForeignKeyNullableInteger(
+            AppTableNames.FileTableName, onupdate="set null", ondelete="cascade"
+        )
+    ]
     full_name: Mapped[DbColumnConstants.StandardText]
     short_name: Mapped[DbColumnConstants.StandardText]
     bin: Mapped[DbColumnConstants.StandardUniqueBIN]

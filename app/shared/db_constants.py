@@ -68,40 +68,56 @@ class AppDbValueConstants:
 
 
 class DbModelValue:
-    # quan
     @property
-    def get_quan(self) -> str:
-        if app_config.app_database == "postgresql":
+    def is_postgresql(self) -> bool:
+        """Проверяет, используется ли PostgreSQL как база данных."""
+        return app_config.app_database.lower() == "postgresql"
+
+    def to_kg(self, column_name) -> str:
+        """Вычисление to_kg."""
+        if self.is_postgresql:
+            return f"({column_name} * 1000)::INTEGER"
+        return f"CAST({column_name} * 1000 AS SIGNED)"
+
+    @property
+    def quan(self) -> str:
+        """Вычисление QUAN."""
+        if self.is_postgresql:
             return "(quan_t * 1000)::INTEGER"
         return "CAST(quan_t * 1000 AS SIGNED)"
 
     @property
-    def get_quan_release_t(self) -> str:
-        if app_config.app_database == "postgresql":
-            return "(quan_released / 1000.0)::FLOAT8"
+    def quan_released_t(self) -> str:
+        """Вычисление QUAN_RELEASED_T."""
+        if self.is_postgresql:
+            return "(quan_released / 1000.0)::DOUBLE PRECISION"
         return "(quan_released / 1000.0)"
 
     @property
-    def get_quan_booked_t(self) -> str:
-        if app_config.app_database == "postgresql":
-            return "quan_booked / 1000.0)::FLOAT8"
-        return "(quan_booked  / 1000.0)"
+    def quan_booked_t(self) -> str:
+        """Вычисление QUAN_BOOKED_T."""
+        if self.is_postgresql:
+            return "(quan_booked / 1000.0)::DOUBLE PRECISION"
+        return "(quan_booked / 1000.0)"
 
     @property
-    def get_quan_left(self) -> str:
-        if app_config.app_database == "postgresql":
+    def quan_left(self) -> str:
+        """Вычисление QUAN_LEFT."""
+        if self.is_postgresql:
             return "(quan_t * 1000)::INTEGER - quan_booked - quan_released"
         return "CAST(quan_t * 1000 AS SIGNED) - quan_booked - quan_released"
 
     @property
-    def get_quan_left_t(self) -> str:
-        if app_config.app_database == "postgresql":
+    def quan_left_t(self) -> str:
+        """Вычисление QUAN_LEFT_T."""
+        if self.is_postgresql:
             return "((quan_t * 1000)::INTEGER - quan_booked - quan_released) / 1000.0"
         return "(CAST(quan_t * 1000 AS SIGNED) - quan_booked - quan_released) / 1000.0"
 
     @property
-    def get_tomorrow(self) -> str:
-        if app_config.app_database == "postgresql":
+    def tomorrow(self) -> str:
+        """Вычисление TOMORROW."""
+        if self.is_postgresql:
             return "(created_at + INTERVAL '1 day')"
         return "DATE_ADD(created_at, INTERVAL 1 DAY)"
 
