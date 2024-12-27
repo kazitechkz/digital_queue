@@ -61,12 +61,13 @@ class RoleSeeder(BaseSeeder):
                 keycloak_id=AppDbValueConstants.CLIENT_KEYCLOAK_VALUE,
                 keycloak_value=AppDbValueConstants.CLIENT_KEYCLOAK_VALUE,
                 is_active=True,
-            )
+            ),
         ]
 
     def get_prod_data(self):
         return [
             RoleModel(
+                id=1,
                 title="Администратор",
                 value=AppDbValueConstants.ADMINISTRATOR_VALUE,
                 keycloak_id=AppDbValueConstants.ADMINISTRATOR_KEYCLOAK_VALUE,
@@ -74,6 +75,7 @@ class RoleSeeder(BaseSeeder):
                 is_active=True,
             ),
             RoleModel(
+                id=2,
                 title="Служба Безопасности",
                 value=AppDbValueConstants.SECURITY_VALUE,
                 keycloak_id=AppDbValueConstants.SECURITY_KEYCLOAK_VALUE,
@@ -81,6 +83,7 @@ class RoleSeeder(BaseSeeder):
                 is_active=True,
             ),
             RoleModel(
+                id=3,
                 title="Контроллер погрузки",
                 value=AppDbValueConstants.SECURITY_LOADER_VALUE,
                 keycloak_id=AppDbValueConstants.SECURITY_LOADER_KEYCLOAK_VALUE,
@@ -88,6 +91,7 @@ class RoleSeeder(BaseSeeder):
                 is_active=True,
             ),
             RoleModel(
+                id=4,
                 title="Погрузчик",
                 value=AppDbValueConstants.LOADER_VALUE,
                 keycloak_id=AppDbValueConstants.LOADER_KEYCLOAK_VALUE,
@@ -95,6 +99,7 @@ class RoleSeeder(BaseSeeder):
                 is_active=True,
             ),
             RoleModel(
+                id=5,
                 title="Весовщик",
                 value=AppDbValueConstants.WEIGHER_VALUE,
                 keycloak_id=AppDbValueConstants.WEIGHER_KEYCLOAK_VALUE,
@@ -102,6 +107,7 @@ class RoleSeeder(BaseSeeder):
                 is_active=True,
             ),
             RoleModel(
+                id=6,
                 title="Менеджер",
                 value=AppDbValueConstants.MANAGER_VALUE,
                 keycloak_id=AppDbValueConstants.MANAGER_KEYCLOAK_VALUE,
@@ -109,10 +115,17 @@ class RoleSeeder(BaseSeeder):
                 is_active=True,
             ),
             RoleModel(
+                id=7,
                 title="Клиент",
                 value=AppDbValueConstants.CLIENT_VALUE,
                 keycloak_id=AppDbValueConstants.CLIENT_KEYCLOAK_VALUE,
                 keycloak_value=AppDbValueConstants.CLIENT_KEYCLOAK_VALUE,
                 is_active=True,
-            )
+            ),
         ]
+
+    def get_dev_updated_data(self):
+        pass
+
+    def get_prod_updated_data(self):
+        pass

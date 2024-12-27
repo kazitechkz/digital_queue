@@ -43,6 +43,8 @@ class OperationModel(Base):
             ondelete="SET NULL",
         )
     ]
+    prev_value: Mapped[DbColumnConstants.StandardNullableVarcharIndex]
+    next_value: Mapped[DbColumnConstants.StandardNullableVarcharIndex]
     # Возможность отмены
     can_cancel: Mapped[DbColumnConstants.StandardBooleanFalse]
     is_active: Mapped[DbColumnConstants.StandardBooleanTrue]

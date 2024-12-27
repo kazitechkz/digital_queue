@@ -30,8 +30,8 @@ class WorkshopScheduleModel(Base):
     car_service_min: Mapped[DbColumnConstants.StandardInteger]
     break_between_service_min: Mapped[DbColumnConstants.StandardInteger]
     machine_at_one_time: Mapped[DbColumnConstants.StandardInteger]
-    can_earlier_come: Mapped[DbColumnConstants.StandardIntegerDefaultZero]
-    can_late_come: Mapped[DbColumnConstants.StandardIntegerDefaultZero]
+    can_earlier_come_min: Mapped[DbColumnConstants.StandardIntegerDefaultZero]
+    can_late_come_min: Mapped[DbColumnConstants.StandardIntegerDefaultZero]
     # Статус активности
     is_active: Mapped[DbColumnConstants.StandardBooleanTrue]
     # Таймстампы создания и обновления

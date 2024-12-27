@@ -21,6 +21,8 @@ class OrderStatusModel(Base):
             AppTableNames.OrderStatusTableName, ondelete="set null", onupdate="cascade"
         )
     ]
+    prev_value: Mapped[DbColumnConstants.StandardNullableVarcharIndex]
+    next_value: Mapped[DbColumnConstants.StandardNullableVarcharIndex]
     is_first: Mapped[DbColumnConstants.StandardBooleanFalse]
     is_last: Mapped[DbColumnConstants.StandardBooleanFalse]
     created_at: Mapped[DbColumnConstants.CreatedAt]

@@ -16,7 +16,7 @@ class BaseSeeder(ABC):
         self.environment = (
             app_config.app_status
         )  # Получение текущего окружения (prod/dev)
-        self.db_type = app_config.db_type
+        self.db_type = app_config.app_database
 
     @abstractmethod
     async def seed(self, session: AsyncSession):
@@ -30,6 +30,13 @@ class BaseSeeder(ABC):
         else:
             return self.get_dev_data()
 
+    def get_updated_data(self):
+        """Загрузка данных в зависимости от окружения."""
+        if self.environment == "production":
+            return self.get_prod_updated_data()
+        else:
+            return self.get_dev_updated_data()
+
     @abstractmethod
     def get_dev_data(self):
         """Возвращает данные для разработки."""
@@ -37,6 +44,16 @@ class BaseSeeder(ABC):
 
     @abstractmethod
     def get_prod_data(self):
+        """Возвращает данные для продакшена."""
+        pass
+
+    @abstractmethod
+    def get_dev_updated_data(self):
+        """Возвращает данные для разработки."""
+        pass
+
+    @abstractmethod
+    def get_prod_updated_data(self):
         """Возвращает данные для продакшена."""
         pass
 
@@ -84,3 +101,62 @@ class BaseSeeder(ABC):
             print(
                 f"Данные успешно добавлены в таблицу {table_name} ({len(ready_data)} записей)."
             )
+
+    async def update_seeders(
+        self,
+        BaseModel,
+        session: AsyncSession,
+        table_name: str,
+        identification: str,
+        update_data: list,
+        add_if_not_exists: bool = False,
+    ):
+        """
+        Обновление данных в таблице.
+
+        Args:
+            BaseModel: SQLAlchemy модель таблицы.
+            session: Активная асинхронная сессия.
+            table_name: Имя таблицы (для логирования).
+            identification: Поле для идентификации записи (например, 'id').
+            update_data: Список записей для обновления/добавления.
+            add_if_not_exists: Если True, добавляет новые записи, если их не существует.
+        """
+        if not update_data:
+            logger.info(f"Нет данных для обновления/добавления в таблицу {table_name}.")
+            return
+
+        for record in update_data:
+            # Используем getattr для безопасного доступа к атрибутам
+            identifier = getattr(record, identification, None)
+            print(identifier)
+            if identifier is None:
+                raise ValueError(
+                    f"Каждая запись должна содержать поле '{identification}' для идентификации."
+                )
+
+            # Поиск записи по идентификатору (не через get(), так как поле не является ключом)
+            stmt = select(BaseModel).where(
+                getattr(BaseModel, identification) == identifier
+            )
+            result = await session.execute(stmt)
+            existing_record = result.scalar_one_or_none()
+
+            if existing_record:
+                # Обновляем поля записи
+                for key, value in record.items():
+                    if key != identification:  # Поле идентификации не обновляем
+                        setattr(existing_record, key, value)
+                logger.info(
+                    f"Обновлена запись с {identification}={identifier} в таблице {table_name}."
+                )
+            elif add_if_not_exists:
+                # Добавляем новую запись
+                new_record = BaseModel(**record)
+                session.add(new_record)
+                logger.info(
+                    f"Добавлена новая запись с {identification}={identifier} в таблицу {table_name}."
+                )
+
+        await session.commit()
+        logger.info(f"Данные успешно обновлены/добавлены в таблицу {table_name}.")

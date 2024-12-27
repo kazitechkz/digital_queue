@@ -29,6 +29,6 @@ class MaterialModel(Base):
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
     # Relations
-    workshop: Mapped[AppModelNames.WorkshopModelName] = relationship(
-        back_populates="materials"
-    )
+    # workshop: Mapped[AppModelNames.WorkshopModelName] = relationship(
+    #     back_populates="materials"
+    # )

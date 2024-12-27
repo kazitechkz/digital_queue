@@ -21,6 +21,6 @@ class FactoryModel(Base):
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
     # Relations
-    workshops: Mapped[list[AppModelNames.WorkshopModelName]] = relationship(
-        back_populates="factory"
-    )
+    # workshops: Mapped[list[AppModelNames.WorkshopModelName]] = relationship(
+    #     back_populates="factory"
+    # )

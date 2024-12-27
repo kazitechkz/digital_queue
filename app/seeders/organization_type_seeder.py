@@ -10,7 +10,12 @@ from app.shared.db_constants import AppDbValueConstants
 class OrganizationTypeSeeder(BaseSeeder):
     async def seed(self, session: AsyncSession):
         data = self.get_data()
-        await self.load_seeders(OrganizationTypeModel, session, AppTableNames.OrganizationTypeTableName, data)
+        await self.load_seeders(
+            OrganizationTypeModel,
+            session,
+            AppTableNames.OrganizationTypeTableName,
+            data,
+        )
 
     def get_dev_data(self):
         return [
@@ -46,3 +51,9 @@ class OrganizationTypeSeeder(BaseSeeder):
 
     def get_prod_data(self):
         return self.get_dev_data()
+
+    def get_dev_updated_data(self):
+        pass
+
+    def get_prod_updated_data(self):
+        pass

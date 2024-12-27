@@ -74,6 +74,50 @@ class AppDbValueConstants:
             NON_JCS_VALUE,
         ]
     )
+    # Order Status Values
+    WAITING_FOR_INVOICE_CREATION_STATUS = "waiting_for_invoice_creation"
+    INVOICE_CREATION_ERROR_STATUS = "invoice_creation_error"
+    WAITING_FOR_PAYMENT_STATUS = "waiting_for_payment"
+    WAITING_FOR_PAYMENT_CONFIRMATION_STATUS = "waiting_for_payment_confirmation"
+    PAYMENT_REJECTED_STATUS = "payment_rejected"
+    PAYMENT_CONFIRMATION_REJECTED_STATUS = "payment_confirmation_rejected"
+    PAID_WAITING_FOR_BOOKING_STATUS = "paid_waiting_for_booking"
+    IN_PROGRESS_STATUS = "in_progress"
+    COMPLETED_STATUS = "completed"
+    DECLINED_STATUS = "declined"
+    IMMUTABLE_ORDER_STATUS = frozenset(
+        [
+            WAITING_FOR_INVOICE_CREATION_STATUS,
+            INVOICE_CREATION_ERROR_STATUS,
+            WAITING_FOR_PAYMENT_STATUS,
+            WAITING_FOR_PAYMENT_CONFIRMATION_STATUS,
+            PAYMENT_REJECTED_STATUS,
+            PAYMENT_CONFIRMATION_REJECTED_STATUS,
+            PAID_WAITING_FOR_BOOKING_STATUS,
+            IN_PROGRESS_STATUS,
+            COMPLETED_STATUS,
+            DECLINED_STATUS,
+        ]
+    )
+
+    # Operation Status Values
+    VALIDATION_BEFORE_ENTRY = "validation_before_entry"
+    ENTRY_CHECKPOINT = "entry_checkpoint"
+    INITIAL_WEIGHING = "initial_weighing"
+    VALIDATION_BEFORE_LOADING = "validation_before_loading"
+    LOADING_GOODS = "loading_goods"
+    CONTROL_WEIGHING = "control_weighing"
+    EXIT_SECURITY_CHECKPOINT = "exit_security_checkpoint"
+    SECURITY_VALIDATION_BEFORE_UNLOADING_AND_CANCELLATION = (
+        "security_validation_before_unloading_and_cancellation"
+    )
+    UNLOADING_EXCESS_GOODS_AND_EXIT = "unloading_excess_goods_and_exit"
+    SECURITY_VALIDATION_BEFORE_UNLOADING_AND_WEIGHING = (
+        "security_validation_before_unloading_and_weighing"
+    )
+    UNLOADING_EXCESS_GOODS_AND_WEIGHING = "unloading_excess_goods_and_weighing"
+    SUCCESSFULLY_COMPLETED = "successfully_completed"
+    CANCELLED = "cancelled"
 
 
 class DbModelValue:
