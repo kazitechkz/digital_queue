@@ -1,7 +1,7 @@
 import logging
 from abc import ABC, abstractmethod
 
-from sqlalchemy import func, select, text
+from sqlalchemy import func, select, text, inspect
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infrastructure.config import app_config
@@ -103,13 +103,13 @@ class BaseSeeder(ABC):
             )
 
     async def update_seeders(
-        self,
-        BaseModel,
-        session: AsyncSession,
-        table_name: str,
-        identification: str,
-        update_data: list,
-        add_if_not_exists: bool = False,
+            self,
+            BaseModel,
+            session: AsyncSession,
+            table_name: str,
+            identification: str,
+            update_data: list,  # Это список объектов BaseModel
+            add_if_not_exists: bool = False,
     ):
         """
         Обновление данных в таблице.
@@ -127,15 +127,14 @@ class BaseSeeder(ABC):
             return
 
         for record in update_data:
-            # Используем getattr для безопасного доступа к атрибутам
+            # Получаем идентификатор записи
             identifier = getattr(record, identification, None)
-            print(identifier)
             if identifier is None:
                 raise ValueError(
                     f"Каждая запись должна содержать поле '{identification}' для идентификации."
                 )
 
-            # Поиск записи по идентификатору (не через get(), так как поле не является ключом)
+            # Поиск существующей записи в базе данных
             stmt = select(BaseModel).where(
                 getattr(BaseModel, identification) == identifier
             )
@@ -143,16 +142,23 @@ class BaseSeeder(ABC):
             existing_record = result.scalar_one_or_none()
 
             if existing_record:
-                # Обновляем поля записи
-                for key, value in record.items():
+                # Обновляем только те поля, которые отличаются
+                columns = inspect(BaseModel).mapper.column_attrs.keys()
+                for key in columns:
                     if key != identification:  # Поле идентификации не обновляем
-                        setattr(existing_record, key, value)
+                        new_value = getattr(record, key, None)
+                        if new_value is not None and getattr(existing_record, key) != new_value:
+                            setattr(existing_record, key, new_value)
                 logger.info(
                     f"Обновлена запись с {identification}={identifier} в таблице {table_name}."
                 )
             elif add_if_not_exists:
                 # Добавляем новую запись
-                new_record = BaseModel(**record)
+                new_record = BaseModel(**{
+                    key: getattr(record, key, None)
+                    for key in inspect(BaseModel).mapper.column_attrs.keys()
+                    if getattr(record, key, None) is not None
+                })
                 session.add(new_record)
                 logger.info(
                     f"Добавлена новая запись с {identification}={identifier} в таблицу {table_name}."

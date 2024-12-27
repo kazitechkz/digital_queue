@@ -79,7 +79,7 @@ class OrderStatusSeeder(BaseSeeder):
                 status=True,
                 prev_id=None,  # Укажите ID предыдущего статуса после добавления
                 next_id=None,  # Укажите ID следующего статуса после добавления
-                prev_value=AppDbValueConstants.WAITING_FOR_PAYMENT_CONFIRMATION_STATUS,
+                prev_value=AppDbValueConstants.WAITING_FOR_PAYMENT_STATUS,
                 next_value=None,
                 is_first=False,
                 is_last=False,
