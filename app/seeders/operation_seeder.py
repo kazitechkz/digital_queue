@@ -239,85 +239,21 @@ class OperationSeeder(BaseSeeder):
 
     def get_dev_updated_data(self) -> list:
         return [
-            OperationModel(
-                id=1,
-                value=AppDbValueConstants.VALIDATION_BEFORE_ENTRY,
-                prev_id=None,
-                next_id=2,
-            ),
-            OperationModel(
-                id=2,
-                value=AppDbValueConstants.ENTRY_CHECKPOINT,
-                prev_id=1,
-                next_id=3,
-            ),
-            OperationModel(
-                id=3,
-                value=AppDbValueConstants.INITIAL_WEIGHING,
-                prev_id=2,
-                next_id=4,
-            ),
-            OperationModel(
-                id=4,
-                value=AppDbValueConstants.VALIDATION_BEFORE_LOADING,
-                prev_id=3,
-                next_id=5,
-            ),
-            OperationModel(
-                id=5,
-                value=AppDbValueConstants.LOADING_GOODS,
-                prev_id=4,
-                next_id=6,
-            ),
-            OperationModel(
-                id=6,
-                value=AppDbValueConstants.CONTROL_WEIGHING,
-                prev_id=5,
-                next_id=7,
-            ),
-            OperationModel(
-                id=7,
-                value=AppDbValueConstants.EXIT_SECURITY_CHECKPOINT,
-                prev_id=6,
-                next_id=8,
-            ),
-            OperationModel(
-                id=8,
-                value=AppDbValueConstants.SUCCESSFULLY_COMPLETED,
-                prev_id=7,
-                next_id=None,
-            ),
-            OperationModel(
-                id=9,
-                value=AppDbValueConstants.SECURITY_VALIDATION_BEFORE_UNLOADING_AND_CANCELLATION,
-                prev_id=6,
-                next_id=10,
-            ),
-            OperationModel(
-                id=10,
-                value=AppDbValueConstants.UNLOADING_EXCESS_GOODS_AND_EXIT,
-                prev_id=9,
-                next_id=13,
-            ),
-            OperationModel(
-                id=11,
-                value=AppDbValueConstants.SECURITY_VALIDATION_BEFORE_UNLOADING_AND_WEIGHING,
-                prev_id=6,
-                next_id=12,
-            ),
-            OperationModel(
-                id=12,
-                value=AppDbValueConstants.UNLOADING_EXCESS_GOODS_AND_WEIGHING,
-                prev_id=11,
-                next_id=6,
-            ),
-            OperationModel(
-                id=13,
-                value=AppDbValueConstants.CANCELLED,
-                prev_id=10,
-                next_id=None,
-            ),
-
+            {"id": 1, "value": AppDbValueConstants.VALIDATION_BEFORE_ENTRY, "prev_id": None, "next_id": 2},
+            {"id": 2, "value": AppDbValueConstants.ENTRY_CHECKPOINT, "prev_id": 1, "next_id": 3},
+            {"id": 3, "value": AppDbValueConstants.INITIAL_WEIGHING, "prev_id": 2, "next_id": 4},
+            {"id": 4, "value": AppDbValueConstants.VALIDATION_BEFORE_LOADING, "prev_id": 3, "next_id": 5},
+            {"id": 5, "value": AppDbValueConstants.LOADING_GOODS, "prev_id": 4, "next_id": 6},
+            {"id": 6, "value": AppDbValueConstants.CONTROL_WEIGHING, "prev_id": 5, "next_id": 7},
+            {"id": 7, "value": AppDbValueConstants.EXIT_SECURITY_CHECKPOINT, "prev_id": 6, "next_id": 8},
+            {"id": 8, "value": AppDbValueConstants.SUCCESSFULLY_COMPLETED, "prev_id": 7, "next_id": None},
+            {"id": 9, "value": AppDbValueConstants.SECURITY_VALIDATION_BEFORE_UNLOADING_AND_CANCELLATION, "prev_id": 6,
+             "next_id": 10},
+            {"id": 10, "value": AppDbValueConstants.UNLOADING_EXCESS_GOODS_AND_EXIT, "prev_id": 9, "next_id": 13},
+            {"id": 11, "value": AppDbValueConstants.SECURITY_VALIDATION_BEFORE_UNLOADING_AND_WEIGHING, "prev_id": 6,
+             "next_id": 12},
+            {"id": 12, "value": AppDbValueConstants.UNLOADING_EXCESS_GOODS_AND_WEIGHING, "prev_id": 11, "next_id": 6},
+            {"id": 13, "value": AppDbValueConstants.CANCELLED, "prev_id": 10, "next_id": None},
         ]
 
     def get_prod_updated_data(self):

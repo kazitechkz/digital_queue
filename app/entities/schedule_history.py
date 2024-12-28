@@ -2,8 +2,8 @@ from sqlalchemy import ForeignKey, Text
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames
-from app.shared.db_constants import DbColumnConstants
+from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
 class ScheduleHistoryModel(Base):
@@ -46,3 +46,10 @@ class ScheduleHistoryModel(Base):
     # Таймстампы создания и обновления
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
+
+    # Отношения
+    act_weights: Mapped[AppModelNames.ActWeightModelName] = DbRelationshipConstants.one_to_one(
+        target=AppModelNames.ActWeightModelName,
+        back_populates="history",
+        foreign_keys=f"{AppModelNames.ActWeightModelName}.history_id",
+    )

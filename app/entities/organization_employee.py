@@ -38,3 +38,5 @@ class OrganizationEmployeeModel(Base):
     ]
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
+
+    #Relations

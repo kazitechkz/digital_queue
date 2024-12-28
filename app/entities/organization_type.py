@@ -1,8 +1,10 @@
+from typing import List
+
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames
-from app.shared.db_constants import DbColumnConstants
+from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
 class OrganizationTypeModel(Base):
@@ -12,3 +14,9 @@ class OrganizationTypeModel(Base):
     value: Mapped[DbColumnConstants.StandardUniqueValue]
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
+    #Relations
+    organizations: Mapped[List[AppModelNames.OrganizationModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.OrganizationModelName,
+        back_populates="type",
+        foreign_keys=f"{AppModelNames.OrganizationModelName}.type_id"
+    )

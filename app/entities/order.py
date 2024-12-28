@@ -1,12 +1,12 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 from sqlalchemy import Computed, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames
-from app.shared.db_constants import DbColumnConstants, DbModelValue
+from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.db_constants import DbColumnConstants, DbModelValue, DbRelationshipConstants
 
 
 class OrderModel(Base):
@@ -73,9 +73,9 @@ class OrderModel(Base):
     price_without_taxes: Mapped[DbColumnConstants.StandardPrice]
     price_with_taxes: Mapped[DbColumnConstants.StandardPrice]
 
-    sap_id: Mapped[Optional[int]] = DbColumnConstants.ForeignKeyNullableInteger(
+    sap_id: Mapped[DbColumnConstants.ForeignKeyNullableInteger(
         AppTableNames.SAPRequestTableName, onupdate="cascade", ondelete="set null"
-    )
+    )]
     zakaz: Mapped[DbColumnConstants.StandardNullableVarcharIndex]
 
     kaspi_id: Mapped[
@@ -144,13 +144,74 @@ class OrderModel(Base):
     checked_payment_by: Mapped[DbColumnConstants.StandardNullableVarchar]
     checked_payment_at: Mapped[DbColumnConstants.StandardNullableDateTime]
 
-    payment_return_id: Mapped[Optional[int]] = (
-        DbColumnConstants.ForeignKeyNullableInteger(
+    payment_return_id: Mapped[DbColumnConstants.ForeignKeyNullableInteger(
             AppTableNames.PaymentReturnTableName,
             onupdate="cascade",
             ondelete="set null",
-        )
-    )
+        )]
 
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
+
+    # Relations
+    act_weights: Mapped[List[AppModelNames.ActWeightModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.ActWeightModelName,
+        back_populates="order",
+    )
+    kaspi_payments: Mapped[List[AppModelNames.KaspiPaymentsModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.KaspiPaymentsModelName,
+        back_populates="order",
+        foreign_keys=f"{AppModelNames.KaspiPaymentsModelName}.order_id"
+    )
+
+    factory: Mapped[AppModelNames.FactoryModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.FactoryModelName,
+        back_populates="orders",
+        foreign_keys=f"{AppModelNames.OrderModelName}.factory_id"
+    )
+    workshop: Mapped[AppModelNames.WorkshopModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.WorkshopModelName,
+        back_populates="orders",
+        foreign_keys=f"{AppModelNames.OrderModelName}.workshop_id"
+    )
+    material: Mapped[AppModelNames.MaterialModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.MaterialModelName,
+        back_populates="orders",
+        foreign_keys=f"{AppModelNames.OrderModelName}.material_id"
+    )
+
+    sap: Mapped[AppModelNames.SAPRequestModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.SAPRequestModelName,
+        back_populates="orders",
+        foreign_keys=f"{AppModelNames.OrderModelName}.sap_id"
+    )
+    kaspi: Mapped[AppModelNames.KaspiPaymentsModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.KaspiPaymentsModelName,
+        back_populates="orders",
+        foreign_keys=f"{AppModelNames.OrderModelName}.kaspi_id"
+    )
+    owner:Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.UserModelName,
+        back_populates="orders",
+        foreign_keys=f"{AppModelNames.OrderModelName}.owner_id"
+    )
+    organization: Mapped[AppModelNames.OrganizationModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.OrganizationModelName,
+        back_populates="orders",
+        foreign_keys=f"{AppModelNames.OrderModelName}.organization_id"
+    )
+    canceled_by:Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.UserModelName,
+        back_populates="cancelled_orders",
+        foreign_keys=f"{AppModelNames.OrderModelName}.canceled_by_user"
+    )
+    checked_payment_by: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.UserModelName,
+        back_populates="checked_payment_orders",
+        foreign_keys=f"{AppModelNames.OrderModelName}.checked_payment_by_id"
+    )
+    payment_return: Mapped[AppModelNames.PaymentReturnModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.PaymentReturnModelName,
+        back_populates="orders",
+        foreign_keys=f"{AppModelNames.OrderModelName}.payment_return_id"
+    )

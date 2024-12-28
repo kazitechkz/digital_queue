@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames
-from app.shared.db_constants import DbColumnConstants
+from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
 class BaseWeightModel(Base):
@@ -33,3 +33,10 @@ class BaseWeightModel(Base):
     # Таймстампы создания и обновления
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
+
+    #Relations
+    vehicle: Mapped[AppModelNames.VehicleModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.VehicleModelName,
+        back_populates="base_weights",
+        foreign_keys=f"{AppModelNames.BaseWeightModelName}.vehicle_id"
+    )

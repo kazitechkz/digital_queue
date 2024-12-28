@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames
-from app.shared.db_constants import DbColumnConstants
+from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
 class EmployeeRequestModel(Base):
@@ -55,3 +55,21 @@ class EmployeeRequestModel(Base):
     # Таймстампы создания и обновления
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
+
+    #Relations
+    organization: Mapped[AppModelNames.OrganizationModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.OrganizationModelName,
+        back_populates="employee_requests",
+        foreign_keys=f"{AppModelNames.EmployeeRequestModelName}.organization_id"
+    )
+
+    owner: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.UserModelName,
+        back_populates="sent_employee_requests",
+        foreign_keys=f"{AppModelNames.EmployeeRequestModelName}.owner_id"
+    )
+    employee: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.UserModelName,
+        back_populates="received_employee_requests",
+        foreign_keys=f"{AppModelNames.EmployeeRequestModelName}.employee_id"
+    )

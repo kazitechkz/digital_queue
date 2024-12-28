@@ -1,8 +1,10 @@
+from typing import List
+
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames
-from app.shared.db_constants import DbColumnConstants
+from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
 class VehicleModel(Base):
@@ -48,3 +50,22 @@ class VehicleModel(Base):
     vehicle_info: Mapped[DbColumnConstants.StandardNullableText]
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
+
+    # Relations
+    act_weights_vehicle: Mapped[List[AppModelNames.ActWeightModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.ActWeightModelName,
+        back_populates="vehicle",
+        foreign_keys=f"{AppModelNames.ActWeightModelName}.vehicle_id"
+    )
+
+    act_weights_trailer: Mapped[List[AppModelNames.ActWeightModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.ActWeightModelName,
+        back_populates="trailer",
+        foreign_keys=f"{AppModelNames.ActWeightModelName}.trailer_id"
+    )
+
+    base_weights:Mapped[List[AppModelNames.BaseWeightModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.BaseWeightModelName,
+        back_populates="vehicle",
+        foreign_keys=f"{AppModelNames.BaseWeightModelName}.vehicle_id"
+    )

@@ -400,3 +400,179 @@ class DbColumnConstants:
             nullable=True,
         ),
     ]
+
+
+from sqlalchemy.orm import relationship
+
+
+class DbRelationshipConstants:
+    @staticmethod
+    def one_to_many(
+            target: str,
+            back_populates: str,
+            foreign_keys: str | list = None,
+            cascade: str = "all",
+            lazy: str = "select",
+    ):
+        """
+        Унифицированное создание отношения один-ко-многим.
+
+        Args:
+            target (str): Целевая модель.
+            back_populates (str): Связанное поле в целевой модели.
+            foreign_keys (list): Список внешних ключей, если нужно.
+            cascade (str): Стратегия каскадного удаления.
+            lazy (str): Стратегия загрузки.
+
+        Returns:
+            sqlalchemy.orm.RelationshipProperty: Настроенное отношение.
+        """
+        return relationship(
+            target,
+            back_populates=back_populates,
+            foreign_keys=foreign_keys,
+            cascade=cascade,
+            lazy=lazy,
+        )
+
+    @staticmethod
+    def one_to_one(
+            target: str,
+            back_populates: str,
+            foreign_keys: str|list = None,
+            cascade: str = "all",
+            lazy: str = "select",
+    ):
+        """
+        Создает отношение один-к-одному.
+
+        Args:
+            target (str): Целевая модель.
+            back_populates (str): Связанное поле в целевой модели.
+            foreign_keys (list): Внешние ключи.
+            cascade (str): Стратегия каскадирования.
+            lazy (str): Стратегия загрузки данных.
+
+        Returns:
+            sqlalchemy.orm.RelationshipProperty: Настроенное отношение.
+        """
+        return relationship(
+            target,
+            back_populates=back_populates,
+            foreign_keys=foreign_keys,
+            cascade=cascade,
+            lazy=lazy,
+            uselist=False,  # Ключевой параметр для один-к-одному
+        )
+
+    @staticmethod
+    def many_to_one(
+            target: str,
+            back_populates: str,
+            foreign_keys: str|list = None,
+            cascade: str = "all",
+            lazy: str = "select",
+    ):
+        """
+        Унифицированное создание отношения многие-к-одному.
+
+        Args:
+            target (str): Целевая модель.
+            back_populates (str): Связанное поле в целевой модели.
+            cascade (str): Стратегия каскадного удаления.
+            lazy (str): Стратегия загрузки.
+
+        Returns:
+            sqlalchemy.orm.RelationshipProperty: Настроенное отношение.
+        """
+        return relationship(
+            target,
+            back_populates=back_populates,
+            cascade=cascade,
+            lazy=lazy,
+            foreign_keys=foreign_keys
+        )
+
+    @staticmethod
+    def many_to_many(
+            target: str,
+            secondary: str,
+            back_populates: str,
+            cascade: str = "all",
+            lazy: str = "select",
+    ):
+        """
+        Унифицированное создание отношения многие-ко-многим.
+
+        Args:
+            target (str): Целевая модель.
+            secondary (str): Связующая таблица для отношения многие-ко-многим.
+            back_populates (str): Связанное поле в целевой модели.
+            cascade (str): Стратегия каскадного удаления.
+            lazy (str): Стратегия загрузки.
+
+        Returns:
+            sqlalchemy.orm.RelationshipProperty: Настроенное отношение.
+        """
+        return relationship(
+            target,
+            secondary=secondary,
+            back_populates=back_populates,
+            cascade=cascade,
+            lazy=lazy,
+        )
+
+    @staticmethod
+    def self_referential(
+        target: str,
+        back_populates: str,
+        foreign_keys: list|str = None,
+        cascade: str = "save-update, merge",
+        lazy: str = "select",
+    ):
+        """
+        Creates a self-referential relationship.
+
+        Args:
+            target (str): The target model for the relationship.
+            back_populates (str): The field in the target model to map back.
+            foreign_keys (list): The foreign key(s) defining the relationship.
+            cascade (str): Cascade behavior for the relationship.
+            lazy (str): The loading strategy for the relationship.
+
+        Returns:
+            sqlalchemy.orm.RelationshipProperty: Configured relationship.
+        """
+        return relationship(
+            target,
+            back_populates=back_populates,
+            foreign_keys=foreign_keys,
+            cascade=cascade,
+            lazy=lazy,
+        )
+
+    @staticmethod
+    def self_referential(
+            target: str,
+            foreign_keys: list|str,
+            remote_side: str,
+            lazy: str = "select",
+    ):
+        """
+        Создаёт самоссылающееся отношение.
+
+        Args:
+            target (str): Имя целевой модели.
+            foreign_keys (list): Внешние ключи для отношения.
+            remote_side (str): Поле на удалённой стороне для установления связи.
+            lazy (str): Стратегия загрузки.
+
+        Returns:
+            sqlalchemy.orm.RelationshipProperty: Настроенное отношение.
+        """
+        return relationship(
+            target,
+            foreign_keys=foreign_keys,
+            remote_side=remote_side,
+            lazy=lazy,
+        )

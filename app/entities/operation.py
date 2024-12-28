@@ -1,8 +1,10 @@
+from typing import Optional
+
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames
-from app.shared.db_constants import DbColumnConstants
+from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
 class OperationModel(Base):
@@ -21,7 +23,7 @@ class OperationModel(Base):
             ondelete="SET NULL",
         )
     ]
-    role_value: Mapped[DbColumnConstants.StandardVarcharIndex]
+    role_value: Mapped[DbColumnConstants.StandardNullableVarcharIndex]
     role_keycloak_value: Mapped[DbColumnConstants.StandardNullableVarcharIndex]
 
     # Флаги положения операции
@@ -51,3 +53,15 @@ class OperationModel(Base):
     # Таймстампы создания и обновления
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
+
+    prev_operation: Mapped[Optional[AppModelNames.OperationModelName]] = DbRelationshipConstants.self_referential(
+        target=AppModelNames.OperationModelName,
+        foreign_keys=f"{AppModelNames.OperationModelName}.prev_id",
+        remote_side=f"{AppModelNames.OperationModelName}.id",
+    )
+
+    next_operation: Mapped[Optional[AppModelNames.OperationModelName]] = DbRelationshipConstants.self_referential(
+        target=AppModelNames.OperationModelName,
+        foreign_keys=f"{AppModelNames.OperationModelName}.next_id",
+        remote_side=f"{AppModelNames.OperationModelName}.id",
+    )

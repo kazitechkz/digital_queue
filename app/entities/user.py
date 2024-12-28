@@ -1,10 +1,10 @@
-from typing import Optional
+from typing import Optional, List
 
 from sqlalchemy.orm import Mapped, relationship
 
 from app.infrastructure.database import Base
 from app.shared.app_constants import AppModelNames, AppTableNames
-from app.shared.db_constants import DbColumnConstants
+from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
 class UserModel(Base):
@@ -52,3 +52,42 @@ class UserModel(Base):
     user_type: Mapped[Optional[AppModelNames.UserTypeModelName]] = relationship(
         back_populates="users"
     )
+
+    #Relations
+    act_weights: Mapped[List[AppModelNames.ActWeightModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.ActWeightModelName,
+        back_populates="responsible",
+    )
+
+    sent_employee_requests: Mapped[List[AppModelNames.EmployeeRequestModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.EmployeeRequestModelName,
+        back_populates="owner",
+        foreign_keys=f"{AppModelNames.EmployeeRequestModelName}.owner_id"
+    )
+
+    received_employee_requests: Mapped[List[AppModelNames.EmployeeRequestModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.EmployeeRequestModelName,
+        back_populates="employee",
+        foreign_keys=f"{AppModelNames.EmployeeRequestModelName}.employee_id"
+    )
+    orders: Mapped[List[AppModelNames.OrderModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.OrderModelName,
+        back_populates="owner",
+        foreign_keys=f"{AppModelNames.OrderModelName}.owner_id"
+    )
+    cancelled_orders: Mapped[List[AppModelNames.OrderModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.OrderModelName,
+        back_populates="canceled_by",
+        foreign_keys=f"{AppModelNames.OrderModelName}.canceled_by_user"
+    )
+    checked_payment_orders: Mapped[List[AppModelNames.OrderModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.OrderModelName,
+        back_populates="checked_payment_by",
+        foreign_keys=f"{AppModelNames.OrderModelName}.checked_payment_by_id"
+    )
+    organizations:Mapped[List[AppModelNames.OrganizationModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.OrganizationModelName,
+        back_populates="owner",
+        foreign_keys=f"{AppModelNames.OrganizationModelName}.owner_id"
+    )
+
