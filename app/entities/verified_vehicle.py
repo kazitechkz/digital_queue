@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames
-from app.shared.db_constants import DbColumnConstants
+from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
 class VerifiedVehicleModel(Base):
@@ -28,3 +28,9 @@ class VerifiedVehicleModel(Base):
     verified_by_sid: Mapped[DbColumnConstants.StandardNullableVarcharIndex]
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
+    # Relations
+    vehicle: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.VehicleModelName,
+        back_populates="verified_vehicles",
+        foreign_keys=f"{AppModelNames.VerifiedVehicleModelName}.vehicle_id"
+    )

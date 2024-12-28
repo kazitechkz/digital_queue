@@ -46,11 +46,20 @@ class UserModel(Base):
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
     # Relations
-    role: Mapped[Optional[AppModelNames.RoleModelName]] = relationship(
-        back_populates="users"
+    role: Mapped[AppModelNames.RoleModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.RoleModelName,
+        back_populates="users",
+        foreign_keys=f"{AppModelNames.UserModelName}.role_id"
     )
-    user_type: Mapped[Optional[AppModelNames.UserTypeModelName]] = relationship(
-        back_populates="users"
+    user_type: Mapped[AppModelNames.UserTypeModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.UserTypeModelName,
+        back_populates="users",
+        foreign_keys=f"{AppModelNames.UserModelName}.type_id"
+    )
+    file: Mapped[AppModelNames.FileModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.FileModelName,
+        back_populates="users",
+        foreign_keys=f"{AppModelNames.UserModelName}.file_id"
     )
 
     #Relations
@@ -90,4 +99,69 @@ class UserModel(Base):
         back_populates="owner",
         foreign_keys=f"{AppModelNames.OrganizationModelName}.owner_id"
     )
-
+    organization_employees: Mapped[
+        List[AppModelNames.OrganizationEmployeeModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.OrganizationEmployeeModelName,
+        back_populates="employee",
+        foreign_keys=f"{AppModelNames.OrganizationEmployeeModelName}.employee_id"
+    )
+    payment_documents: Mapped[
+        List[AppModelNames.PaymentDocumentModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.PaymentDocumentModelName,
+        back_populates="checked_by_user",
+        foreign_keys=f"{AppModelNames.PaymentDocumentModelName}.checked_by"
+    )
+    payment_returns:Mapped[
+        List[AppModelNames.PaymentReturnModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.PaymentReturnModelName,
+        back_populates="owner",
+        foreign_keys=f"{AppModelNames.PaymentReturnModelName}.owner_id"
+    )
+    decided_payment_returns:Mapped[
+        List[AppModelNames.PaymentReturnModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.PaymentReturnModelName,
+        back_populates="decided",
+        foreign_keys=f"{AppModelNames.PaymentReturnModelName}.decided_id"
+    )
+    owner_schedules:Mapped[
+        List[AppModelNames.ScheduleModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.ScheduleModelName,
+        back_populates="owner",
+        foreign_keys=f"{AppModelNames.ScheduleModelName}.owner_id"
+    )
+    driver_schedules: Mapped[
+        List[AppModelNames.ScheduleModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.ScheduleModelName,
+        back_populates="driver",
+        foreign_keys=f"{AppModelNames.ScheduleModelName}.driver_id"
+    )
+    responsible_for_schedules: Mapped[
+        List[AppModelNames.ScheduleModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.ScheduleModelName,
+        back_populates="responsible",
+        foreign_keys=f"{AppModelNames.ScheduleModelName}.responsible_id"
+    )
+    canceled_schedules: Mapped[
+        List[AppModelNames.ScheduleModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.ScheduleModelName,
+        back_populates="canceled_by_user",
+        foreign_keys=f"{AppModelNames.ScheduleModelName}.canceled_by"
+    )
+    histories: Mapped[
+        List[AppModelNames.ScheduleHistoryModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.ScheduleHistoryModelName,
+        back_populates="responsible",
+        foreign_keys=f"{AppModelNames.ScheduleHistoryModelName}.responsible_id"
+    )
+    vehicles: Mapped[
+        List[AppModelNames.VehicleModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.VehicleModelName,
+        back_populates="owner",
+        foreign_keys=f"{AppModelNames.VehicleModelName}.owner_id"
+    )
+    verified_users: Mapped[
+        List[AppModelNames.VerifiedUserModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.VerifiedUserModelName,
+        back_populates="user",
+        foreign_keys=f"{AppModelNames.VerifiedUserModelName}.user_id"
+    )

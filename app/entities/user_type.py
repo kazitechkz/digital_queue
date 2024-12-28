@@ -1,8 +1,10 @@
+from typing import List
+
 from sqlalchemy.orm import Mapped, relationship
 
 from app.infrastructure.database import Base
 from app.shared.app_constants import AppModelNames, AppTableNames
-from app.shared.db_constants import DbColumnConstants
+from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
 class UserTypeModel(Base):
@@ -17,6 +19,9 @@ class UserTypeModel(Base):
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
     # Relations
-    users: Mapped[list[AppModelNames.UserModelName]] = relationship(
-        back_populates="user_type"
+    users: Mapped[
+        List[AppModelNames.UserModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.UserModelName,
+        back_populates="user_type",
+        foreign_keys=f"{AppModelNames.UserModelName}.type_id"
     )

@@ -46,3 +46,8 @@ class SapRequestModel(Base):
         back_populates="sap",
         foreign_keys=f"{AppModelNames.OrderModelName}.sap_id"
     )
+    order: Mapped[AppModelNames.OrderModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.OrderModelName,
+        back_populates="sap_requests",
+        foreign_keys=f"{AppModelNames.SAPRequestModelName}.order_id"
+    )

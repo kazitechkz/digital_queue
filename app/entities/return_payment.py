@@ -50,3 +50,18 @@ class PaymentReturnModel(Base):
         back_populates="payment_return",
         foreign_keys=f"{AppModelNames.OrderModelName}.payment_return_id"
     )
+    order: Mapped[AppModelNames.OrderModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.OrderModelName,
+        back_populates="payment_refunds",
+        foreign_keys=f"{AppModelNames.PaymentReturnModelName}.order_id"
+    )
+    owner: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.UserModelName,
+        back_populates="payment_returns",
+        foreign_keys=f"{AppModelNames.PaymentReturnModelName}.owner_id"
+    )
+    decided: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.UserModelName,
+        back_populates="decided_payment_returns",
+        foreign_keys=f"{AppModelNames.PaymentReturnModelName}.decided_id"
+    )

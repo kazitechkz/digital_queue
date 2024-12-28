@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
@@ -72,4 +74,10 @@ class EmployeeRequestModel(Base):
         target=AppModelNames.UserModelName,
         back_populates="received_employee_requests",
         foreign_keys=f"{AppModelNames.EmployeeRequestModelName}.employee_id"
+    )
+    organization_employees: Mapped[
+        List[AppModelNames.OrganizationEmployeeModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.OrganizationEmployeeModelName,
+        back_populates="request",
+        foreign_keys=f"{AppModelNames.OrganizationEmployeeModelName}.request_id"
     )

@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from sqlalchemy.orm import Mapped
 
@@ -64,4 +64,21 @@ class OperationModel(Base):
         target=AppModelNames.OperationModelName,
         foreign_keys=f"{AppModelNames.OperationModelName}.next_id",
         remote_side=f"{AppModelNames.OperationModelName}.id",
+    )
+    schedules: Mapped[
+        List[AppModelNames.ScheduleModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.ScheduleModelName,
+        back_populates="current_operation",
+        foreign_keys=f"{AppModelNames.ScheduleModelName}.current_operation_id"
+    )
+    histories: Mapped[
+        List[AppModelNames.ScheduleHistoryModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.ScheduleHistoryModelName,
+        back_populates="operation",
+        foreign_keys=f"{AppModelNames.ScheduleHistoryModelName}.operation_id"
+    )
+    role: Mapped[AppModelNames.RoleModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.RoleModelName,
+        back_populates="operations",
+        foreign_keys=f"{AppModelNames.OperationModelName}.role_id"
     )

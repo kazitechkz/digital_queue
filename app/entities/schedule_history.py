@@ -53,3 +53,19 @@ class ScheduleHistoryModel(Base):
         back_populates="history",
         foreign_keys=f"{AppModelNames.ActWeightModelName}.history_id",
     )
+    #Relationship
+    responsible: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.UserModelName,
+        back_populates="histories",
+        foreign_keys=f"{AppModelNames.ScheduleHistoryModelName}.responsible_id"
+    )
+    operation: Mapped[AppModelNames.OperationModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.OperationModelName,
+        back_populates="histories",
+        foreign_keys=f"{AppModelNames.ScheduleHistoryModelName}.operation_id"
+    )
+    schedule: Mapped[AppModelNames.ScheduleModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.ScheduleModelName,
+        back_populates="histories",
+        foreign_keys=f"{AppModelNames.ScheduleHistoryModelName}.schedule_id"
+    )

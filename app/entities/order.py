@@ -215,3 +215,28 @@ class OrderModel(Base):
         back_populates="orders",
         foreign_keys=f"{AppModelNames.OrderModelName}.payment_return_id"
     )
+    payment_documents: Mapped[List[AppModelNames.PaymentDocumentModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.PaymentDocumentModelName,
+        back_populates="order",
+        foreign_keys=f"{AppModelNames.PaymentDocumentModelName}.order_id"
+    )
+    payment_refunds: Mapped[List[AppModelNames.PaymentReturnModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.PaymentReturnModelName,
+        back_populates="order",
+        foreign_keys=f"{AppModelNames.PaymentReturnModelName}.order_id"
+    )
+    sap_requests: Mapped[List[AppModelNames.SAPRequestModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.SAPRequestModelName,
+        back_populates="order",
+        foreign_keys=f"{AppModelNames.SAPRequestModelName}.order_id"
+    )
+    sap_transfers: Mapped[List[AppModelNames.SAPTransferModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.SAPTransferModelName,
+        back_populates="order",
+        foreign_keys=f"{AppModelNames.SAPTransferModelName}.order_id"
+    )
+    schedules:Mapped[List[AppModelNames.ScheduleModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.ScheduleModelName,
+        back_populates="order",
+        foreign_keys=f"{AppModelNames.ScheduleModelName}.order_id"
+    )

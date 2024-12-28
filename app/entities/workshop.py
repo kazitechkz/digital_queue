@@ -30,6 +30,11 @@ class WorkshopModel(Base):
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
     # Relations
+    file: Mapped[AppModelNames.FileModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.FileModelName,
+        back_populates="workshops",
+        foreign_keys=f"{AppModelNames.WorkshopModelName}.file_id"
+    )
     factory:Mapped[AppModelNames.FactoryModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.FactoryModelName,
         back_populates="workshops",
@@ -44,5 +49,10 @@ class WorkshopModel(Base):
         target=AppModelNames.OrderModelName,
         back_populates="workshop",
         foreign_keys=f"{AppModelNames.OrderModelName}.workshop_id"
+    )
+    workshop_schedules: Mapped[List[AppModelNames.WorkshopScheduleModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.WorkshopScheduleModelName,
+        back_populates="workshop",
+        foreign_keys=f"{AppModelNames.WorkshopScheduleModelName}.workshop_id"
     )
 

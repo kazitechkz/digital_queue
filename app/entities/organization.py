@@ -66,4 +66,21 @@ class OrganizationModel(Base):
         back_populates="organizations",
         foreign_keys=f"{AppModelNames.OrganizationModelName}.type_id"
     )
+    organization_employees: Mapped[List[AppModelNames.OrganizationEmployeeModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.OrganizationEmployeeModelName,
+        back_populates="organization",
+        foreign_keys=f"{AppModelNames.OrganizationEmployeeModelName}.organization_id"
+    )
+    schedules: Mapped[
+        List[AppModelNames.ScheduleModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.ScheduleModelName,
+        back_populates="organization",
+        foreign_keys=f"{AppModelNames.ScheduleModelName}.organization_id"
+    )
+    vehicles: Mapped[
+        List[AppModelNames.VehicleModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.VehicleModelName,
+        back_populates="organization",
+        foreign_keys=f"{AppModelNames.VehicleModelName}.organization_id"
+    )
 

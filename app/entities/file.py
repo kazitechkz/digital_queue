@@ -32,3 +32,26 @@ class FileModel(Base):
         back_populates="file",
         foreign_keys=f"{AppModelNames.OrganizationModelName}.file_id"
     )
+    payment_documents: Mapped[List[AppModelNames.PaymentDocumentModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.PaymentDocumentModelName,
+        back_populates="file",
+        foreign_keys=f"{AppModelNames.PaymentDocumentModelName}.file_id"
+    )
+    users: Mapped[
+        List[AppModelNames.UserModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.UserModelName,
+        back_populates="file",
+        foreign_keys=f"{AppModelNames.UserModelName}.file_id"
+    )
+    vehicles: Mapped[
+        List[AppModelNames.VehicleModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.VehicleModelName,
+        back_populates="file",
+        foreign_keys=f"{AppModelNames.VehicleModelName}.file_id"
+    )
+    workshops: Mapped[
+        List[AppModelNames.WorkshopModelName]] = DbRelationshipConstants.one_to_many(
+        target=AppModelNames.WorkshopModelName,
+        back_populates="file",
+        foreign_keys=f"{AppModelNames.WorkshopModelName}.file_id"
+    )

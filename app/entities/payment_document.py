@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames
-from app.shared.db_constants import DbColumnConstants
+from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
 class PaymentDocumentModel(Base):
@@ -30,3 +30,19 @@ class PaymentDocumentModel(Base):
 
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
+    #Relationships
+    order: Mapped[AppModelNames.OrderModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.OrderModelName,
+        back_populates="payment_documents",
+        foreign_keys=f"{AppModelNames.PaymentDocumentModelName}.order_id"
+    )
+    file: Mapped[AppModelNames.FileModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.FileModelName,
+        back_populates="payment_documents",
+        foreign_keys=f"{AppModelNames.PaymentDocumentModelName}.file_id"
+    )
+    checked_by_user: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
+        target=AppModelNames.UserModelName,
+        back_populates="payment_documents",
+        foreign_keys=f"{AppModelNames.PaymentDocumentModelName}.checked_by"
+    )
