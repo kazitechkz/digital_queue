@@ -19,13 +19,17 @@ class RoleModel(Base):
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
     # Relations
-    users: Mapped[List[AppModelNames.UserModelName]] = DbRelationshipConstants.one_to_many(
-        target=AppModelNames.UserModelName,
-        back_populates="role",
-        foreign_keys=f"{AppModelNames.UserModelName}.role_id"
+    users: Mapped[List[AppModelNames.UserModelName]] = (
+        DbRelationshipConstants.one_to_many(
+            target=AppModelNames.UserModelName,
+            back_populates="role",
+            foreign_keys=f"{AppModelNames.UserModelName}.role_id",
+        )
     )
-    operations: Mapped[List[AppModelNames.OperationModelName]] = DbRelationshipConstants.one_to_many(
-        target=AppModelNames.OperationModelName,
-        back_populates="role",
-        foreign_keys=f"{AppModelNames.OperationModelName}.role_id"
+    operations: Mapped[List[AppModelNames.OperationModelName]] = (
+        DbRelationshipConstants.one_to_many(
+            target=AppModelNames.OperationModelName,
+            back_populates="role",
+            foreign_keys=f"{AppModelNames.OperationModelName}.role_id",
+        )
     )

@@ -11,7 +11,10 @@ class WorkshopScheduleSeeder(BaseSeeder):
     async def seed(self, session: AsyncSession):
         data = self.get_data()
         await self.load_seeders(
-            WorkshopScheduleModel, session, AppTableNames.WorkshopScheduleTableName, data
+            WorkshopScheduleModel,
+            session,
+            AppTableNames.WorkshopScheduleTableName,
+            data,
         )
 
     def get_dev_data(self):
@@ -27,7 +30,7 @@ class WorkshopScheduleSeeder(BaseSeeder):
                 "car_service_min": 20,
                 "break_between_service_min": 5,
                 "machine_at_one_time": 4,
-                "is_active": True
+                "is_active": True,
             },
             {
                 "workshop_id": 2,
@@ -39,8 +42,8 @@ class WorkshopScheduleSeeder(BaseSeeder):
                 "car_service_min": 15,
                 "break_between_service_min": 0,
                 "machine_at_one_time": 2,
-                "is_active": True
-            }
+                "is_active": True,
+            },
         ]
 
         # Модели для вставки
@@ -57,7 +60,7 @@ class WorkshopScheduleSeeder(BaseSeeder):
                 machine_at_one_time=item["machine_at_one_time"],
                 can_earlier_come_min=0,  # Default value
                 can_late_come_min=0,  # Default value
-                is_active=item["is_active"]
+                is_active=item["is_active"],
             )
             for item in data
         ]

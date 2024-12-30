@@ -408,11 +408,11 @@ from sqlalchemy.orm import relationship
 class DbRelationshipConstants:
     @staticmethod
     def one_to_many(
-            target: str,
-            back_populates: str,
-            foreign_keys: str | list = None,
-            cascade: str = "all",
-            lazy: str = "select",
+        target: str,
+        back_populates: str,
+        foreign_keys: str | list = None,
+        cascade: str = "all",
+        lazy: str = "select",
     ):
         """
         Унифицированное создание отношения один-ко-многим.
@@ -437,11 +437,11 @@ class DbRelationshipConstants:
 
     @staticmethod
     def one_to_one(
-            target: str,
-            back_populates: str,
-            foreign_keys: str|list = None,
-            cascade: str = "all",
-            lazy: str = "select",
+        target: str,
+        back_populates: str,
+        foreign_keys: str | list = None,
+        cascade: str = "all",
+        lazy: str = "select",
     ):
         """
         Создает отношение один-к-одному.
@@ -467,11 +467,11 @@ class DbRelationshipConstants:
 
     @staticmethod
     def many_to_one(
-            target: str,
-            back_populates: str,
-            foreign_keys: str|list = None,
-            cascade: str = "all",
-            lazy: str = "select",
+        target: str,
+        back_populates: str,
+        foreign_keys: str | list = None,
+        cascade: str = "all",
+        lazy: str = "select",
     ):
         """
         Унифицированное создание отношения многие-к-одному.
@@ -490,16 +490,16 @@ class DbRelationshipConstants:
             back_populates=back_populates,
             cascade=cascade,
             lazy=lazy,
-            foreign_keys=foreign_keys
+            foreign_keys=foreign_keys,
         )
 
     @staticmethod
     def many_to_many(
-            target: str,
-            secondary: str,
-            back_populates: str,
-            cascade: str = "all",
-            lazy: str = "select",
+        target: str,
+        secondary: str,
+        back_populates: str,
+        cascade: str = "all",
+        lazy: str = "select",
     ):
         """
         Унифицированное создание отношения многие-ко-многим.
@@ -526,7 +526,7 @@ class DbRelationshipConstants:
     def self_referential(
         target: str,
         back_populates: str,
-        foreign_keys: list|str = None,
+        foreign_keys: list | str = None,
         cascade: str = "save-update, merge",
         lazy: str = "select",
     ):
@@ -553,10 +553,10 @@ class DbRelationshipConstants:
 
     @staticmethod
     def self_referential(
-            target: str,
-            foreign_keys: list|str,
-            remote_side: str,
-            lazy: str = "select",
+        target: str,
+        foreign_keys: list | str,
+        remote_side: str,
+        lazy: str = "select",
     ):
         """
         Создаёт самоссылающееся отношение.

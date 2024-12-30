@@ -2,10 +2,13 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
+from fastapi.exceptions import RequestValidationError
 from infrastructure.config import app_config
+from starlette.responses import JSONResponse
 from starlette.staticfiles import StaticFiles
 
 from app.core.api_routes import include_routers
+from app.core.app_exception_handler import validation_exception_handler
 from app.seeders.runner import run_seeders
 
 
@@ -25,9 +28,15 @@ app = FastAPI(
     redoc_url=None,
 )
 
+
 # Включаем все роутеры
 include_routers(app)
+
 # app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Регистрация обработчика
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+
 
 # Запуск сервера
 if __name__ == "__main__":

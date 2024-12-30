@@ -33,26 +33,33 @@ class WorkshopModel(Base):
     file: Mapped[AppModelNames.FileModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.FileModelName,
         back_populates="workshops",
-        foreign_keys=f"{AppModelNames.WorkshopModelName}.file_id"
+        foreign_keys=f"{AppModelNames.WorkshopModelName}.file_id",
     )
-    factory:Mapped[AppModelNames.FactoryModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.FactoryModelName,
-        back_populates="workshops",
-        foreign_keys=f"{AppModelNames.WorkshopModelName}.factory_id"
+    factory: Mapped[AppModelNames.FactoryModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.FactoryModelName,
+            back_populates="workshops",
+            foreign_keys=f"{AppModelNames.WorkshopModelName}.factory_id",
+        )
     )
-    materials: Mapped[List[AppModelNames.MaterialModelName]] = DbRelationshipConstants.one_to_many(
-        target=AppModelNames.MaterialModelName,
-        back_populates="workshop",
-        foreign_keys=f"{AppModelNames.MaterialModelName}.workshop_id"
+    materials: Mapped[List[AppModelNames.MaterialModelName]] = (
+        DbRelationshipConstants.one_to_many(
+            target=AppModelNames.MaterialModelName,
+            back_populates="workshop",
+            foreign_keys=f"{AppModelNames.MaterialModelName}.workshop_id",
+        )
     )
-    orders: Mapped[List[AppModelNames.OrderModelName]] = DbRelationshipConstants.one_to_many(
-        target=AppModelNames.OrderModelName,
-        back_populates="workshop",
-        foreign_keys=f"{AppModelNames.OrderModelName}.workshop_id"
+    orders: Mapped[List[AppModelNames.OrderModelName]] = (
+        DbRelationshipConstants.one_to_many(
+            target=AppModelNames.OrderModelName,
+            back_populates="workshop",
+            foreign_keys=f"{AppModelNames.OrderModelName}.workshop_id",
+        )
     )
-    workshop_schedules: Mapped[List[AppModelNames.WorkshopScheduleModelName]] = DbRelationshipConstants.one_to_many(
-        target=AppModelNames.WorkshopScheduleModelName,
-        back_populates="workshop",
-        foreign_keys=f"{AppModelNames.WorkshopScheduleModelName}.workshop_id"
+    workshop_schedules: Mapped[List[AppModelNames.WorkshopScheduleModelName]] = (
+        DbRelationshipConstants.one_to_many(
+            target=AppModelNames.WorkshopScheduleModelName,
+            back_populates="workshop",
+            foreign_keys=f"{AppModelNames.WorkshopScheduleModelName}.workshop_id",
+        )
     )
-

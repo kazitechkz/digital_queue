@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.app_constants import AppModelNames, AppTableNames
 from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
@@ -32,5 +32,5 @@ class VerifiedVehicleModel(Base):
     vehicle: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.VehicleModelName,
         back_populates="verified_vehicles",
-        foreign_keys=f"{AppModelNames.VerifiedVehicleModelName}.vehicle_id"
+        foreign_keys=f"{AppModelNames.VerifiedVehicleModelName}.vehicle_id",
     )

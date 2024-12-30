@@ -1,9 +1,10 @@
 from typing import Any, Generic, List, Optional, TypeVar
 
 from pydantic import BaseModel
-from sqlalchemy import func, select
+from sqlalchemy import asc, desc, func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Query
 
 from app.adapters.dto.pagination_dto import Pagination
 from app.core.app_exception_response import AppExceptionResponse
@@ -26,21 +27,38 @@ class BaseRepository(Generic[T]):
         result = await self.db.execute(query)
         return result.scalars().first()
 
-    async def get_all(self, options: Optional[List[Any]] = None) -> List[T]:
-        """Получение всех объектов."""
+    async def get_all(
+        self,
+        options: Optional[List[Any]] = None,
+        order_by: Optional[str] = None,
+        order_direction: str = "asc",
+    ) -> List[T]:
+        """Получение всех объектов с поддержкой сортировки."""
         query = select(self.model)
         if options:
             query = query.options(*options)
+
+        if order_by:
+            query = self._apply_order_by(query, order_by, order_direction)
+
         result = await self.db.execute(query)
         return result.scalars().all()
 
     async def get_with_filters(
-        self, filters: List[Any], options: Optional[List[Any]] = None
+        self,
+        filters: List[Any],
+        options: Optional[List[Any]] = None,
+        order_by: Optional[str] = None,
+        order_direction: str = "asc",
     ) -> List[T]:
-        """Получение объектов с фильтрацией."""
+        """Получение объектов с фильтрацией и сортировкой."""
         query = select(self.model).filter(*filters)
         if options:
             query = query.options(*options)
+
+        if order_by:
+            query = self._apply_order_by(query, order_by, order_direction)
+
         result = await self.db.execute(query)
         return result.scalars().all()
 
@@ -61,13 +79,18 @@ class BaseRepository(Generic[T]):
         per_page: int = 20,
         filters: Optional[List[Any]] = None,
         options: Optional[List[Any]] = None,
+        order_by: Optional[str] = None,
+        order_direction: str = "asc",
     ) -> Pagination:
-        """Пагинация объектов с фильтрацией."""
+        """Пагинация объектов с фильтрацией и сортировкой."""
         query = select(self.model)
         if filters:
             query = query.filter(*filters)
         if options:
             query = query.options(*options)
+
+        if order_by:
+            query = self._apply_order_by(query, order_by, order_direction)
 
         # Подсчёт общего количества элементов
         total_items = await self.db.scalar(
@@ -131,3 +154,11 @@ class BaseRepository(Generic[T]):
         """Парсинг ошибок уникальности."""
         orig_msg = str(error.orig)
         return f"IntegrityError: {orig_msg.split(':')[-1].strip()}"
+
+    def _apply_order_by(
+        self, query: Query, order_by: str, order_direction: str
+    ) -> Query:
+        """Применяет сортировку к запросу."""
+        if order_direction.lower() == "desc":
+            return query.order_by(desc(getattr(self.model, order_by)))
+        return query.order_by(asc(getattr(self.model, order_by)))

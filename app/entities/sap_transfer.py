@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.app_constants import AppModelNames, AppTableNames
 from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
@@ -60,9 +60,9 @@ class SAPTransferModel(Base):
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
-    #Relations
+    # Relations
     order: Mapped[AppModelNames.OrderModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.OrderModelName,
         back_populates="sap_transfers",
-        foreign_keys=f"{AppModelNames.SAPTransferModelName}.order_id"
+        foreign_keys=f"{AppModelNames.SAPTransferModelName}.order_id",
     )

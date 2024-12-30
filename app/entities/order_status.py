@@ -3,7 +3,7 @@ from typing import Optional
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.app_constants import AppModelNames, AppTableNames
 from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
@@ -30,14 +30,18 @@ class OrderStatusModel(Base):
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
-    prev_order_status: Mapped[Optional[AppModelNames.OrderStatusModelName]] = DbRelationshipConstants.self_referential(
-        target=AppModelNames.OrderStatusModelName,
-        foreign_keys=f"{AppModelNames.OrderStatusModelName}.prev_id",
-        remote_side=f"{AppModelNames.OrderStatusModelName}.id",
+    prev_order_status: Mapped[Optional[AppModelNames.OrderStatusModelName]] = (
+        DbRelationshipConstants.self_referential(
+            target=AppModelNames.OrderStatusModelName,
+            foreign_keys=f"{AppModelNames.OrderStatusModelName}.prev_id",
+            remote_side=f"{AppModelNames.OrderStatusModelName}.id",
+        )
     )
 
-    next_order_status: Mapped[Optional[AppModelNames.OrderStatusModelName]] = DbRelationshipConstants.self_referential(
-        target=AppModelNames.OrderStatusModelName,
-        foreign_keys=f"{AppModelNames.OrderStatusModelName}.next_id",
-        remote_side=f"{AppModelNames.OrderStatusModelName}.id",
+    next_order_status: Mapped[Optional[AppModelNames.OrderStatusModelName]] = (
+        DbRelationshipConstants.self_referential(
+            target=AppModelNames.OrderStatusModelName,
+            foreign_keys=f"{AppModelNames.OrderStatusModelName}.next_id",
+            remote_side=f"{AppModelNames.OrderStatusModelName}.id",
+        )
     )

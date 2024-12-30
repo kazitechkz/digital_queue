@@ -151,16 +151,56 @@ class OrderStatusSeeder(BaseSeeder):
 
     def get_dev_updated_data(self) -> list:
         return [
-            {"value": AppDbValueConstants.WAITING_FOR_INVOICE_CREATION_STATUS, "prev_id": None, "next_id": 2},
-            {"value": AppDbValueConstants.INVOICE_CREATION_ERROR_STATUS, "prev_id": 1, "next_id": None},
-            {"value": AppDbValueConstants.WAITING_FOR_PAYMENT_STATUS, "prev_id": 1, "next_id": 7},
-            {"value": AppDbValueConstants.WAITING_FOR_PAYMENT_CONFIRMATION_STATUS, "prev_id": 1, "next_id": 7},
-            {"value": AppDbValueConstants.PAYMENT_REJECTED_STATUS, "prev_id": 3, "next_id": None},
-            {"value": AppDbValueConstants.PAYMENT_CONFIRMATION_REJECTED_STATUS, "prev_id": 4, "next_id": None},
-            {"value": AppDbValueConstants.PAID_WAITING_FOR_BOOKING_STATUS, "prev_id": 3, "next_id": 8},
-            {"value": AppDbValueConstants.IN_PROGRESS_STATUS, "prev_id": 7, "next_id": 9},
-            {"value": AppDbValueConstants.COMPLETED_STATUS, "prev_id": 8, "next_id": None},
-            {"value": AppDbValueConstants.DECLINED_STATUS, "prev_id": None, "next_id": None},
+            {
+                "value": AppDbValueConstants.WAITING_FOR_INVOICE_CREATION_STATUS,
+                "prev_id": None,
+                "next_id": 2,
+            },
+            {
+                "value": AppDbValueConstants.INVOICE_CREATION_ERROR_STATUS,
+                "prev_id": 1,
+                "next_id": None,
+            },
+            {
+                "value": AppDbValueConstants.WAITING_FOR_PAYMENT_STATUS,
+                "prev_id": 1,
+                "next_id": 7,
+            },
+            {
+                "value": AppDbValueConstants.WAITING_FOR_PAYMENT_CONFIRMATION_STATUS,
+                "prev_id": 1,
+                "next_id": 7,
+            },
+            {
+                "value": AppDbValueConstants.PAYMENT_REJECTED_STATUS,
+                "prev_id": 3,
+                "next_id": None,
+            },
+            {
+                "value": AppDbValueConstants.PAYMENT_CONFIRMATION_REJECTED_STATUS,
+                "prev_id": 4,
+                "next_id": None,
+            },
+            {
+                "value": AppDbValueConstants.PAID_WAITING_FOR_BOOKING_STATUS,
+                "prev_id": 3,
+                "next_id": 8,
+            },
+            {
+                "value": AppDbValueConstants.IN_PROGRESS_STATUS,
+                "prev_id": 7,
+                "next_id": 9,
+            },
+            {
+                "value": AppDbValueConstants.COMPLETED_STATUS,
+                "prev_id": 8,
+                "next_id": None,
+            },
+            {
+                "value": AppDbValueConstants.DECLINED_STATUS,
+                "prev_id": None,
+                "next_id": None,
+            },
         ]
 
     def get_prod_updated_data(self):

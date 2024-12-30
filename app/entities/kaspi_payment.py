@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.app_constants import AppModelNames, AppTableNames
 from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
@@ -44,15 +44,17 @@ class KaspiPaymentModel(Base):
     created_at: Mapped[DbColumnConstants.CreatedAt]  # Дата создания
     updated_at: Mapped[DbColumnConstants.UpdatedAt]  # Дата обновления
 
-    #Relations
+    # Relations
     order: Mapped[AppModelNames.OrderModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.OrderModelName,
         back_populates="kaspi_payments",
-        foreign_keys=f"{AppModelNames.KaspiPaymentsModelName}.order_id"
+        foreign_keys=f"{AppModelNames.KaspiPaymentsModelName}.order_id",
     )
 
-    orders: Mapped[List[AppModelNames.OrderModelName]] = DbRelationshipConstants.one_to_many(
-        target=AppModelNames.OrderModelName,
-        back_populates="kaspi",
-        foreign_keys=f"{AppModelNames.OrderModelName}.kaspi_id"
+    orders: Mapped[List[AppModelNames.OrderModelName]] = (
+        DbRelationshipConstants.one_to_many(
+            target=AppModelNames.OrderModelName,
+            back_populates="kaspi",
+            foreign_keys=f"{AppModelNames.OrderModelName}.kaspi_id",
+        )
     )

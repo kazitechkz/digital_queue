@@ -34,15 +34,19 @@ class MaterialModel(Base):
     file: Mapped[AppModelNames.FileModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.FileModelName,
         back_populates="materials",
-        foreign_keys=f"{AppModelNames.MaterialModelName}.file_id"
+        foreign_keys=f"{AppModelNames.MaterialModelName}.file_id",
     )
-    workshop: Mapped[AppModelNames.WorkshopModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.WorkshopModelName,
-        back_populates="materials",
-        foreign_keys=f"{AppModelNames.MaterialModelName}.workshop_id"
+    workshop: Mapped[AppModelNames.WorkshopModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.WorkshopModelName,
+            back_populates="materials",
+            foreign_keys=f"{AppModelNames.MaterialModelName}.workshop_id",
+        )
     )
-    orders: Mapped[List[AppModelNames.OrderModelName]] = DbRelationshipConstants.one_to_many(
-        target=AppModelNames.OrderModelName,
-        back_populates="material",
-        foreign_keys=f"{AppModelNames.OrderModelName}.material_id"
+    orders: Mapped[List[AppModelNames.OrderModelName]] = (
+        DbRelationshipConstants.one_to_many(
+            target=AppModelNames.OrderModelName,
+            back_populates="material",
+            foreign_keys=f"{AppModelNames.OrderModelName}.material_id",
+        )
     )

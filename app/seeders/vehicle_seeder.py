@@ -8,7 +8,9 @@ from app.shared.app_constants import AppTableNames
 class VehicleSeeder(BaseSeeder):
     async def seed(self, session: AsyncSession):
         data = self.get_data()
-        await self.load_seeders(VehicleModel, session, AppTableNames.VehicleTableName, data)
+        await self.load_seeders(
+            VehicleModel, session, AppTableNames.VehicleTableName, data
+        )
 
     def get_dev_data(self):
         return [
@@ -22,7 +24,7 @@ class VehicleSeeder(BaseSeeder):
                 registration_number="123ABC12",
                 car_model="MAN",
                 is_trailer=False,
-                vehicle_info=None
+                vehicle_info=None,
             ),
             VehicleModel(
                 id=2,
@@ -34,7 +36,7 @@ class VehicleSeeder(BaseSeeder):
                 registration_number="546ABD11",
                 car_model="METTLER TOLEDO",
                 is_trailer=False,
-                vehicle_info=None
+                vehicle_info=None,
             ),
             VehicleModel(
                 id=3,

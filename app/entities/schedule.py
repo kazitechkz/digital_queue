@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames, AppModelNames
-from app.shared.db_constants import DbColumnConstants, DbModelValue, DbRelationshipConstants
+from app.shared.app_constants import AppModelNames, AppTableNames
+from app.shared.db_constants import (DbColumnConstants, DbModelValue,
+                                     DbRelationshipConstants)
 
 
 class ScheduleModel(Base):
@@ -152,59 +153,75 @@ class ScheduleModel(Base):
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
-    #Relationships
+    # Relationships
     order: Mapped[AppModelNames.OrderModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.OrderModelName,
         back_populates="schedules",
-        foreign_keys=f"{AppModelNames.ScheduleModelName}.order_id"
+        foreign_keys=f"{AppModelNames.ScheduleModelName}.order_id",
     )
     owner: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.UserModelName,
         back_populates="owner_schedules",
-        foreign_keys=f"{AppModelNames.ScheduleModelName}.owner_id"
+        foreign_keys=f"{AppModelNames.ScheduleModelName}.owner_id",
     )
     driver: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.UserModelName,
         back_populates="driver_schedules",
-        foreign_keys=f"{AppModelNames.ScheduleModelName}.driver_id"
+        foreign_keys=f"{AppModelNames.ScheduleModelName}.driver_id",
     )
-    organization: Mapped[AppModelNames.OrganizationModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.OrganizationModelName,
-        back_populates="schedules",
-        foreign_keys=f"{AppModelNames.ScheduleModelName}.organization_id"
+    organization: Mapped[AppModelNames.OrganizationModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.OrganizationModelName,
+            back_populates="schedules",
+            foreign_keys=f"{AppModelNames.ScheduleModelName}.organization_id",
+        )
     )
-    vehicle: Mapped[AppModelNames.VehicleModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.VehicleModelName,
-        back_populates="vehicle_schedules",
-        foreign_keys=f"{AppModelNames.ScheduleModelName}.vehicle_id"
+    vehicle: Mapped[AppModelNames.VehicleModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.VehicleModelName,
+            back_populates="vehicle_schedules",
+            foreign_keys=f"{AppModelNames.ScheduleModelName}.vehicle_id",
+        )
     )
-    trailer: Mapped[AppModelNames.VehicleModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.VehicleModelName,
-        back_populates="trailer_schedules",
-        foreign_keys=f"{AppModelNames.ScheduleModelName}.trailer_id"
+    trailer: Mapped[AppModelNames.VehicleModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.VehicleModelName,
+            back_populates="trailer_schedules",
+            foreign_keys=f"{AppModelNames.ScheduleModelName}.trailer_id",
+        )
     )
-    workshop_schedule: Mapped[AppModelNames.WorkshopScheduleModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.WorkshopScheduleModelName,
-        back_populates="schedules",
-        foreign_keys=f"{AppModelNames.ScheduleModelName}.workshop_schedule_id"
+    workshop_schedule: Mapped[AppModelNames.WorkshopScheduleModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.WorkshopScheduleModelName,
+            back_populates="schedules",
+            foreign_keys=f"{AppModelNames.ScheduleModelName}.workshop_schedule_id",
+        )
     )
-    current_operation: Mapped[AppModelNames.OperationModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.OperationModelName,
-        back_populates="schedules",
-        foreign_keys=f"{AppModelNames.ScheduleModelName}.current_operation_id"
+    current_operation: Mapped[AppModelNames.OperationModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.OperationModelName,
+            back_populates="schedules",
+            foreign_keys=f"{AppModelNames.ScheduleModelName}.current_operation_id",
+        )
     )
-    responsible: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.UserModelName,
-        back_populates="responsible_for_schedules",
-        foreign_keys=f"{AppModelNames.ScheduleModelName}.responsible_id"
+    responsible: Mapped[AppModelNames.UserModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.UserModelName,
+            back_populates="responsible_for_schedules",
+            foreign_keys=f"{AppModelNames.ScheduleModelName}.responsible_id",
+        )
     )
-    canceled_by_user: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.UserModelName,
-        back_populates="canceled_schedules",
-        foreign_keys=f"{AppModelNames.ScheduleModelName}.canceled_by"
+    canceled_by_user: Mapped[AppModelNames.UserModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.UserModelName,
+            back_populates="canceled_schedules",
+            foreign_keys=f"{AppModelNames.ScheduleModelName}.canceled_by",
+        )
     )
-    histories:Mapped[AppModelNames.ScheduleHistoryModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.ScheduleHistoryModelName,
-        back_populates="schedule",
-        foreign_keys=f"{AppModelNames.ScheduleHistoryModelName}.schedule_id"
+    histories: Mapped[AppModelNames.ScheduleHistoryModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.ScheduleHistoryModelName,
+            back_populates="schedule",
+            foreign_keys=f"{AppModelNames.ScheduleHistoryModelName}.schedule_id",
+        )
     )

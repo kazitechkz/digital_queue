@@ -1,7 +1,7 @@
 import logging
 from abc import ABC, abstractmethod
 
-from sqlalchemy import func, select, text, inspect, update
+from sqlalchemy import func, inspect, select, text, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infrastructure.config import app_config
@@ -103,13 +103,13 @@ class BaseSeeder(ABC):
             )
 
     async def update_seeders(
-            self,
-            BaseModel,
-            session: AsyncSession,
-            table_name: str,
-            identification: str,
-            update_data: list,  # Это список объектов или словарей
-            add_if_not_exists: bool = False,
+        self,
+        BaseModel,
+        session: AsyncSession,
+        table_name: str,
+        identification: str,
+        update_data: list,  # Это список объектов или словарей
+        add_if_not_exists: bool = False,
     ):
         """
         Обновление данных в таблице.
@@ -144,8 +144,10 @@ class BaseSeeder(ABC):
             if existing_record:
                 # Формируем данные для обновления только с изменёнными значениями
                 update_fields = {
-                    key: value for key, value in record.items()
-                    if key != identification and getattr(existing_record, key, None) != value
+                    key: value
+                    for key, value in record.items()
+                    if key != identification
+                    and getattr(existing_record, key, None) != value
                 }
                 if update_fields:
                     update_stmt = (

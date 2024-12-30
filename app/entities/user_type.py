@@ -19,9 +19,10 @@ class UserTypeModel(Base):
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
     # Relations
-    users: Mapped[
-        List[AppModelNames.UserModelName]] = DbRelationshipConstants.one_to_many(
-        target=AppModelNames.UserModelName,
-        back_populates="user_type",
-        foreign_keys=f"{AppModelNames.UserModelName}.type_id"
+    users: Mapped[List[AppModelNames.UserModelName]] = (
+        DbRelationshipConstants.one_to_many(
+            target=AppModelNames.UserModelName,
+            back_populates="user_type",
+            foreign_keys=f"{AppModelNames.UserModelName}.type_id",
+        )
     )

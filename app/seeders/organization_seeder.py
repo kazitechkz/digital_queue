@@ -8,7 +8,9 @@ from app.shared.app_constants import AppTableNames
 class OrganizationSeeder(BaseSeeder):
     async def seed(self, session: AsyncSession):
         data = self.get_data()
-        await self.load_seeders(OrganizationModel, session, AppTableNames.OrganizationTableName, data)
+        await self.load_seeders(
+            OrganizationModel, session, AppTableNames.OrganizationTableName, data
+        )
 
     def get_dev_data(self):
         return [

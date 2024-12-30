@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.app_constants import AppModelNames, AppTableNames
 from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
@@ -44,24 +44,26 @@ class PaymentReturnModel(Base):
     # Таймстампы создания и обновления
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
-    #Relations
-    orders: Mapped[List[AppModelNames.OrderModelName]] = DbRelationshipConstants.one_to_many(
-        target=AppModelNames.OrderModelName,
-        back_populates="payment_return",
-        foreign_keys=f"{AppModelNames.OrderModelName}.payment_return_id"
+    # Relations
+    orders: Mapped[List[AppModelNames.OrderModelName]] = (
+        DbRelationshipConstants.one_to_many(
+            target=AppModelNames.OrderModelName,
+            back_populates="payment_return",
+            foreign_keys=f"{AppModelNames.OrderModelName}.payment_return_id",
+        )
     )
     order: Mapped[AppModelNames.OrderModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.OrderModelName,
         back_populates="payment_refunds",
-        foreign_keys=f"{AppModelNames.PaymentReturnModelName}.order_id"
+        foreign_keys=f"{AppModelNames.PaymentReturnModelName}.order_id",
     )
     owner: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.UserModelName,
         back_populates="payment_returns",
-        foreign_keys=f"{AppModelNames.PaymentReturnModelName}.owner_id"
+        foreign_keys=f"{AppModelNames.PaymentReturnModelName}.owner_id",
     )
     decided: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.UserModelName,
         back_populates="decided_payment_returns",
-        foreign_keys=f"{AppModelNames.PaymentReturnModelName}.decided_id"
+        foreign_keys=f"{AppModelNames.PaymentReturnModelName}.decided_id",
     )

@@ -2,6 +2,8 @@ import logging
 
 from fastapi import HTTPException, status
 
+from app.infrastructure.config import app_config
+
 
 class AppExceptionResponse:
     """Утилита для создания стандартных HTTP-исключений."""
@@ -10,7 +12,10 @@ class AppExceptionResponse:
 
     @staticmethod
     def create_exception(
-        status_code: int, message: str, extra: dict | None = None
+        status_code: int,
+        message: str,
+        extra: dict | None = None,
+        is_custom: bool = True,
     ) -> HTTPException:
         """
         Создаёт HTTP-исключение с возможностью добавления дополнительных данных.
@@ -23,7 +28,7 @@ class AppExceptionResponse:
         Returns:
             HTTPException: Объект HTTP-исключения.
         """
-        detail = {"message": message}
+        detail = {"message": message, "is_custom": is_custom}
         if extra:
             detail.update(extra)
 
@@ -63,9 +68,16 @@ class AppExceptionResponse:
         )
 
     @staticmethod
-    def internal_error(message: str = "Ошибка сервера", extra: dict | None = None):
+    def internal_error(
+        message: str = "Ошибка сервера",
+        extra: dict | None = None,
+        is_custom: bool = False,  # Указывает, что это не кастомная ошибка
+    ):
+        if app_config.app_status.lower() == "production":
+            extra["details"] = "Ошибка сервиса"
         return AppExceptionResponse.create_exception(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             message=message,
             extra=extra,
+            is_custom=is_custom,
         )

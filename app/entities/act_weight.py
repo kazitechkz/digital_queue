@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames, AppModelNames
-from app.shared.db_constants import DbColumnConstants, DbModelValue, DbRelationshipConstants
+from app.shared.app_constants import AppModelNames, AppTableNames
+from app.shared.db_constants import (DbColumnConstants, DbModelValue,
+                                     DbRelationshipConstants)
 
 
 class ActWeightModel(Base):
@@ -89,37 +90,47 @@ class ActWeightModel(Base):
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
-    #Relationships
-    history: Mapped[AppModelNames.ScheduleHistoryModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.ScheduleHistoryModelName,
-        back_populates="act_weights",
+    # Relationships
+    history: Mapped[AppModelNames.ScheduleHistoryModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.ScheduleHistoryModelName,
+            back_populates="act_weights",
+        )
     )
     order: Mapped[AppModelNames.OrderModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.OrderModelName,
         back_populates="act_weights",
-        foreign_keys=f"{AppModelNames.ActWeightModelName}.order_id"
+        foreign_keys=f"{AppModelNames.ActWeightModelName}.order_id",
     )
 
-    responsible: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.UserModelName,
-        back_populates="act_weights",
-        foreign_keys=f"{AppModelNames.ActWeightModelName}.responsible_id"
+    responsible: Mapped[AppModelNames.UserModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.UserModelName,
+            back_populates="act_weights",
+            foreign_keys=f"{AppModelNames.ActWeightModelName}.responsible_id",
+        )
     )
 
-    vehicle : Mapped[AppModelNames.VehicleModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.VehicleModelName,
-        back_populates="act_weights_vehicle",
-        foreign_keys=f"{AppModelNames.ActWeightModelName}.vehicle_id"
+    vehicle: Mapped[AppModelNames.VehicleModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.VehicleModelName,
+            back_populates="act_weights_vehicle",
+            foreign_keys=f"{AppModelNames.ActWeightModelName}.vehicle_id",
+        )
     )
 
-    trailer: Mapped[AppModelNames.VehicleModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.VehicleModelName,
-        back_populates="act_weights_trailer",
-        foreign_keys=f"{AppModelNames.ActWeightModelName}.trailer_id"
+    trailer: Mapped[AppModelNames.VehicleModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.VehicleModelName,
+            back_populates="act_weights_trailer",
+            foreign_keys=f"{AppModelNames.ActWeightModelName}.trailer_id",
+        )
     )
 
-    asvu:Mapped[AppModelNames.ASVUWeightModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.ASVUWeightModelName,
-        back_populates="act_weights",
-        foreign_keys=f"{AppModelNames.ActWeightModelName}.asvu_id"
+    asvu: Mapped[AppModelNames.ASVUWeightModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.ASVUWeightModelName,
+            back_populates="act_weights",
+            foreign_keys=f"{AppModelNames.ActWeightModelName}.asvu_id",
+        )
     )

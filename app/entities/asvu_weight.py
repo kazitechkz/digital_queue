@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.app_constants import AppModelNames, AppTableNames
 from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
@@ -63,7 +63,9 @@ class ASVUWeightModel(Base):
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
     # Relations
-    act_weights: Mapped[List[AppModelNames.ActWeightModelName]] = DbRelationshipConstants.one_to_many(
-        target=AppModelNames.ActWeightModelName,
-        back_populates="asvu",
+    act_weights: Mapped[List[AppModelNames.ActWeightModelName]] = (
+        DbRelationshipConstants.one_to_many(
+            target=AppModelNames.ActWeightModelName,
+            back_populates="asvu",
+        )
     )

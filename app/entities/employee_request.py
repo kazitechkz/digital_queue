@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.app_constants import AppModelNames, AppTableNames
 from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
@@ -58,26 +58,29 @@ class EmployeeRequestModel(Base):
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
-    #Relations
-    organization: Mapped[AppModelNames.OrganizationModelName] = DbRelationshipConstants.many_to_one(
-        target=AppModelNames.OrganizationModelName,
-        back_populates="employee_requests",
-        foreign_keys=f"{AppModelNames.EmployeeRequestModelName}.organization_id"
+    # Relations
+    organization: Mapped[AppModelNames.OrganizationModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.OrganizationModelName,
+            back_populates="employee_requests",
+            foreign_keys=f"{AppModelNames.EmployeeRequestModelName}.organization_id",
+        )
     )
 
     owner: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.UserModelName,
         back_populates="sent_employee_requests",
-        foreign_keys=f"{AppModelNames.EmployeeRequestModelName}.owner_id"
+        foreign_keys=f"{AppModelNames.EmployeeRequestModelName}.owner_id",
     )
     employee: Mapped[AppModelNames.UserModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.UserModelName,
         back_populates="received_employee_requests",
-        foreign_keys=f"{AppModelNames.EmployeeRequestModelName}.employee_id"
+        foreign_keys=f"{AppModelNames.EmployeeRequestModelName}.employee_id",
     )
     organization_employees: Mapped[
-        List[AppModelNames.OrganizationEmployeeModelName]] = DbRelationshipConstants.one_to_many(
+        List[AppModelNames.OrganizationEmployeeModelName]
+    ] = DbRelationshipConstants.one_to_many(
         target=AppModelNames.OrganizationEmployeeModelName,
         back_populates="request",
-        foreign_keys=f"{AppModelNames.OrganizationEmployeeModelName}.request_id"
+        foreign_keys=f"{AppModelNames.OrganizationEmployeeModelName}.request_id",
     )

@@ -10,8 +10,8 @@ from app.seeders.user_type_seeder import UserTypeSeeder
 from app.seeders.vehicle_category_seeder import VehicleCategorySeeder
 from app.seeders.vehicle_color_seeder import VehicleColorSeeder
 from app.seeders.vehicle_seeder import VehicleSeeder
-from app.seeders.workshop_seeder import WorkshopSeeder
 from app.seeders.workshop_schedule_seeder import WorkshopScheduleSeeder
+from app.seeders.workshop_seeder import WorkshopSeeder
 
 seeders = [
     RoleSeeder(),

@@ -1,9 +1,9 @@
-from typing import Optional, List
+from typing import List, Optional
 
 from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
-from app.shared.app_constants import AppTableNames, AppModelNames
+from app.shared.app_constants import AppModelNames, AppTableNames
 from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 
@@ -54,31 +54,37 @@ class OperationModel(Base):
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 
-    prev_operation: Mapped[Optional[AppModelNames.OperationModelName]] = DbRelationshipConstants.self_referential(
-        target=AppModelNames.OperationModelName,
-        foreign_keys=f"{AppModelNames.OperationModelName}.prev_id",
-        remote_side=f"{AppModelNames.OperationModelName}.id",
+    prev_operation: Mapped[Optional[AppModelNames.OperationModelName]] = (
+        DbRelationshipConstants.self_referential(
+            target=AppModelNames.OperationModelName,
+            foreign_keys=f"{AppModelNames.OperationModelName}.prev_id",
+            remote_side=f"{AppModelNames.OperationModelName}.id",
+        )
     )
 
-    next_operation: Mapped[Optional[AppModelNames.OperationModelName]] = DbRelationshipConstants.self_referential(
-        target=AppModelNames.OperationModelName,
-        foreign_keys=f"{AppModelNames.OperationModelName}.next_id",
-        remote_side=f"{AppModelNames.OperationModelName}.id",
+    next_operation: Mapped[Optional[AppModelNames.OperationModelName]] = (
+        DbRelationshipConstants.self_referential(
+            target=AppModelNames.OperationModelName,
+            foreign_keys=f"{AppModelNames.OperationModelName}.next_id",
+            remote_side=f"{AppModelNames.OperationModelName}.id",
+        )
     )
-    schedules: Mapped[
-        List[AppModelNames.ScheduleModelName]] = DbRelationshipConstants.one_to_many(
-        target=AppModelNames.ScheduleModelName,
-        back_populates="current_operation",
-        foreign_keys=f"{AppModelNames.ScheduleModelName}.current_operation_id"
+    schedules: Mapped[List[AppModelNames.ScheduleModelName]] = (
+        DbRelationshipConstants.one_to_many(
+            target=AppModelNames.ScheduleModelName,
+            back_populates="current_operation",
+            foreign_keys=f"{AppModelNames.ScheduleModelName}.current_operation_id",
+        )
     )
-    histories: Mapped[
-        List[AppModelNames.ScheduleHistoryModelName]] = DbRelationshipConstants.one_to_many(
-        target=AppModelNames.ScheduleHistoryModelName,
-        back_populates="operation",
-        foreign_keys=f"{AppModelNames.ScheduleHistoryModelName}.operation_id"
+    histories: Mapped[List[AppModelNames.ScheduleHistoryModelName]] = (
+        DbRelationshipConstants.one_to_many(
+            target=AppModelNames.ScheduleHistoryModelName,
+            back_populates="operation",
+            foreign_keys=f"{AppModelNames.ScheduleHistoryModelName}.operation_id",
+        )
     )
     role: Mapped[AppModelNames.RoleModelName] = DbRelationshipConstants.many_to_one(
         target=AppModelNames.RoleModelName,
         back_populates="operations",
-        foreign_keys=f"{AppModelNames.OperationModelName}.role_id"
+        foreign_keys=f"{AppModelNames.OperationModelName}.role_id",
     )
