@@ -119,6 +119,24 @@ class AppDbValueConstants:
     SUCCESSFULLY_COMPLETED = "successfully_completed"
     CANCELLED = "cancelled"
 
+    IMMUTABLE_OPERATIONS = frozenset(
+        [
+            VALIDATION_BEFORE_ENTRY,
+            ENTRY_CHECKPOINT,
+            INITIAL_WEIGHING,
+            VALIDATION_BEFORE_LOADING,
+            LOADING_GOODS,
+            CONTROL_WEIGHING,
+            EXIT_SECURITY_CHECKPOINT,
+            SECURITY_VALIDATION_BEFORE_UNLOADING_AND_CANCELLATION,
+            UNLOADING_EXCESS_GOODS_AND_EXIT,
+            SECURITY_VALIDATION_BEFORE_UNLOADING_AND_WEIGHING,
+            UNLOADING_EXCESS_GOODS_AND_WEIGHING,
+            SUCCESSFULLY_COMPLETED,
+            CANCELLED,
+        ]
+    )
+
 
 class DbModelValue:
     @property
@@ -411,7 +429,7 @@ class DbRelationshipConstants:
         target: str,
         back_populates: str,
         foreign_keys: str | list = None,
-        cascade: str = "all",
+        cascade: str = "none",
         lazy: str = "select",
     ):
         """
@@ -440,7 +458,7 @@ class DbRelationshipConstants:
         target: str,
         back_populates: str,
         foreign_keys: str | list = None,
-        cascade: str = "all",
+        cascade: str = "none",
         lazy: str = "select",
     ):
         """
@@ -470,7 +488,7 @@ class DbRelationshipConstants:
         target: str,
         back_populates: str,
         foreign_keys: str | list = None,
-        cascade: str = "all",
+        cascade: str = "none",
         lazy: str = "select",
     ):
         """
@@ -527,8 +545,11 @@ class DbRelationshipConstants:
         target: str,
         back_populates: str,
         foreign_keys: list | str = None,
-        cascade: str = "save-update, merge",
+        cascade: str = "none",
         lazy: str = "select",
+        passive_deletes: bool = True,
+        post_update: bool = True,
+        remote_side: Optional[str] = None,
     ):
         """
         Creates a self-referential relationship.
@@ -539,6 +560,9 @@ class DbRelationshipConstants:
             foreign_keys (list): The foreign key(s) defining the relationship.
             cascade (str): Cascade behavior for the relationship.
             lazy (str): The loading strategy for the relationship.
+            passive_deletes (bool): If True, avoids cascading deletes.
+            post_update (bool): If True, synchronizes updates after a delete.
+            remote_side (str): Specifies the "remote" side of the relationship.
 
         Returns:
             sqlalchemy.orm.RelationshipProperty: Configured relationship.
@@ -549,6 +573,9 @@ class DbRelationshipConstants:
             foreign_keys=foreign_keys,
             cascade=cascade,
             lazy=lazy,
+            passive_deletes=passive_deletes,
+            post_update=post_update,
+            remote_side=remote_side,
         )
 
     @staticmethod
@@ -557,6 +584,8 @@ class DbRelationshipConstants:
         foreign_keys: list | str,
         remote_side: str,
         lazy: str = "select",
+        cascade: str = "none",
+        post_update: bool = True,
     ):
         """
         Создаёт самоссылающееся отношение.
@@ -575,4 +604,6 @@ class DbRelationshipConstants:
             foreign_keys=foreign_keys,
             remote_side=remote_side,
             lazy=lazy,
+            cascade=cascade,
+            post_update=post_update,
         )

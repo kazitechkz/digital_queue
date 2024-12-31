@@ -1,7 +1,9 @@
+from app.adapters.api.operation.operation_api import OperationApi
 from app.adapters.api.order_status.order_status_api import OrderStatusApi
 from app.adapters.api.organization_type.organization_type_api import \
     OrganizationTypeApi
 from app.adapters.api.role.role_api import RoleApi
+from app.adapters.api.test.test_api import TestApi
 from app.adapters.api.vehicle_category.vehicle_category_api import \
     VehicleCategoryApi
 from app.adapters.api.vehicle_color.vehicle_color_api import VehicleColorApi
@@ -33,4 +35,14 @@ def include_routers(app) -> None:
         OrderStatusApi().router,
         prefix=f"/{AppPathConstants.OrderStatusPathName}",
         tags=[AppPathConstants.OrderStatusTagName],
+    )
+    app.include_router(
+        OperationApi().router,
+        prefix=f"/{AppPathConstants.OperationPathName}",
+        tags=[AppPathConstants.OperationTagName],
+    )
+    app.include_router(
+        TestApi().router,
+        prefix=f"/test",
+        tags=["Тестовые API"],
     )

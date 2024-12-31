@@ -4,7 +4,6 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from infrastructure.config import app_config
-from starlette.responses import JSONResponse
 from starlette.staticfiles import StaticFiles
 
 from app.core.api_routes import include_routers
@@ -32,7 +31,11 @@ app = FastAPI(
 # Включаем все роутеры
 include_routers(app)
 
-# app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount(
+    f"/{app_config.static_folder}",
+    StaticFiles(directory=f"{app_config.static_folder}"),
+    name=f"{app_config.static_folder}",
+)
 
 # Регистрация обработчика
 app.add_exception_handler(RequestValidationError, validation_exception_handler)

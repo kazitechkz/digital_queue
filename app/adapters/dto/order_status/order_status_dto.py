@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 
 from app.shared.dto_constants import DTOConstant
 
@@ -19,8 +19,8 @@ class OrderStatusCDTO(BaseModel):
     next_id: DTOConstant.StandardNullableIntegerField()
     prev_value: DTOConstant.StandardNullableVarcharField()
     next_value: DTOConstant.StandardNullableVarcharField()
-    is_first: DTOConstant.StandardNullableBooleanField()
-    is_last: DTOConstant.StandardNullableBooleanField()
+    is_first: DTOConstant.StandardBooleanFalseField()
+    is_last: DTOConstant.StandardBooleanFalseField()
 
     class Config:
         from_attributes = True

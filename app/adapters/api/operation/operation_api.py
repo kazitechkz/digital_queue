@@ -1,25 +1,22 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.order_status.order_status_dto import (
-    OrderStatusCDTO, OrderStatusRDTO, OrderStatusWithRelationsDTO)
+from app.adapters.dto.operation.operation_dto import (
+    OperationCDTO, OperationWithRelationsDTO)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
-from app.use_cases.order_status.all_order_status_case import AllOrderStatusCase
-from app.use_cases.order_status.create_order_status_case import \
-    CreateOrderStatusCase
-from app.use_cases.order_status.delete_order_status_case import \
-    DeleteOrderStatusCase
-from app.use_cases.order_status.get_order_status_by_id_case import \
-    GetOrderStatusByIdCase
-from app.use_cases.order_status.get_order_status_by_value_case import \
-    GetOrderStatusByValueCase
-from app.use_cases.order_status.update_order_status_case import \
-    UpdateOrderStatusCase
+from app.use_cases.operation.all_operation_case import AllOperationCase
+from app.use_cases.operation.create_operation_case import CreateOperationCase
+from app.use_cases.operation.delete_operation_case import DeleteOperationCase
+from app.use_cases.operation.get_operation_by_id_case import \
+    GetOperationByIdCase
+from app.use_cases.operation.get_operation_by_value_case import \
+    GetOperationByValueCase
+from app.use_cases.operation.update_operation_case import UpdateOperationCase
 
 
-class OrderStatusApi:
+class OperationApi:
     def __init__(self) -> None:
         self.router = APIRouter()
         self._add_routes()
@@ -27,50 +24,50 @@ class OrderStatusApi:
     def _add_routes(self) -> None:
         self.router.get(
             "/",
-            response_model=list[OrderStatusWithRelationsDTO],
-            summary="Список статусов заказа",
-            description="Получение списка статусов заказа",
+            response_model=list[OperationWithRelationsDTO],
+            summary="Список бизнес процессов",
+            description="Получение списка бизнес процессов",
         )(self.get_all)
         self.router.post(
             "/create",
-            response_model=OrderStatusWithRelationsDTO,
-            summary="Создать статус заказа",
-            description="Создание статуса заказа",
+            response_model=OperationWithRelationsDTO,
+            summary="Создать бизнес процесс",
+            description="Создание бизнес процесса",
         )(self.create)
         self.router.put(
             "/update/{id}",
-            response_model=OrderStatusWithRelationsDTO,
-            summary="Обновить статус заказа по уникальному ID",
-            description="Обновление статуса заказа по уникальному идентификатору",
+            response_model=OperationWithRelationsDTO,
+            summary="Обновить бизнес процесс по уникальному ID",
+            description="Обновление бизнес процесса по уникальному идентификатору",
         )(self.update)
         self.router.delete(
             "/delete/{id}",
             response_model=bool,
-            summary="Удалите статус заказа по уникальному ID",
-            description="Удаление статуса по уникальному идентификатору",
+            summary="Удалите бизнес процесс по уникальному ID",
+            description="Удаление бизнес процесса по уникальному идентификатору",
         )(self.delete)
         self.router.get(
             "/get/{id}",
-            response_model=OrderStatusWithRelationsDTO,
-            summary="Получить статуса заказа по уникальному ID",
-            description="Получение статуса заказа по уникальному идентификатору",
+            response_model=OperationWithRelationsDTO,
+            summary="Получить бизнес процесс по уникальному ID",
+            description="Получение бизнес процесса по уникальному идентификатору",
         )(self.get)
         self.router.get(
             "/get-by-value/{value}",
-            response_model=OrderStatusWithRelationsDTO,
-            summary="Получить статус заказа по уникальному значению",
-            description="Получение статуса заказа по уникальному значению",
+            response_model=OperationWithRelationsDTO,
+            summary="Получить бизнес процесс по уникальному значению",
+            description="Получение бизнес процесса по уникальному значению",
         )(self.get_by_value)
 
     async def get_all(self, db: AsyncSession = Depends(get_db)):
-        use_case = AllOrderStatusCase(db)
+        use_case = AllOperationCase(db)
         try:
             return await use_case.execute()
         except HTTPException as exc:
             raise exc
         except Exception as exc:
             raise AppExceptionResponse.internal_error(
-                message="Ошибка при получении всех типов",
+                message="Ошибка при получении бизнес процессов",
                 extra={"details": str(exc)},
                 is_custom=True,
             )
@@ -78,27 +75,27 @@ class OrderStatusApi:
     async def get(
         self, id: AppPathConstants.IDPath, db: AsyncSession = Depends(get_db)
     ):
-        use_case = GetOrderStatusByIdCase(db)
+        use_case = GetOperationByIdCase(db)
         try:
             return await use_case.execute(id=id)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
             raise AppExceptionResponse.internal_error(
-                message="Ошибка при получении статуса заказа по id",
+                message="Ошибка при получении бизнес процессов по id",
                 extra={"id": id, "details": str(exc)},
                 is_custom=True,
             )
 
-    async def create(self, dto: OrderStatusCDTO, db: AsyncSession = Depends(get_db)):
-        use_case = CreateOrderStatusCase(db)
+    async def create(self, dto: OperationCDTO, db: AsyncSession = Depends(get_db)):
+        use_case = CreateOperationCase(db)
         try:
             return await use_case.execute(dto=dto)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
             raise AppExceptionResponse.internal_error(
-                message="Ошибка при создании статуса заказа",
+                message="Ошибка при создании бизнес процесса",
                 extra={"details": str(exc)},
                 is_custom=True,
             )
@@ -106,17 +103,17 @@ class OrderStatusApi:
     async def update(
         self,
         id: AppPathConstants.IDPath,
-        dto: OrderStatusCDTO,
+        dto: OperationCDTO,
         db: AsyncSession = Depends(get_db),
     ):
-        use_case = UpdateOrderStatusCase(db)
+        use_case = UpdateOperationCase(db)
         try:
             return await use_case.execute(id=id, dto=dto)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
             raise AppExceptionResponse.internal_error(
-                message="Ошибка при обновлении статуса заказа",
+                message="Ошибка при обновлении бизнес процесса",
                 extra={"id": id, "details": str(exc)},
                 is_custom=True,
             )
@@ -124,14 +121,14 @@ class OrderStatusApi:
     async def delete(
         self, id: AppPathConstants.IDPath, db: AsyncSession = Depends(get_db)
     ):
-        use_case = DeleteOrderStatusCase(db)
+        use_case = DeleteOperationCase(db)
         try:
             return await use_case.execute(id=id)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
             raise AppExceptionResponse.internal_error(
-                message="Ошибка при удалении статуса заказа",
+                message="Ошибка при удалении бизнес процесса",
                 extra={"id": id, "details": str(exc)},
                 is_custom=True,
             )
@@ -140,14 +137,14 @@ class OrderStatusApi:
     async def get_by_value(
         self, value: AppPathConstants.ValuePath, db: AsyncSession = Depends(get_db)
     ):
-        use_case = GetOrderStatusByValueCase(db)
+        use_case = GetOperationByValueCase(db)
         try:
             return await use_case.execute(value=value)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
             raise AppExceptionResponse.internal_error(
-                message="Ошибка при получении статуса заказа по значению",
+                message="Ошибка при получении бизнес процесса по значению",
                 extra={"value": value, "details": str(exc)},
                 is_custom=True,
             )

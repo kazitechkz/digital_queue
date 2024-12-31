@@ -52,6 +52,15 @@ class AppConfiguration(BaseSettings):
     keycloak_realm: str = Field(..., env="KEYCLOAK_REALM")
     keycloak_client_id: str = Field(..., env="KEYCLOAK_CLIENT_ID")
     keycloak_client_secret: str = Field(..., env="KEYCLOAK_CLIENT_SECRET")
+    # File Settings
+    static_folder: Optional[str] = Field(default="static", env="STATIC_FOLDER")
+    upload_folder: Optional[str] = Field(default="upload", env="UPLOAD_FOLDER")
+    app_upload_max_file_size_mb: Optional[int] = Field(
+        default=100, env="APP_UPLOAD_MAX_FILE_SIZE_MB"
+    )
+    not_allowed_extensions: Optional[list[str]] = Field(
+        default={}, env="NOT_ALLOWED_EXTENSIONS"
+    )
 
     @property
     def get_connection_url(self) -> str:

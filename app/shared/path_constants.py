@@ -23,3 +23,5 @@ class AppPathConstants:
     VehicleCategoryTagName = "Категория транспортного средства"
     OrderStatusPathName = "order-status"
     OrderStatusTagName = "Статус заказа"
+    OperationPathName = "operation"
+    OperationTagName = "Бизнес процесс"
