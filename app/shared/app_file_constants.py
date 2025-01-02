@@ -1,4 +1,7 @@
 class AppFileExtensionConstants:
+    FactoryFolderName = "factories"
+    WorkshopFolderName = "workshops"
+    MaterialFolderName = "materials"
     # Расширения для изображений
     IMAGE_EXTENSIONS = {
         ".jpg",

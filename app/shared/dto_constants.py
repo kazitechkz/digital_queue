@@ -49,6 +49,7 @@ class DTOConstant:
         return Annotated[
             Optional[str],
             Field(
+                default=None,
                 max_length=FieldConstants.STANDARD_LENGTH,
                 description=description
                 or f"Строковое поле до {FieldConstants.STANDARD_LENGTH} символов",
@@ -69,6 +70,8 @@ class DTOConstant:
         return Annotated[
             Optional[int],
             Field(
+                default=None,
+                nullable=True,
                 description=description or f"Опциональное числовое поле",
             ),
         ]
@@ -111,6 +114,7 @@ class DTOConstant:
         return Annotated[
             Optional[float],
             Field(
+                default=None,
                 ge=0,
                 description=description
                 or f"Опциональная цена больше 0. Длина до {FieldConstants.PRICE_PRECISION} знаков",
@@ -123,7 +127,7 @@ class DTOConstant:
 
     @staticmethod
     def StandardNullableDateField(description="Опциональная дата"):
-        return Annotated[Optional[date], Field(description=description)]
+        return Annotated[Optional[date], Field(default=None, description=description)]
 
     @staticmethod
     def StandardDateTimeField(description="Дата и время"):
@@ -131,7 +135,9 @@ class DTOConstant:
 
     @staticmethod
     def StandardNullableDateTimeField(description="Опциональная дата и время"):
-        return Annotated[Optional[datetime], Field(description=description)]
+        return Annotated[
+            Optional[datetime], Field(default=None, description=description)
+        ]
 
     @staticmethod
     def StandardUniqueIINField(description="Уникальный идентификатор ИИН"):
@@ -159,7 +165,7 @@ class DTOConstant:
 
     @staticmethod
     def StandardNullableTextField(description="Опциональное текстовое описание"):
-        return Annotated[Optional[str], Field(description=description)]
+        return Annotated[Optional[str], Field(default=None, description=description)]
 
     StandardCreatedAt = Annotated[
         datetime, Field(description="Дата создания", example="2024-01-01T12:00:00")

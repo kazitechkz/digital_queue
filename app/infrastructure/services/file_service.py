@@ -25,9 +25,8 @@ class FileService:
         """
         Генерирует уникальный путь для файла.
         """
-        UPLOADED_DIRECTORY = f"{FileService.UPLOAD_FOLDER}/{directory}"
         unique_name = f"{uuid.uuid4().hex}_{filename}"
-        return os.path.join(UPLOADED_DIRECTORY, unique_name)
+        return os.path.join(directory, unique_name)
 
     @staticmethod
     def validate_file(file: UploadFile, extensions=None):
@@ -66,10 +65,11 @@ class FileService:
             FileService.validate_file(file, extensions)
 
             # Создание папки, если не существует
-            os.makedirs(f"{FileService.UPLOAD_FOLDER}/{uploaded_folder}", exist_ok=True)
+            upload_directory = os.path.join(FileService.UPLOAD_FOLDER, uploaded_folder)
+            os.makedirs(upload_directory, exist_ok=True)
 
             # Генерация пути
-            file_path = FileService.generate_file_path(file.filename, uploaded_folder)
+            file_path = FileService.generate_file_path(file.filename, upload_directory)
 
             # Сохранение файла
             with open(file_path, "wb") as f:
@@ -82,15 +82,19 @@ class FileService:
                 file_size=os.path.getsize(file_path),
                 content_type=file.content_type,
             )
+            self.db.add(file_record)
+            await self.db.commit()
+            await self.db.refresh(file_record)
             return file_record
         except Exception as exc:
+            await self.db.rollback()  # Откат транзакции в случае ошибки
             raise AppExceptionResponse.internal_error(
                 message="Ошибка при сохранении файла",
                 extra={"filename": file.filename, "details": str(exc)},
                 is_custom=True,
             )
 
-    async def delete_file(self, file_id: int) -> bool:
+    async def delete_file(self, file_id: int, db: AsyncSession) -> bool:
         """
         Удаляет файл с диска и из базы данных.
 
@@ -102,7 +106,8 @@ class FileService:
             bool: Успех удаления.
         """
         try:
-            file_record = await self.db.get(FileModel, file_id)
+            # Поиск записи о файле в базе данных
+            file_record = await db.get(FileModel, file_id)
             if not file_record:
                 raise AppExceptionResponse.not_found(message="Файл не найден")
 
@@ -110,8 +115,13 @@ class FileService:
             if os.path.exists(file_record.file_path):
                 os.remove(file_record.file_path)
 
+            # Удаление записи из базы данных
+            await db.delete(file_record)
+            await db.commit()
+
             return True
         except Exception as exc:
+            await db.rollback()  # Откат транзакции в случае ошибки
             raise AppExceptionResponse.internal_error(
                 message="Ошибка при удалении файла",
                 extra={"file_id": file_id, "details": str(exc)},
@@ -149,11 +159,12 @@ class FileService:
             FileService.validate_file(new_file, extensions)
 
             # Создание папки, если не существует
-            os.makedirs(f"{FileService.UPLOAD_FOLDER}/{uploaded_folder}", exist_ok=True)
+            upload_directory = os.path.join(FileService.UPLOAD_FOLDER, uploaded_folder)
+            os.makedirs(upload_directory, exist_ok=True)
 
             # Генерация пути для нового файла
             new_file_path = FileService.generate_file_path(
-                new_file.filename, uploaded_folder
+                new_file.filename, upload_directory
             )
 
             # Сохранение нового файла
