@@ -2,30 +2,22 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.organization_type.organization_type_dto import (
-    OrganizationTypeCDTO,
-    OrganizationTypeRDTO,
-)
+    OrganizationTypeCDTO, OrganizationTypeRDTO)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
-from app.use_cases.organization_type.all_organization_type_case import (
-    AllOrganizationTypeCase,
-)
-from app.use_cases.organization_type.create_organization_type_case import (
-    CreateOrganizationTypeCase,
-)
-from app.use_cases.organization_type.delete_organization_type_case import (
-    DeleteOrganizationTypeCase,
-)
-from app.use_cases.organization_type.get_organization_type_by_id_case import (
-    GetOrganizationTypeByIdCase,
-)
-from app.use_cases.organization_type.get_organization_type_by_value_case import (
-    GetOrganizationTypeByValueCase,
-)
-from app.use_cases.organization_type.update_organization_type_case import (
-    UpdateOrganizationTypeCase,
-)
+from app.use_cases.organization_type.all_organization_type_case import \
+    AllOrganizationTypeCase
+from app.use_cases.organization_type.create_organization_type_case import \
+    CreateOrganizationTypeCase
+from app.use_cases.organization_type.delete_organization_type_case import \
+    DeleteOrganizationTypeCase
+from app.use_cases.organization_type.get_organization_type_by_id_case import \
+    GetOrganizationTypeByIdCase
+from app.use_cases.organization_type.get_organization_type_by_value_case import \
+    GetOrganizationTypeByValueCase
+from app.use_cases.organization_type.update_organization_type_case import \
+    UpdateOrganizationTypeCase
 
 
 class OrganizationTypeApi:

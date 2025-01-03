@@ -1,19 +1,23 @@
 from abc import ABC, abstractmethod
-from typing import Any, List, Optional
+from typing import Any, Generic, List, Optional, TypeVar
 
 from sqlalchemy import or_
 from sqlalchemy.orm import Query as SQLAlchemyQuery
 
+T = TypeVar("T")
 
-class BasePaginationFilter(ABC):
+
+class BasePaginationFilter(Generic[T], ABC):
     def __init__(
         self,
+        model: T,
         per_page: int = 20,
         page: int = 1,
         search: Optional[str] = None,
         order_by: Optional[str] = None,
         order_direction: str = "asc",
     ) -> None:
+        self.model = model
         self.per_page = per_page
         self.page = page
         self.search = search
@@ -25,5 +29,5 @@ class BasePaginationFilter(ABC):
         pass
 
     @abstractmethod
-    def apply(self, query: SQLAlchemyQuery, model: Any) -> List[SQLAlchemyQuery]:
+    def apply(self) -> List[SQLAlchemyQuery]:
         pass

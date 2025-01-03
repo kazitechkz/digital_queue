@@ -2,12 +2,9 @@ from sqlalchemy import func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.vehicle_category.vehicle_category_dto import (
-    VehicleCategoryCDTO,
-    VehicleCategoryRDTO,
-)
-from app.adapters.repositories.vehicle_category.vehicle_category_repository import (
-    VehicleCategoryRepository,
-)
+    VehicleCategoryCDTO, VehicleCategoryRDTO)
+from app.adapters.repositories.vehicle_category.vehicle_category_repository import \
+    VehicleCategoryRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.use_cases.base_case import BaseUseCase
 

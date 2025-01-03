@@ -162,3 +162,10 @@ class BaseRepository(Generic[T]):
         if order_direction.lower() == "desc":
             return query.order_by(desc(getattr(self.model, order_by)))
         return query.order_by(asc(getattr(self.model, order_by)))
+
+    def default_relationships(self) -> List[Any]:
+        """
+        Определяет список стандартных подгружаемых связей.
+        Дети могут переопределить это или использовать как есть.
+        """
+        return []

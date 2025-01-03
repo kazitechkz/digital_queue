@@ -1,7 +1,13 @@
+from typing import Any
+
+from starlette.datastructures import UploadFile
+
+
 class AppFileExtensionConstants:
     FactoryFolderName = "factories"
     WorkshopFolderName = "workshops"
     MaterialFolderName = "materials"
+    UserFolderName = "users"
     # Расширения для изображений
     IMAGE_EXTENSIONS = {
         ".jpg",
@@ -116,3 +122,7 @@ class AppFileExtensionConstants:
             bool: True, если расширение допустимо, иначе False.
         """
         return extension.lower() in allowed_extensions
+
+    @staticmethod
+    def is_upload_file(obj: Any) -> bool:
+        return isinstance(obj, UploadFile)

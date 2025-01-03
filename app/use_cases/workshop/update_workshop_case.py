@@ -5,12 +5,12 @@ from sqlalchemy import and_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.adapters.dto.workshop.workshop_dto import (
-    WorkshopCDTO,
-    WorkshopWithRelationsDTO,
-)
-from app.adapters.repositories.factory.factory_repository import FactoryRepository
-from app.adapters.repositories.workshop.workshop_repository import WorkshopRepository
+from app.adapters.dto.workshop.workshop_dto import (WorkshopCDTO,
+                                                    WorkshopWithRelationsDTO)
+from app.adapters.repositories.factory.factory_repository import \
+    FactoryRepository
+from app.adapters.repositories.workshop.workshop_repository import \
+    WorkshopRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import WorkshopModel
 from app.infrastructure.services.file_service import FileService
@@ -32,10 +32,7 @@ class UpdateWorkshopCase(BaseUseCase[WorkshopWithRelationsDTO]):
         existed = await self.repository.update(obj=model, dto=updated_dto)
         existed = await self.repository.get(
             id=existed.id,
-            options=[
-                selectinload(self.repository.model.file),
-                selectinload(self.repository.model.factory),
-            ],
+            options=self.repository.default_relationships(),
         )
         return WorkshopWithRelationsDTO.from_orm(existed)
 
@@ -62,7 +59,7 @@ class UpdateWorkshopCase(BaseUseCase[WorkshopWithRelationsDTO]):
         self, dto: WorkshopCDTO, model: WorkshopModel, file: Optional[UploadFile]
     ) -> WorkshopCDTO:
         file_model = None
-        if file is not None:
+        if AppFileExtensionConstants.is_upload_file(file):
             if model.file_id:
                 file_model = await self.service.update_file(
                     file_id=model.file_id,

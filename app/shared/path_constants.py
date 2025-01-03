@@ -15,6 +15,10 @@ class AppPathConstants:
 
     RolePathName = "role"
     RoleTagName = "Роли"
+    UserTypePathName = "user-type"
+    UserTypeTagName = "Тип пользователя"
+    FilePathName = "file"
+    FileTagName = "Файлы и файловая система"
     OrganizationTypePathName = "organization-type"
     OrganizationTypeTagName = "Тип организации"
     VehicleColorPathName = "vehicle-color"
@@ -31,3 +35,7 @@ class AppPathConstants:
     WorkshopTagName = "Цеха"
     MaterialPathName = "material"
     MaterialTagName = "Материал"
+    WorkshopSchedulePathName = "workshop-schedule"
+    WorkshopScheduleTagName = "Расписание Цеха"
+    UserPathName = "user"
+    UserTagName = "Пользователи"

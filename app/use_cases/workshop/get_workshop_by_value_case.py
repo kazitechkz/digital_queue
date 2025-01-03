@@ -3,7 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.adapters.dto.workshop.workshop_dto import WorkshopWithRelationsDTO
-from app.adapters.repositories.workshop.workshop_repository import WorkshopRepository
+from app.adapters.repositories.workshop.workshop_repository import \
+    WorkshopRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.use_cases.base_case import BaseUseCase
 
@@ -20,10 +21,7 @@ class GetWorkshopByValueCase(BaseUseCase[WorkshopWithRelationsDTO]):
         ]
         model = await self.repository.get_first_with_filters(
             filters=filters,
-            options=[
-                selectinload(self.repository.model.file),
-                selectinload(self.repository.model.factory),
-            ],
+            options=self.repository.default_relationships(),
         )
         if not model:
             raise AppExceptionResponse.not_found("Цех не найден")

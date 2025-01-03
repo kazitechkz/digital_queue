@@ -5,8 +5,10 @@ from sqlalchemy import and_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.adapters.dto.factory.factory_dto import FactoryCDTO, FactoryWithRelationsDTO
-from app.adapters.repositories.factory.factory_repository import FactoryRepository
+from app.adapters.dto.factory.factory_dto import (FactoryCDTO,
+                                                  FactoryWithRelationsDTO)
+from app.adapters.repositories.factory.factory_repository import \
+    FactoryRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import FactoryModel, FileModel
 from app.infrastructure.services.file_service import FileService
@@ -26,7 +28,8 @@ class UpdateFactoryCase(BaseUseCase[FactoryWithRelationsDTO]):
         updated_dto = await self.transform(dto=dto, model=model, file=file)
         existed = await self.repository.update(obj=model, dto=updated_dto)
         existed = await self.repository.get(
-            id=existed.id, options=[selectinload(self.repository.model.file)]
+            id=existed.id,
+            options=self.repository.default_relationships(),
         )
         return FactoryWithRelationsDTO.from_orm(existed)
 
@@ -52,7 +55,7 @@ class UpdateFactoryCase(BaseUseCase[FactoryWithRelationsDTO]):
         self, dto: FactoryCDTO, model: FactoryModel, file: Optional[UploadFile]
     ) -> FactoryCDTO:
         file_model = None
-        if file is not None:
+        if AppFileExtensionConstants.is_upload_file(file):
             if model.file_id:
                 file_model = await self.service.update_file(
                     file_id=model.file_id,

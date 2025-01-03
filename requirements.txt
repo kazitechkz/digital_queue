@@ -1,6 +1,6 @@
 aiomysql==0.2.0
 python-dotenv==1.0.1
-pydantic==2.10.3
+pydantic[email,timezone]==2.10.3
 pydantic-settings==2.7.0
 SQLAlchemy==2.0.36
 fastapi==0.115.6
@@ -13,3 +13,5 @@ boto3==1.35.81
 asyncpg==0.30.0
 python-keycloak==5.1.1
 python-multipart==0.0.20
+passlib==1.7.4
+bcrypt==4.2.1
