@@ -3,7 +3,8 @@ from typing import Optional
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.factory.factory_dto import FactoryCDTO, FactoryWithRelationsDTO
+from app.adapters.dto.factory.factory_dto import (FactoryCDTO,
+                                                  FactoryWithRelationsDTO)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.app_file_constants import AppFileExtensionConstants
@@ -12,7 +13,8 @@ from app.use_cases.factory.all_factory_case import AllFactoryCase
 from app.use_cases.factory.create_factory_case import CreateFactoryCase
 from app.use_cases.factory.delete_factory_case import DeleteFactoryCase
 from app.use_cases.factory.get_factory_by_id_case import GetFactoryByIdCase
-from app.use_cases.factory.get_factory_by_value_case import GetFactoryByValueCase
+from app.use_cases.factory.get_factory_by_value_case import \
+    GetFactoryByValueCase
 from app.use_cases.factory.update_factory_case import UpdateFactoryCase
 from app.use_cases.file.save_file_case import SaveFileCase
 
@@ -98,7 +100,7 @@ class FactoryApi:
         use_case = CreateFactoryCase(db)
         file_model = None
         try:
-            if file is not None:
+            if AppFileExtensionConstants.is_upload_file(file):
                 file_model = await file_case.execute(
                     file=file,
                     extensions=AppFileExtensionConstants.IMAGE_EXTENSIONS,

@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.repositories.factory.factory_repository import FactoryRepository
+from app.adapters.repositories.factory.factory_repository import \
+    FactoryRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.services.file_service import FileService
 from app.use_cases.base_case import BaseUseCase

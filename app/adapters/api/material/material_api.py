@@ -3,7 +3,8 @@ from typing import Optional
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.material.material_dto import MaterialWithRelationsDTO, MaterialCDTO
+from app.adapters.dto.material.material_dto import (MaterialCDTO,
+                                                    MaterialWithRelationsDTO)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.app_file_constants import AppFileExtensionConstants
@@ -13,7 +14,8 @@ from app.use_cases.material.all_material_case import AllMaterialCase
 from app.use_cases.material.create_material_case import CreateMaterialCase
 from app.use_cases.material.delete_material_case import DeleteMaterialCase
 from app.use_cases.material.get_material_by_id_case import GetMaterialByIdCase
-from app.use_cases.material.get_material_by_value_case import GetMaterialByValueCase
+from app.use_cases.material.get_material_by_value_case import \
+    GetMaterialByValueCase
 from app.use_cases.material.update_material_case import UpdateMaterialCase
 
 
@@ -98,7 +100,7 @@ class MaterialApi:
         use_case = CreateMaterialCase(db)
         file_model = None
         try:
-            if file is not None:
+            if AppFileExtensionConstants.is_upload_file(file):
                 file_model = await file_case.execute(
                     file=file,
                     extensions=AppFileExtensionConstants.IMAGE_EXTENSIONS,

@@ -2,10 +2,10 @@ from sqlalchemy import and_, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.adapters.dto.order_status.order_status_dto import OrderStatusWithRelationsDTO
-from app.adapters.repositories.order_status.order_status_repository import (
-    OrderStatusRepository,
-)
+from app.adapters.dto.order_status.order_status_dto import \
+    OrderStatusWithRelationsDTO
+from app.adapters.repositories.order_status.order_status_repository import \
+    OrderStatusRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.use_cases.base_case import BaseUseCase
 
@@ -22,10 +22,7 @@ class GetOrderStatusByValueCase(BaseUseCase[OrderStatusWithRelationsDTO]):
         ]
         model = await self.repository.get_first_with_filters(
             filters=filters,
-            options=[
-                selectinload(self.repository.model.prev_order_status),
-                selectinload(self.repository.model.next_order_status),
-            ],
+            options=self.repository.default_relationships(),
         )
         if not model:
             raise AppExceptionResponse.not_found("Статус Заказа не найден")

@@ -3,13 +3,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.adapters.dto.order_status.order_status_dto import (
-    OrderStatusCDTO,
-    OrderStatusRDTO,
-    OrderStatusWithRelationsDTO,
-)
-from app.adapters.repositories.order_status.order_status_repository import (
-    OrderStatusRepository,
-)
+    OrderStatusCDTO, OrderStatusRDTO, OrderStatusWithRelationsDTO)
+from app.adapters.repositories.order_status.order_status_repository import \
+    OrderStatusRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.use_cases.base_case import BaseUseCase
 
@@ -28,10 +24,7 @@ class UpdateOrderStatusCase(BaseUseCase[OrderStatusWithRelationsDTO]):
         else:
             existed = await self.repository.get(
                 id=data.id,
-                options=[
-                    selectinload(self.repository.model.prev_order_status),
-                    selectinload(self.repository.model.next_order_status),
-                ],
+                options=self.repository.default_relationships(),
             )
         return OrderStatusWithRelationsDTO.from_orm(existed)
 

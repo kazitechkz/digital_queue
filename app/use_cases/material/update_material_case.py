@@ -5,9 +5,12 @@ from sqlalchemy import and_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.adapters.dto.material.material_dto import MaterialWithRelationsDTO, MaterialCDTO
-from app.adapters.repositories.material.material_repository import MaterialRepository
-from app.adapters.repositories.workshop.workshop_repository import WorkshopRepository
+from app.adapters.dto.material.material_dto import (MaterialCDTO,
+                                                    MaterialWithRelationsDTO)
+from app.adapters.repositories.material.material_repository import \
+    MaterialRepository
+from app.adapters.repositories.workshop.workshop_repository import \
+    WorkshopRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import MaterialModel
 from app.infrastructure.services.file_service import FileService
@@ -29,10 +32,7 @@ class UpdateMaterialCase(BaseUseCase[MaterialWithRelationsDTO]):
         existed = await self.repository.update(obj=model, dto=updated_dto)
         existed = await self.repository.get(
             id=existed.id,
-            options=[
-                selectinload(self.repository.model.file),
-                selectinload(self.repository.model.workshop),
-            ],
+            options=self.repository.default_relationships(),
         )
         return MaterialWithRelationsDTO.from_orm(existed)
 
@@ -49,7 +49,9 @@ class UpdateMaterialCase(BaseUseCase[MaterialWithRelationsDTO]):
             ]
         )
         if existed:
-            raise AppExceptionResponse.bad_request("Материал с таким SAP-ID уже существует")
+            raise AppExceptionResponse.bad_request(
+                "Материал с таким SAP-ID уже существует"
+            )
         existed_workshop = await self.workshop_repository.get(id=dto.workshop_id)
         if not existed_workshop:
             raise AppExceptionResponse.bad_request("Цех не найден")
@@ -59,7 +61,7 @@ class UpdateMaterialCase(BaseUseCase[MaterialWithRelationsDTO]):
         self, dto: MaterialCDTO, model: MaterialModel, file: Optional[UploadFile]
     ) -> MaterialCDTO:
         file_model = None
-        if file is not None:
+        if AppFileExtensionConstants.is_upload_file(file):
             if model.file_id:
                 file_model = await self.service.update_file(
                     file_id=model.file_id,

@@ -3,10 +3,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.adapters.dto.operation.operation_dto import (
-    OperationCDTO,
-    OperationWithRelationsDTO,
-)
-from app.adapters.repositories.operation.operation_repository import OperationRepository
+    OperationCDTO, OperationWithRelationsDTO)
+from app.adapters.repositories.operation.operation_repository import \
+    OperationRepository
 from app.adapters.repositories.role.role_repository import RoleRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.use_cases.base_case import BaseUseCase
@@ -25,11 +24,7 @@ class UpdateOperationCase(BaseUseCase[OperationWithRelationsDTO]):
         else:
             existed = await self.repository.get(
                 id=data.id,
-                options=[
-                    selectinload(self.repository.model.prev_operation),
-                    selectinload(self.repository.model.next_operation),
-                    selectinload(self.repository.model.role),
-                ],
+                options=self.repository.default_relationships(),
             )
         return OperationWithRelationsDTO.from_orm(existed)
 

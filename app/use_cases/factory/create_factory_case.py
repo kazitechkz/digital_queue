@@ -4,8 +4,10 @@ from sqlalchemy import and_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.adapters.dto.factory.factory_dto import FactoryCDTO, FactoryWithRelationsDTO
-from app.adapters.repositories.factory.factory_repository import FactoryRepository
+from app.adapters.dto.factory.factory_dto import (FactoryCDTO,
+                                                  FactoryWithRelationsDTO)
+from app.adapters.repositories.factory.factory_repository import \
+    FactoryRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import FileModel
 from app.use_cases.base_case import BaseUseCase
@@ -26,7 +28,8 @@ class CreateFactoryCase(BaseUseCase[FactoryWithRelationsDTO]):
         if not existed:
             raise AppExceptionResponse.bad_request(message=f"Что-то пошло не так")
         existed = await self.repository.get(
-            id=existed.id, options=[selectinload(self.repository.model.file)]
+            id=existed.id,
+            options=self.repository.default_relationships(),
         )
         return FactoryWithRelationsDTO.from_orm(existed)
 

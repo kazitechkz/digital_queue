@@ -77,10 +77,43 @@ class DTOConstant:
         ]
 
     @staticmethod
+    def StandardUnsignedIntegerField(description=None):
+        return Annotated[
+            int,
+            Field(
+                ge=0,
+                description=description or f"Числовое поле",
+            ),
+        ]
+
+    @staticmethod
+    def StandardNullableUnsignedIntegerField(description=None):
+        return Annotated[
+            Optional[int],
+            Field(
+                default=None,
+                ge=0,
+                nullable=True,
+                description=description or f"Опциональное числовое поле",
+            ),
+        ]
+
+    @staticmethod
     def StandardEmailField(description=None):
         return Annotated[
             EmailStr,
             Field(
+                max_length=FieldConstants.STANDARD_LENGTH,
+                description=description or "Уникальный адрес электронной почты",
+            ),
+        ]
+
+    @staticmethod
+    def StandardPhoneField(description=None):
+        return Annotated[
+            str,
+            Field(
+                pattern=app_validation.KZ_MOBILE_REGEX,
                 max_length=FieldConstants.STANDARD_LENGTH,
                 description=description or "Уникальный адрес электронной почты",
             ),
@@ -130,6 +163,15 @@ class DTOConstant:
         return Annotated[Optional[date], Field(default=None, description=description)]
 
     @staticmethod
+    def StandardTimeField(description="Время"):
+        return Annotated[time, Field(description=description)]
+
+    @staticmethod
+    def StandardNullableTimeField(description="Опциональная время"):
+        return Annotated[Optional[time], Field(default=None, description=description)]
+
+
+    @staticmethod
     def StandardDateTimeField(description="Дата и время"):
         return Annotated[datetime, Field(description=description)]
 
@@ -144,7 +186,7 @@ class DTOConstant:
         return Annotated[
             str,
             Field(
-                regex=app_validation.IIN_REGEX_STR,
+                pattern=app_validation.IIN_REGEX_STR,
                 description=description or "Уникальный 12-значный ИИН",
             ),
         ]
@@ -154,7 +196,7 @@ class DTOConstant:
         return Annotated[
             str,
             Field(
-                regex=app_validation.BIN_REGEX_STR,
+                pattern=app_validation.BIN_REGEX_STR,
                 description=description or "Уникальный 12-значный БИН",
             ),
         ]

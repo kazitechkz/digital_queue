@@ -2,11 +2,8 @@ from sqlalchemy.orm import Mapped
 
 from app.infrastructure.database import Base
 from app.shared.app_constants import AppModelNames, AppTableNames
-from app.shared.db_constants import (
-    DbColumnConstants,
-    DbModelValue,
-    DbRelationshipConstants,
-)
+from app.shared.db_constants import (DbColumnConstants, DbModelValue,
+                                     DbRelationshipConstants)
 
 
 class ActWeightModel(Base):

@@ -24,6 +24,7 @@ class MaterialCDTO(BaseModel):
     status: DTOConstant.StandardBooleanTrueField()
     price_without_taxes: DTOConstant.StandardPriceField()
     price_with_taxes: DTOConstant.StandardPriceField()
+
     class Config:
         from_attributes = True
 
