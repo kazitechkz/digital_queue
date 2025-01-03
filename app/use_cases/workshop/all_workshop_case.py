@@ -2,7 +2,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.adapters.dto.workshop.workshop_dto import WorkshopWithRelationsDTO
-from app.adapters.repositories.workshop.workshop_repository import WorkshopRepository
+from app.adapters.repositories.workshop.workshop_repository import \
+    WorkshopRepository
 from app.use_cases.base_case import BaseUseCase
 
 
