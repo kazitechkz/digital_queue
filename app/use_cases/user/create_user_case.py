@@ -4,12 +4,10 @@ from fastapi import UploadFile
 from sqlalchemy import func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.user.user_dto import (UserCDTO, UserRDTO,
-                                            UserWithRelationsDTO)
+from app.adapters.dto.user.user_dto import UserCDTO, UserRDTO, UserWithRelationsDTO
 from app.adapters.repositories.role.role_repository import RoleRepository
 from app.adapters.repositories.user.user_repository import UserRepository
-from app.adapters.repositories.user_type.user_type_repository import \
-    UserTypeRepository
+from app.adapters.repositories.user_type.user_type_repository import UserTypeRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.core.auth_core import get_password_hash
 from app.entities import FileModel
@@ -26,7 +24,9 @@ class CreateUserCase(BaseUseCase[UserWithRelationsDTO]):
         self.service = FileService(db)
         self.extensions = AppFileExtensionConstants.IMAGE_EXTENSIONS
 
-    async def execute(self, dto: UserCDTO,file:Optional[UploadFile] = None) -> UserWithRelationsDTO:
+    async def execute(
+        self, dto: UserCDTO, file: Optional[UploadFile] = None
+    ) -> UserWithRelationsDTO:
         await self.validate(dto=dto)
         file_model = None
         if AppFileExtensionConstants.is_upload_file(file):
@@ -35,10 +35,12 @@ class CreateUserCase(BaseUseCase[UserWithRelationsDTO]):
                 uploaded_folder=AppFileExtensionConstants.UserFolderName,
                 extensions=self.extensions,
             )
-        dto = await self.transform(dto=dto,file=file_model)
+        dto = await self.transform(dto=dto, file=file_model)
         model = await self.repository.create(obj=self.repository.model(**dto.dict()))
         if not model:
-            raise AppExceptionResponse.internal_error(message="Ошибка создания пользователя")
+            raise AppExceptionResponse.internal_error(
+                message="Ошибка создания пользователя"
+            )
         model = await self.repository.get(
             id=model.id,
             options=self.repository.default_relationships(),
@@ -51,7 +53,8 @@ class CreateUserCase(BaseUseCase[UserWithRelationsDTO]):
                 or_(
                     func.lower(self.repository.model.iin) == dto.iin.lower(),
                     func.lower(self.repository.model.sid) == dto.sid.lower(),
-                    func.lower(self.repository.model.preferred_username) == dto.preferred_username.lower(),
+                    func.lower(self.repository.model.preferred_username)
+                    == dto.preferred_username.lower(),
                 )
             ]
         )
@@ -73,7 +76,7 @@ class CreateUserCase(BaseUseCase[UserWithRelationsDTO]):
         if not existed_user_type:
             raise AppExceptionResponse.bad_request("Тип пользователя не найден")
 
-    async def transform(self,dto:UserCDTO,file:Optional[FileModel] = None):
+    async def transform(self, dto: UserCDTO, file: Optional[FileModel] = None):
         if file is not None:
             dto.file_id = file.id
         if dto.password_hash:

@@ -3,14 +3,12 @@ from app.adapters.api.file.file_api import FileApi
 from app.adapters.api.material.material_api import MaterialApi
 from app.adapters.api.operation.operation_api import OperationApi
 from app.adapters.api.order_status.order_status_api import OrderStatusApi
-from app.adapters.api.organization_type.organization_type_api import \
-    OrganizationTypeApi
+from app.adapters.api.organization_type.organization_type_api import OrganizationTypeApi
 from app.adapters.api.role.role_api import RoleApi
 from app.adapters.api.test.test_api import TestApi
 from app.adapters.api.user.user_api import UserApi
 from app.adapters.api.user_type.user_type_api import UserTypeApi
-from app.adapters.api.vehicle_category.vehicle_category_api import \
-    VehicleCategoryApi
+from app.adapters.api.vehicle_category.vehicle_category_api import VehicleCategoryApi
 from app.adapters.api.vehicle_color.vehicle_color_api import VehicleColorApi
 from app.adapters.api.workshop.workshop_api import WorkshopApi
 from app.adapters.api.workshop_schedule.workshop_schedule_api import WorkshopScheduleApi

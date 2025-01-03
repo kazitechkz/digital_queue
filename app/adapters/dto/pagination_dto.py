@@ -40,5 +40,6 @@ class BasePageModel(BaseModel):
 class PaginationUserWithRelationsDTO(BasePageModel):
     items: list[UserWithRelationsDTO]
 
+
 class PaginationFileRDTO(BasePageModel):
     items: list[FileRDTO]

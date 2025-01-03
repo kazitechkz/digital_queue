@@ -2,8 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.adapters.dto.material.material_dto import MaterialWithRelationsDTO
-from app.adapters.repositories.material.material_repository import \
-    MaterialRepository
+from app.adapters.repositories.material.material_repository import MaterialRepository
 from app.use_cases.base_case import BaseUseCase
 
 

@@ -1,9 +1,7 @@
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.user_type.user_type_dto import UserTypeRDTO
-from app.adapters.repositories.user_type.user_type_repository import \
-    UserTypeRepository
+from app.adapters.repositories.user_type.user_type_repository import UserTypeRepository
 from app.use_cases.base_case import BaseUseCase
 
 

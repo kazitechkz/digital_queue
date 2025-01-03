@@ -1,23 +1,23 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.vehicle_color.vehicle_color_dto import (VehicleColorCDTO,
-                                                              VehicleColorRDTO)
+from app.adapters.dto.vehicle_color.vehicle_color_dto import (
+    VehicleColorCDTO,
+    VehicleColorRDTO,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
-from app.use_cases.vehicle_color.all_vehicle_color_case import \
-    AllVehicleColorCase
-from app.use_cases.vehicle_color.create_vehicle_color_case import \
-    CreateVehicleColorCase
-from app.use_cases.vehicle_color.delete_vehicle_color_case import \
-    DeleteVehicleColorCase
-from app.use_cases.vehicle_color.get_vehicle_color_by_id_case import \
-    GetVehicleColorByIdCase
-from app.use_cases.vehicle_color.get_vehicle_color_by_value_case import \
-    GetVehicleColorByValueCase
-from app.use_cases.vehicle_color.update_vehicle_color_case import \
-    UpdateVehicleColorCase
+from app.use_cases.vehicle_color.all_vehicle_color_case import AllVehicleColorCase
+from app.use_cases.vehicle_color.create_vehicle_color_case import CreateVehicleColorCase
+from app.use_cases.vehicle_color.delete_vehicle_color_case import DeleteVehicleColorCase
+from app.use_cases.vehicle_color.get_vehicle_color_by_id_case import (
+    GetVehicleColorByIdCase,
+)
+from app.use_cases.vehicle_color.get_vehicle_color_by_value_case import (
+    GetVehicleColorByValueCase,
+)
+from app.use_cases.vehicle_color.update_vehicle_color_case import UpdateVehicleColorCase
 
 
 class VehicleColorApi:

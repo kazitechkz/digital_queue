@@ -69,7 +69,7 @@ class UserPasswordDTO(BaseModel):
 
 class UserWithRelationsDTO(UserRDTO):
     role: Optional[RoleRDTO] = None
-    user_type:Optional[UserTypeRDTO] = None
+    user_type: Optional[UserTypeRDTO] = None
     file: Optional[FileRDTO] = None
 
     class Config:

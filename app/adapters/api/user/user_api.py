@@ -62,7 +62,9 @@ class UserApi:
             description="Получение пользователя по уникальному значению в системе ИИН, НИКНЕЙМУ ИЛИ АЙДИ KEYCLOAK",
         )(self.get_by_value)
 
-    async def get_all(self,parameters:UserFilter=Depends(), db: AsyncSession = Depends(get_db)):
+    async def get_all(
+        self, parameters: UserFilter = Depends(), db: AsyncSession = Depends(get_db)
+    ):
         use_case = PaginateUserCase(db)
         try:
             return await use_case.execute(filter=parameters)

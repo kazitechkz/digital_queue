@@ -9,6 +9,7 @@ class UserTypeDTO(BaseModel):
     class Config:
         from_attributes = True
 
+
 class UserTypeCDTO(BaseModel):
     title: DTOConstant.StandardTitleField()
     value: DTOConstant.StandardUniqueValueField()
@@ -18,6 +19,7 @@ class UserTypeCDTO(BaseModel):
 
     class Config:
         from_attributes = True
+
 
 class UserTypeRDTO(UserTypeDTO):
     title: DTOConstant.StandardTitleField()

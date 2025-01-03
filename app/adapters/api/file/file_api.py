@@ -53,7 +53,9 @@ class FileApi:
             description="Получение файла по уникальному идентификатору",
         )(self.get)
 
-    async def get_all(self,parameters:FileFilter=Depends(), db: AsyncSession = Depends(get_db)):
+    async def get_all(
+        self, parameters: FileFilter = Depends(), db: AsyncSession = Depends(get_db)
+    ):
         use_case = PaginateFileCase(db)
         try:
             return await use_case.execute(filter=parameters)
@@ -83,13 +85,13 @@ class FileApi:
 
     async def create(
         self,
-        folder_name:str = Query(description="Наименование папки"),
+        folder_name: str = Query(description="Наименование папки"),
         file: UploadFile = File(),
         db: AsyncSession = Depends(get_db),
     ):
         use_case = SaveFileCase(db)
         try:
-            return await use_case.execute(file=file,uploaded_folder=folder_name)
+            return await use_case.execute(file=file, uploaded_folder=folder_name)
         except HTTPException as exc:
             raise exc
         except Exception as exc:

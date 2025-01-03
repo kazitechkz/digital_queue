@@ -8,10 +8,8 @@ from app.shared.path_constants import AppPathConstants
 from app.use_cases.user_type.all_user_type_case import AllUserTypeCase
 from app.use_cases.user_type.create_user_type_case import CreateUserTypeCase
 from app.use_cases.user_type.delete_user_type_case import DeleteUserTypeCase
-from app.use_cases.user_type.get_user_type_by_id_case import \
-    GetUserTypeByIdCase
-from app.use_cases.user_type.get_user_type_by_value_case import \
-    GetUserTypeByValueCase
+from app.use_cases.user_type.get_user_type_by_id_case import GetUserTypeByIdCase
+from app.use_cases.user_type.get_user_type_by_value_case import GetUserTypeByValueCase
 from app.use_cases.user_type.update_user_type_case import UpdateUserTypeCase
 
 

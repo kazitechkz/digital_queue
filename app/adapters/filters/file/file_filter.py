@@ -19,7 +19,11 @@ class FileFilter(BasePaginationFilter[FileModel]):
         ),
         order_by: Optional[str] = AppQueryConstants.StandardSortFieldQuery(),
         order_direction: Optional[str] = AppQueryConstants.StandardSortDirectionQuery(),
-        file_size_more_than_byte: Optional[int] = AppQueryConstants.StandardOptionalIntegerQuery(description="Укажите размер файла в байтах")
+        file_size_more_than_byte: Optional[
+            int
+        ] = AppQueryConstants.StandardOptionalIntegerQuery(
+            description="Укажите размер файла в байтах"
+        ),
     ):
         super().__init__(
             model=FileModel,
@@ -55,5 +59,5 @@ class FileFilter(BasePaginationFilter[FileModel]):
                     )
                 )
         if self.file_size_more_than_byte:
-            filters.append(and_(self.model.file_size >= self.file_size_more_than_byte ))
+            filters.append(and_(self.model.file_size >= self.file_size_more_than_byte))
         return filters

@@ -7,8 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.adapters.dto.user.user_dto import UserCDTO, UserWithRelationsDTO
 from app.adapters.repositories.role.role_repository import RoleRepository
 from app.adapters.repositories.user.user_repository import UserRepository
-from app.adapters.repositories.user_type.user_type_repository import \
-    UserTypeRepository
+from app.adapters.repositories.user_type.user_type_repository import UserTypeRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.core.auth_core import get_password_hash
 from app.entities import FileModel, UserModel
@@ -25,8 +24,10 @@ class UpdateUserCase(BaseUseCase[UserWithRelationsDTO]):
         self.service = FileService(db)
         self.extensions = AppFileExtensionConstants.IMAGE_EXTENSIONS
 
-    async def execute(self,id:int, dto: UserCDTO,file:Optional[UploadFile] = None) -> UserWithRelationsDTO:
-        model = await self.validate(id=id,dto=dto)
+    async def execute(
+        self, id: int, dto: UserCDTO, file: Optional[UploadFile] = None
+    ) -> UserWithRelationsDTO:
+        model = await self.validate(id=id, dto=dto)
         file_model = None
         if AppFileExtensionConstants.is_upload_file(file):
             file_model = await self.service.save_file(
@@ -34,26 +35,38 @@ class UpdateUserCase(BaseUseCase[UserWithRelationsDTO]):
                 uploaded_folder=AppFileExtensionConstants.UserFolderName,
                 extensions=self.extensions,
             )
-        dto = await self.transform(model=model,dto=dto,file=file_model)
-        model = await self.repository.update(obj=model,dto=dto)
+        dto = await self.transform(model=model, dto=dto, file=file_model)
+        model = await self.repository.update(obj=model, dto=dto)
         if not model:
-            raise AppExceptionResponse.internal_error(message="Ошибка при обновлении пользователя")
+            raise AppExceptionResponse.internal_error(
+                message="Ошибка при обновлении пользователя"
+            )
         model = await self.repository.get(
             id=model.id,
             options=self.repository.default_relationships(),
         )
         return UserWithRelationsDTO.from_orm(model)
 
-    async def validate(self,id:int, dto: UserCDTO):
+    async def validate(self, id: int, dto: UserCDTO):
         model = await self.repository.get(id=id)
         if model is None:
             raise AppExceptionResponse.not_found("Пользователь не найден")
         existed = await self.repository.get_first_with_filters(
             filters=[
                 or_(
-                    and_(func.lower(self.repository.model.iin) == dto.iin.lower(),self.repository.model.id != id),
-                    and_(func.lower(self.repository.model.sid) == dto.sid.lower(),self.repository.model.id != id),
-                    and_(func.lower(self.repository.model.preferred_username) == dto.preferred_username.lower(),self.repository.model.id != id),
+                    and_(
+                        func.lower(self.repository.model.iin) == dto.iin.lower(),
+                        self.repository.model.id != id,
+                    ),
+                    and_(
+                        func.lower(self.repository.model.sid) == dto.sid.lower(),
+                        self.repository.model.id != id,
+                    ),
+                    and_(
+                        func.lower(self.repository.model.preferred_username)
+                        == dto.preferred_username.lower(),
+                        self.repository.model.id != id,
+                    ),
                 )
             ]
         )
@@ -76,7 +89,9 @@ class UpdateUserCase(BaseUseCase[UserWithRelationsDTO]):
             raise AppExceptionResponse.bad_request("Тип пользователя не найден")
         return model
 
-    async def transform(self,model:UserModel,dto:UserCDTO,file:Optional[FileModel] = None):
+    async def transform(
+        self, model: UserModel, dto: UserCDTO, file: Optional[FileModel] = None
+    ):
         if file is not None:
             dto.file_id = file.id
         else:

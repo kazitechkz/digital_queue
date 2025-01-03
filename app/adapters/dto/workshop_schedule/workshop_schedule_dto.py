@@ -13,6 +13,7 @@ class WorkshopScheduleDTO(BaseModel):
     class Config:
         from_attributes = True
 
+
 class WorkshopScheduleCDTO(BaseModel):
     workshop_id: DTOConstant.StandardIntegerField()
     workshop_sap_id: DTOConstant.StandardVarcharField()
@@ -23,8 +24,8 @@ class WorkshopScheduleCDTO(BaseModel):
     car_service_min: DTOConstant.StandardUnsignedIntegerField()
     break_between_service_min: DTOConstant.StandardUnsignedIntegerField()
     machine_at_one_time: DTOConstant.StandardUnsignedIntegerField()
-    can_earlier_come_min:DTOConstant.StandardUnsignedIntegerField()
-    can_late_come_min:DTOConstant.StandardUnsignedIntegerField()
+    can_earlier_come_min: DTOConstant.StandardUnsignedIntegerField()
+    can_late_come_min: DTOConstant.StandardUnsignedIntegerField()
     is_active: DTOConstant.StandardBooleanTrueField()
 
     @model_validator(mode="after")
@@ -46,7 +47,6 @@ class WorkshopScheduleCDTO(BaseModel):
 
         return values
 
-
     class Config:
         from_attributes = True
 
@@ -67,6 +67,7 @@ class WorkshopScheduleRDTO(WorkshopScheduleDTO):
 
     class Config:
         from_attributes = True
+
 
 class WorkshopScheduleWithRelationsDTO(WorkshopScheduleRDTO):
     workshop: Optional[WorkshopRDTO] = None

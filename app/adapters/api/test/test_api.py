@@ -5,8 +5,7 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.adapters.dto.pagination_dto import (Pagination,
-                                             PaginationUserWithRelationsDTO)
+from app.adapters.dto.pagination_dto import Pagination, PaginationUserWithRelationsDTO
 from app.adapters.dto.role.role_dto import RoleCDTO
 from app.adapters.dto.user.user_dto import UserRDTO, UserWithRelationsDTO
 from app.adapters.filters.user.user_filter import UserFilter
@@ -39,7 +38,7 @@ class TestApi:
 
     async def post_test(
         self,
-        dto:RoleCDTO = Form(),
+        dto: RoleCDTO = Form(),
         file: UploadFile = File(default=None),
         db: AsyncSession = Depends(get_db),
     ):

@@ -15,5 +15,5 @@ class UserRepository(BaseRepository[UserModel]):
         return [
             selectinload(self.model.role),
             selectinload(self.model.file),
-            selectinload(self.model.user_type)
+            selectinload(self.model.user_type),
         ]

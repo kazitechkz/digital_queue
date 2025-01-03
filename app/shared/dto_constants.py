@@ -170,7 +170,6 @@ class DTOConstant:
     def StandardNullableTimeField(description="Опциональная время"):
         return Annotated[Optional[time], Field(default=None, description=description)]
 
-
     @staticmethod
     def StandardDateTimeField(description="Дата и время"):
         return Annotated[datetime, Field(description=description)]
