@@ -1,7 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.repositories.order_status.order_status_repository import \
-    OrderStatusRepository
+from app.adapters.repositories.order_status.order_status_repository import (
+    OrderStatusRepository,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.shared.db_constants import AppDbValueConstants
 from app.use_cases.base_case import BaseUseCase

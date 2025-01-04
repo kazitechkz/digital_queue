@@ -53,7 +53,6 @@ class UserRDTO(UserDTO):
     phone_verified: DTOConstant.StandardBooleanFalseField()
     tabn: DTOConstant.StandardNullableVarcharField()
     status: DTOConstant.StandardBooleanTrueField()
-    password_hash: DTOConstant.StandardNullableTextField()
 
     class Config:
         from_attributes = True

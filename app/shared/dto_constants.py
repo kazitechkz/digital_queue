@@ -120,6 +120,17 @@ class DTOConstant:
         ]
 
     @staticmethod
+    def StandardCarNumberField(description=None):
+        return Annotated[
+            str,
+            Field(
+                pattern=app_validation.CAR_NUMBER_REGEX,
+                max_length=FieldConstants.STANDARD_LENGTH,
+                description=description or "Уникальный номер автотранспорта 00XX(X)00",
+            ),
+        ]
+
+    @staticmethod
     def StandardBooleanTrueField(description="Флаг активности (по умолчанию True)"):
         return Annotated[bool, Field(default=True, description=description)]
 
@@ -178,6 +189,17 @@ class DTOConstant:
     def StandardNullableDateTimeField(description="Опциональная дата и время"):
         return Annotated[
             Optional[datetime], Field(default=None, description=description)
+        ]
+
+    @staticmethod
+    def StandardNullableIINField(description="Уникальный идентификатор ИИН"):
+        return Annotated[
+            Optional[str],
+            Field(
+                nullable=True,
+                pattern=app_validation.IIN_REGEX_STR,
+                description=description or "Уникальный 12-значный ИИН",
+            ),
         ]
 
     @staticmethod

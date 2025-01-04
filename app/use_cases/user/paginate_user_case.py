@@ -1,18 +1,17 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.pagination_dto import PaginationUserWithRelationsDTO
-from app.adapters.dto.role.role_dto import RoleRDTO
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
 from app.adapters.filters.user.user_filter import UserFilter
 from app.adapters.repositories.user.user_repository import UserRepository
 from app.use_cases.base_case import BaseUseCase
 
 
-class PaginateUserCase(BaseUseCase[list[RoleRDTO]]):
+class PaginateUserCase(BaseUseCase[PaginationUserWithRelationsDTO]):
     def __init__(self, db: AsyncSession):
         self.repository = UserRepository(db)
 
-    async def execute(self, filter: UserFilter) -> list[PaginationUserWithRelationsDTO]:
+    async def execute(self, filter: UserFilter) -> PaginationUserWithRelationsDTO:
         models = await self.repository.paginate(
             dto=UserWithRelationsDTO,
             page=filter.page,

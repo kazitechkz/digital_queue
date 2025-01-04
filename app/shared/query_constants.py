@@ -3,6 +3,7 @@ from typing import Annotated, Optional
 from fastapi import Query
 
 from app.shared.field_constants import FieldConstants
+from app.shared.validation_constants import app_validation
 
 
 class AppQueryConstants:
@@ -81,6 +82,24 @@ class AppQueryConstants:
     def StandardOptionalStringQuery(description="Опциональная строка"):
         return Query(
             default=None,
+            max_length=FieldConstants.STANDARD_LENGTH,
+            description=description,
+        )
+
+    @staticmethod
+    def StandardOptionalIINQuery(description="Опциональная строка ИИН"):
+        return Query(
+            default=None,
+            pattern=app_validation.IIN_REGEX,
+            max_length=FieldConstants.STANDARD_LENGTH,
+            description=description,
+        )
+
+    @staticmethod
+    def StandardOptionalBINQuery(description="Опциональная строка БИН"):
+        return Query(
+            default=None,
+            pattern=app_validation.BIN_REGEX,
             max_length=FieldConstants.STANDARD_LENGTH,
             description=description,
         )

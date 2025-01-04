@@ -2,9 +2,12 @@ from sqlalchemy import func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.organization_type.organization_type_dto import (
-    OrganizationTypeCDTO, OrganizationTypeRDTO)
-from app.adapters.repositories.organization_type.organization_type_repository import \
-    OrganizationTypeRepository
+    OrganizationTypeCDTO,
+    OrganizationTypeRDTO,
+)
+from app.adapters.repositories.organization_type.organization_type_repository import (
+    OrganizationTypeRepository,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.use_cases.base_case import BaseUseCase
 

@@ -8,6 +8,8 @@ class AppFileExtensionConstants:
     WorkshopFolderName = "workshops"
     MaterialFolderName = "materials"
     UserFolderName = "users"
+    OrganizationFolderName = "organizations"
+    VehicleFolderName = "vehicles"
     # Расширения для изображений
     IMAGE_EXTENSIONS = {
         ".jpg",

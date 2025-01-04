@@ -1,6 +1,7 @@
 from typing import Optional
 
 from pydantic import BaseModel, model_validator
+from typing_extensions import Self
 
 from app.adapters.dto.workshop.workshop_dto import WorkshopRDTO
 from app.core.app_exception_response import AppExceptionResponse
@@ -29,23 +30,23 @@ class WorkshopScheduleCDTO(BaseModel):
     is_active: DTOConstant.StandardBooleanTrueField()
 
     @model_validator(mode="after")
-    def check_dates_and_times(self, values):
-        date_start = values.get("date_start")
-        date_end = values.get("date_end")
-        start_at = values.get("start_at")
-        end_at = values.get("end_at")
+    def check_dates_and_times(self) -> Self:
+        date_start = self.date_start
+        date_end = self.date_end
+        start_at = self.start_at
+        end_at = self.end_at
 
         # Проверка, что дата окончания больше даты начала
         if date_start and date_end and date_end <= date_start:
-            msg = "Дата окнчания должна быть больше даты начала"
+            msg = "Дата окончания должна быть больше даты начала"
             raise AppExceptionResponse.bad_request(message=msg)
 
         # Проверка, что время окончания больше времени начала
         if start_at and end_at and end_at <= start_at:
-            msg = "Время окончания работы должна быть больше даты начала"
+            msg = "Время окончания работы должна быть больше времени начала"
             raise AppExceptionResponse.bad_request(message=msg)
 
-        return values
+        return self
 
     class Config:
         from_attributes = True

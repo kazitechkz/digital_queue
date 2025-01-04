@@ -2,9 +2,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.adapters.dto.order_status.order_status_dto import (
-    OrderStatusRDTO, OrderStatusWithRelationsDTO)
-from app.adapters.repositories.order_status.order_status_repository import \
-    OrderStatusRepository
+    OrderStatusRDTO,
+    OrderStatusWithRelationsDTO,
+)
+from app.adapters.repositories.order_status.order_status_repository import (
+    OrderStatusRepository,
+)
 from app.use_cases.base_case import BaseUseCase
 
 
