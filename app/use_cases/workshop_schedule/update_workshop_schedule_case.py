@@ -3,13 +3,11 @@ from operator import and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.workshop_schedule.workshop_schedule_dto import (
-    WorkshopScheduleCDTO,
-    WorkshopScheduleWithRelationsDTO,
-)
-from app.adapters.repositories.workshop.workshop_repository import WorkshopRepository
-from app.adapters.repositories.workshop_schdedule.workshop_schedule_repository import (
-    WorkshopScheduleRepository,
-)
+    WorkshopScheduleCDTO, WorkshopScheduleWithRelationsDTO)
+from app.adapters.repositories.workshop.workshop_repository import \
+    WorkshopRepository
+from app.adapters.repositories.workshop_schdedule.workshop_schedule_repository import \
+    WorkshopScheduleRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.use_cases.base_case import BaseUseCase
 

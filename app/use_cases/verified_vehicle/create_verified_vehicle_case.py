@@ -1,14 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.verified_vehicle.verified_vehicle_dto import (
-    VerifiedVehicleCDTO,
-    VerifiedVehicleWithRelationsDTO,
-)
+    VerifiedVehicleCDTO, VerifiedVehicleWithRelationsDTO)
 from app.adapters.repositories.user.user_repository import UserRepository
-from app.adapters.repositories.vehicle.vehicle_repository import VehicleRepository
-from app.adapters.repositories.verified_vehicle.verified_verticle_repository import (
-    VerifiedVehicleRepository,
-)
+from app.adapters.repositories.vehicle.vehicle_repository import \
+    VehicleRepository
+from app.adapters.repositories.verified_vehicle.verified_verticle_repository import \
+    VerifiedVehicleRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.use_cases.base_case import BaseUseCase
 

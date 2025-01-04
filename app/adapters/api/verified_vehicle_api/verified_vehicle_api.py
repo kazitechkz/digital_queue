@@ -1,35 +1,27 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.pagination_dto import PaginationVerifiedVehicleWithRelationsDTO
+from app.adapters.dto.pagination_dto import \
+    PaginationVerifiedVehicleWithRelationsDTO
 from app.adapters.dto.verified_vehicle.verified_vehicle_dto import (
-    VerifiedVehicleCDTO,
-    VerifiedVehicleWithRelationsDTO,
-)
-from app.adapters.filters.verified_vehicle.verified_vehicle_filter import (
-    VerifiedVehicleFilter,
-)
+    VerifiedVehicleCDTO, VerifiedVehicleWithRelationsDTO)
+from app.adapters.filters.verified_vehicle.verified_vehicle_filter import \
+    VerifiedVehicleFilter
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
-from app.use_cases.verified_vehicle.create_verified_vehicle_case import (
-    CreateVerifiedVehicleCase,
-)
-from app.use_cases.verified_vehicle.delete_verified_vehicle_case import (
-    DeleteVerifiedVehicleCase,
-)
-from app.use_cases.verified_vehicle.get_verified_vehicle_by_id_case import (
-    GetVerifiedVehicleByIdCase,
-)
-from app.use_cases.verified_vehicle.get_verified_vehicle_by_value_case import (
-    GetVerifiedVehicleByValueCase,
-)
-from app.use_cases.verified_vehicle.paginate_verified_vehicle_case import (
-    PaginateVerifiedVehicleCase,
-)
-from app.use_cases.verified_vehicle.update_verified_vehicle_case import (
-    UpdateVerifiedVehicleCase,
-)
+from app.use_cases.verified_vehicle.create_verified_vehicle_case import \
+    CreateVerifiedVehicleCase
+from app.use_cases.verified_vehicle.delete_verified_vehicle_case import \
+    DeleteVerifiedVehicleCase
+from app.use_cases.verified_vehicle.get_verified_vehicle_by_id_case import \
+    GetVerifiedVehicleByIdCase
+from app.use_cases.verified_vehicle.get_verified_vehicle_by_value_case import \
+    GetVerifiedVehicleByValueCase
+from app.use_cases.verified_vehicle.paginate_verified_vehicle_case import \
+    PaginateVerifiedVehicleCase
+from app.use_cases.verified_vehicle.update_verified_vehicle_case import \
+    UpdateVerifiedVehicleCase
 
 
 class VerifiedVehicleApi:

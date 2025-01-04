@@ -4,18 +4,17 @@ from fastapi import UploadFile
 from sqlalchemy import and_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.vehicle.vehicle_dto import VehicleCDTO, VehicleWithRelationsDTO
-from app.adapters.repositories.organization.organization_repository import (
-    OrganizationRepository,
-)
+from app.adapters.dto.vehicle.vehicle_dto import (VehicleCDTO,
+                                                  VehicleWithRelationsDTO)
+from app.adapters.repositories.organization.organization_repository import \
+    OrganizationRepository
 from app.adapters.repositories.user.user_repository import UserRepository
-from app.adapters.repositories.vehicle.vehicle_repository import VehicleRepository
-from app.adapters.repositories.vehicle_category.vehicle_category_repository import (
-    VehicleCategoryRepository,
-)
-from app.adapters.repositories.vehicle_color.vehicle_color_repository import (
-    VehicleColorRepository,
-)
+from app.adapters.repositories.vehicle.vehicle_repository import \
+    VehicleRepository
+from app.adapters.repositories.vehicle_category.vehicle_category_repository import \
+    VehicleCategoryRepository
+from app.adapters.repositories.vehicle_color.vehicle_color_repository import \
+    VehicleColorRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import FileModel, VehicleModel
 from app.infrastructure.services.file_service import FileService

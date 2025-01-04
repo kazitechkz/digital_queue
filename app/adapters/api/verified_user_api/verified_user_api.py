@@ -1,28 +1,27 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.pagination_dto import PaginationVerifiedUserWithRelationsDTO
+from app.adapters.dto.pagination_dto import \
+    PaginationVerifiedUserWithRelationsDTO
 from app.adapters.dto.verified_user.verified_user_dto import (
-    VerifiedUserCDTO,
-    VerifiedUserRDTO,
-    VerifiedUserWithRelationsDTO,
-)
-from app.adapters.filters.verified_user.verified_user_filter import VerifiedUserFilter
+    VerifiedUserCDTO, VerifiedUserRDTO, VerifiedUserWithRelationsDTO)
+from app.adapters.filters.verified_user.verified_user_filter import \
+    VerifiedUserFilter
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
-from app.use_cases.verified_user.create_verified_user_case import CreateVerifiedUserCase
-from app.use_cases.verified_user.delete_verified_user_case import DeleteVerifiedUserCase
-from app.use_cases.verified_user.get_verified_user_by_id_case import (
-    GetVerifiedUserByIdCase,
-)
-from app.use_cases.verified_user.get_verified_user_by_value_case import (
-    GetVerifiedUserByValueCase,
-)
-from app.use_cases.verified_user.paginate_verified_user_case import (
-    PaginateVerifiedUserCase,
-)
-from app.use_cases.verified_user.update_verified_user_case import UpdateVerifiedUserCase
+from app.use_cases.verified_user.create_verified_user_case import \
+    CreateVerifiedUserCase
+from app.use_cases.verified_user.delete_verified_user_case import \
+    DeleteVerifiedUserCase
+from app.use_cases.verified_user.get_verified_user_by_id_case import \
+    GetVerifiedUserByIdCase
+from app.use_cases.verified_user.get_verified_user_by_value_case import \
+    GetVerifiedUserByValueCase
+from app.use_cases.verified_user.paginate_verified_user_case import \
+    PaginateVerifiedUserCase
+from app.use_cases.verified_user.update_verified_user_case import \
+    UpdateVerifiedUserCase
 
 
 class VerifiedUserApi:

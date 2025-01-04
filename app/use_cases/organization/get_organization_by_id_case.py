@@ -1,9 +1,9 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.organization.organization_dto import OrganizationWithRelationsDTO
-from app.adapters.repositories.organization.organization_repository import (
-    OrganizationRepository,
-)
+from app.adapters.dto.organization.organization_dto import \
+    OrganizationWithRelationsDTO
+from app.adapters.repositories.organization.organization_repository import \
+    OrganizationRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.use_cases.base_case import BaseUseCase
 

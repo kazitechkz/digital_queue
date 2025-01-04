@@ -2,7 +2,8 @@ from sqlalchemy import and_, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.vehicle.vehicle_dto import VehicleWithRelationsDTO
-from app.adapters.repositories.vehicle.vehicle_repository import VehicleRepository
+from app.adapters.repositories.vehicle.vehicle_repository import \
+    VehicleRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.use_cases.base_case import BaseUseCase
 

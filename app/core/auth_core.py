@@ -1,14 +1,16 @@
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 from http.client import HTTPException
 from typing import Dict, List
+
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
-from jose import jwt, JWTError
+from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from starlette import status
+
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
 from app.entities import UserModel
 from app.infrastructure.config import app_config
@@ -49,7 +51,9 @@ def create_refresh_token(data: int) -> str:
 def decode_jwt(token: str, token_type: str) -> Dict:
     """Декодирует JWT-токен и проверяет его тип."""
     try:
-        decoded_data = jwt.decode(token, app_config.SECRET_KEY, algorithms=[app_config.algorithm])
+        decoded_data = jwt.decode(
+            token, app_config.SECRET_KEY, algorithms=[app_config.algorithm]
+        )
         if decoded_data.get("type") != token_type:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
@@ -109,7 +113,9 @@ async def get_current_user(
 
 
 # === Универсальные проверки ролей и типов ===
-def check_roles(current_user: UserWithRelationsDTO, roles: List[str]) -> UserWithRelationsDTO:
+def check_roles(
+    current_user: UserWithRelationsDTO, roles: List[str]
+) -> UserWithRelationsDTO:
     """Проверяет, принадлежит ли пользователь к указанным ролям."""
     if current_user.role.value not in roles:
         raise HTTPException(
@@ -119,7 +125,9 @@ def check_roles(current_user: UserWithRelationsDTO, roles: List[str]) -> UserWit
     return current_user
 
 
-def check_user_type(current_user: UserWithRelationsDTO, user_type: str) -> UserWithRelationsDTO:
+def check_user_type(
+    current_user: UserWithRelationsDTO, user_type: str
+) -> UserWithRelationsDTO:
     """Проверяет тип пользователя."""
     if current_user.user_type.value != user_type:
         raise HTTPException(
@@ -142,7 +150,9 @@ def check_client(current_user: UserWithRelationsDTO = Depends(get_current_user))
     return check_roles(current_user, [AppDbValueConstants.RoleClientValue])
 
 
-def check_individual_client(current_user: UserWithRelationsDTO = Depends(get_current_user)):
+def check_individual_client(
+    current_user: UserWithRelationsDTO = Depends(get_current_user),
+):
     check_roles(current_user, [AppDbValueConstants.RoleClientValue])
     return check_user_type(current_user, AppDbValueConstants.UserIndividualTypeValue)
 
@@ -153,7 +163,9 @@ def check_legal_client(current_user: UserWithRelationsDTO = Depends(get_current_
 
 
 # Пример объединенной проверки
-def check_admin_and_employee(current_user: UserWithRelationsDTO = Depends(get_current_user)):
+def check_admin_and_employee(
+    current_user: UserWithRelationsDTO = Depends(get_current_user),
+):
     return check_roles(
         current_user,
         [

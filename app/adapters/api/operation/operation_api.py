@@ -2,17 +2,17 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.operation.operation_dto import (
-    OperationCDTO,
-    OperationWithRelationsDTO,
-)
+    OperationCDTO, OperationWithRelationsDTO)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
 from app.use_cases.operation.all_operation_case import AllOperationCase
 from app.use_cases.operation.create_operation_case import CreateOperationCase
 from app.use_cases.operation.delete_operation_case import DeleteOperationCase
-from app.use_cases.operation.get_operation_by_id_case import GetOperationByIdCase
-from app.use_cases.operation.get_operation_by_value_case import GetOperationByValueCase
+from app.use_cases.operation.get_operation_by_id_case import \
+    GetOperationByIdCase
+from app.use_cases.operation.get_operation_by_value_case import \
+    GetOperationByValueCase
 from app.use_cases.operation.update_operation_case import UpdateOperationCase
 
 

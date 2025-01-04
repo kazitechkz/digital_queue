@@ -3,20 +3,27 @@ from typing import Optional
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.organization_employee.organization_employee_dto import OrganizationEmployeeWithRelationsDTO, \
-    OrganizationEmployeeCDTO
-from app.adapters.dto.pagination_dto import PaginationOrganizationEmployeeWithRelationsDTO
-from app.adapters.filters.organization_employee.organization_employee_filter import OrganizationEmployeeFilter
+from app.adapters.dto.organization_employee.organization_employee_dto import (
+    OrganizationEmployeeCDTO, OrganizationEmployeeWithRelationsDTO)
+from app.adapters.dto.pagination_dto import \
+    PaginationOrganizationEmployeeWithRelationsDTO
+from app.adapters.filters.organization_employee.organization_employee_filter import \
+    OrganizationEmployeeFilter
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
-from app.use_cases.organization_employee.create_organization_employee_case import CreateOrganizationEmployeeCase
-from app.use_cases.organization_employee.delete_organization_employee_case import DeleteOrganizationEmployeeCase
-from app.use_cases.organization_employee.get_organization_employee_by_id_case import GetOrganizationEmployeeByIdCase
+from app.use_cases.organization_employee.create_organization_employee_case import \
+    CreateOrganizationEmployeeCase
+from app.use_cases.organization_employee.delete_organization_employee_case import \
+    DeleteOrganizationEmployeeCase
+from app.use_cases.organization_employee.get_organization_employee_by_id_case import \
+    GetOrganizationEmployeeByIdCase
 from app.use_cases.organization_employee.get_organization_employee_by_value_case import \
     GetOrganizationEmployeeByValueCase
-from app.use_cases.organization_employee.paginate_organization_employee_case import PaginateOrganizationEmployeeCase
-from app.use_cases.organization_employee.update_organization_employee_case import UpdateOrganizationEmployeeCase
+from app.use_cases.organization_employee.paginate_organization_employee_case import \
+    PaginateOrganizationEmployeeCase
+from app.use_cases.organization_employee.update_organization_employee_case import \
+    UpdateOrganizationEmployeeCase
 
 
 class OrganizationEmployeeApi:

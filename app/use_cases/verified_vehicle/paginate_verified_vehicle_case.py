@@ -1,15 +1,13 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.pagination_dto import PaginationVerifiedVehicleWithRelationsDTO
-from app.adapters.dto.verified_vehicle.verified_vehicle_dto import (
-    VerifiedVehicleWithRelationsDTO,
-)
-from app.adapters.filters.verified_vehicle.verified_vehicle_filter import (
-    VerifiedVehicleFilter,
-)
-from app.adapters.repositories.verified_vehicle.verified_verticle_repository import (
-    VerifiedVehicleRepository,
-)
+from app.adapters.dto.pagination_dto import \
+    PaginationVerifiedVehicleWithRelationsDTO
+from app.adapters.dto.verified_vehicle.verified_vehicle_dto import \
+    VerifiedVehicleWithRelationsDTO
+from app.adapters.filters.verified_vehicle.verified_vehicle_filter import \
+    VerifiedVehicleFilter
+from app.adapters.repositories.verified_vehicle.verified_verticle_repository import \
+    VerifiedVehicleRepository
 from app.use_cases.base_case import BaseUseCase
 
 

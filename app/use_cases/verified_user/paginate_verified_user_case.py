@@ -1,13 +1,13 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.pagination_dto import PaginationVerifiedUserWithRelationsDTO
-from app.adapters.dto.verified_user.verified_user_dto import (
-    VerifiedUserWithRelationsDTO,
-)
-from app.adapters.filters.verified_user.verified_user_filter import VerifiedUserFilter
-from app.adapters.repositories.verified_user.verified_user_repository import (
-    VerifiedUserRepository,
-)
+from app.adapters.dto.pagination_dto import \
+    PaginationVerifiedUserWithRelationsDTO
+from app.adapters.dto.verified_user.verified_user_dto import \
+    VerifiedUserWithRelationsDTO
+from app.adapters.filters.verified_user.verified_user_filter import \
+    VerifiedUserFilter
+from app.adapters.repositories.verified_user.verified_user_repository import \
+    VerifiedUserRepository
 from app.use_cases.base_case import BaseUseCase
 
 

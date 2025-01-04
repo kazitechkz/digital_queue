@@ -1,11 +1,13 @@
 from typing import Optional
+
 from fastapi import UploadFile
 from sqlalchemy import and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.organization_employee.organization_employee_dto import OrganizationEmployeeWithRelationsDTO, \
-    OrganizationEmployeeCDTO
-from app.adapters.repositories.organization.organization_repository import OrganizationRepository
+from app.adapters.dto.organization_employee.organization_employee_dto import (
+    OrganizationEmployeeCDTO, OrganizationEmployeeWithRelationsDTO)
+from app.adapters.repositories.organization.organization_repository import \
+    OrganizationRepository
 from app.adapters.repositories.organization_employee.organization_employee_repository import \
     OrganizationEmployeeRepository
 from app.adapters.repositories.user.user_repository import UserRepository
@@ -52,9 +54,7 @@ class CreateOrganizationEmployeeCase(BaseUseCase[OrganizationEmployeeWithRelatio
 
         organization = await self.organization_repository.get(id=dto.id)
         if not organization:
-            raise AppExceptionResponse().bad_request(
-                message="Организация не найдена"
-            )
+            raise AppExceptionResponse().bad_request(message="Организация не найдена")
         existed_organization_employee = await self.repository.get_first_with_filters(
             filters=[
                 and_(
@@ -71,6 +71,3 @@ class CreateOrganizationEmployeeCase(BaseUseCase[OrganizationEmployeeWithRelatio
         dto.bin = organization.bin
         dto.sid = user.sid
         return dto
-
-
-

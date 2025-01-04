@@ -3,7 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.adapters.dto.operation.operation_dto import OperationWithRelationsDTO
-from app.adapters.repositories.operation.operation_repository import OperationRepository
+from app.adapters.repositories.operation.operation_repository import \
+    OperationRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.use_cases.base_case import BaseUseCase
 

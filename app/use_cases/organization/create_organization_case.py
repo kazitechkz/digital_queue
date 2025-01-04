@@ -5,15 +5,11 @@ from sqlalchemy import and_, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.organization.organization_dto import (
-    OrganizationCDTO,
-    OrganizationWithRelationsDTO,
-)
-from app.adapters.repositories.organization.organization_repository import (
-    OrganizationRepository,
-)
-from app.adapters.repositories.organization_type.organization_type_repository import (
-    OrganizationTypeRepository,
-)
+    OrganizationCDTO, OrganizationWithRelationsDTO)
+from app.adapters.repositories.organization.organization_repository import \
+    OrganizationRepository
+from app.adapters.repositories.organization_type.organization_type_repository import \
+    OrganizationTypeRepository
 from app.adapters.repositories.user.user_repository import UserRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import FileModel

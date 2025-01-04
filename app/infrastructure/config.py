@@ -52,6 +52,10 @@ class AppConfiguration(BaseSettings):
     keycloak_realm: str = Field(..., env="KEYCLOAK_REALM")
     keycloak_client_id: str = Field(..., env="KEYCLOAK_CLIENT_ID")
     keycloak_client_secret: str = Field(..., env="KEYCLOAK_CLIENT_SECRET")
+    # User Repo For Check
+    app_user_repo_dev_url: str = Field(..., env="APP_USER_REPO_DEV_URL")
+    app_user_repo_stage_url: str = Field(..., env="APP_USER_REPO_STAGE_URL")
+    app_user_repo_prod_url: str = Field(..., env="APP_USER_REPO_PROD_URL")
     # File Settings
     static_folder: Optional[str] = Field(default="static", env="STATIC_FOLDER")
     upload_folder: Optional[str] = Field(default="upload", env="UPLOAD_FOLDER")
@@ -61,7 +65,7 @@ class AppConfiguration(BaseSettings):
     not_allowed_extensions: Optional[list[str]] = Field(
         default={}, env="NOT_ALLOWED_EXTENSIONS"
     )
-    #Security Issues and Vezdehod
+    # Security Issues and Vezdehod
     check_verified_user: bool = Field(default=False, env="CHECK_VERIFIED_USER")
     check_verified_vehicle: bool = Field(default=False, env="CHECK_VERIFIED_VEHICLE")
 

@@ -4,7 +4,8 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.pagination_dto import PaginationVehicleWithRelationsDTO
-from app.adapters.dto.vehicle.vehicle_dto import VehicleCDTO, VehicleWithRelationsDTO
+from app.adapters.dto.vehicle.vehicle_dto import (VehicleCDTO,
+                                                  VehicleWithRelationsDTO)
 from app.adapters.filters.vehicle.vehicle_filter import VehicleFilter
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
@@ -14,7 +15,8 @@ from app.use_cases.file.save_file_case import SaveFileCase
 from app.use_cases.vehicle.create_vehicle_case import CreateVehicleCase
 from app.use_cases.vehicle.delete_vehicle_case import DeleteVehicleCase
 from app.use_cases.vehicle.get_vehicle_by_id_case import GetVehicleByIdCase
-from app.use_cases.vehicle.get_vehicle_by_value_case import GetVehicleByValueCase
+from app.use_cases.vehicle.get_vehicle_by_value_case import \
+    GetVehicleByValueCase
 from app.use_cases.vehicle.paginate_vehicle_case import PaginateVehicleCase
 from app.use_cases.vehicle.update_vehicle_case import UpdateVehicleCase
 

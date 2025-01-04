@@ -2,23 +2,21 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.order_status.order_status_dto import (
-    OrderStatusCDTO,
-    OrderStatusRDTO,
-    OrderStatusWithRelationsDTO,
-)
+    OrderStatusCDTO, OrderStatusRDTO, OrderStatusWithRelationsDTO)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
 from app.use_cases.order_status.all_order_status_case import AllOrderStatusCase
-from app.use_cases.order_status.create_order_status_case import CreateOrderStatusCase
-from app.use_cases.order_status.delete_order_status_case import DeleteOrderStatusCase
-from app.use_cases.order_status.get_order_status_by_id_case import (
-    GetOrderStatusByIdCase,
-)
-from app.use_cases.order_status.get_order_status_by_value_case import (
-    GetOrderStatusByValueCase,
-)
-from app.use_cases.order_status.update_order_status_case import UpdateOrderStatusCase
+from app.use_cases.order_status.create_order_status_case import \
+    CreateOrderStatusCase
+from app.use_cases.order_status.delete_order_status_case import \
+    DeleteOrderStatusCase
+from app.use_cases.order_status.get_order_status_by_id_case import \
+    GetOrderStatusByIdCase
+from app.use_cases.order_status.get_order_status_by_value_case import \
+    GetOrderStatusByValueCase
+from app.use_cases.order_status.update_order_status_case import \
+    UpdateOrderStatusCase
 
 
 class OrderStatusApi:

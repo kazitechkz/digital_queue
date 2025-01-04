@@ -1,14 +1,19 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.organization_employee.organization_employee_dto import OrganizationEmployeeWithRelationsDTO
-from app.adapters.dto.pagination_dto import PaginationOrganizationEmployeeWithRelationsDTO
-from app.adapters.filters.organization_employee.organization_employee_filter import OrganizationEmployeeFilter
+from app.adapters.dto.organization_employee.organization_employee_dto import \
+    OrganizationEmployeeWithRelationsDTO
+from app.adapters.dto.pagination_dto import \
+    PaginationOrganizationEmployeeWithRelationsDTO
+from app.adapters.filters.organization_employee.organization_employee_filter import \
+    OrganizationEmployeeFilter
 from app.adapters.repositories.organization_employee.organization_employee_repository import \
     OrganizationEmployeeRepository
 from app.use_cases.base_case import BaseUseCase
 
 
-class PaginateOrganizationEmployeeCase(BaseUseCase[PaginationOrganizationEmployeeWithRelationsDTO]):
+class PaginateOrganizationEmployeeCase(
+    BaseUseCase[PaginationOrganizationEmployeeWithRelationsDTO]
+):
     def __init__(self, db: AsyncSession):
         self.repository = OrganizationEmployeeRepository(db)
 

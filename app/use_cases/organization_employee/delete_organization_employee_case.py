@@ -21,4 +21,6 @@ class DeleteOrganizationEmployeeCase(BaseUseCase[bool]):
     async def validate(self, id: int):
         existed = await self.repository.get(id=id)
         if existed is None:
-            raise AppExceptionResponse.not_found(message="Организация-работник не найдена")
+            raise AppExceptionResponse.not_found(
+                message="Организация-работник не найдена"
+            )

@@ -4,26 +4,26 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.organization.organization_dto import (
-    OrganizationCDTO,
-    OrganizationWithRelationsDTO,
-)
-from app.adapters.dto.pagination_dto import PaginationOrganizationWithRelationsDTO
-from app.adapters.filters.organization.organization_filter import OrganizationFilter
+    OrganizationCDTO, OrganizationWithRelationsDTO)
+from app.adapters.dto.pagination_dto import \
+    PaginationOrganizationWithRelationsDTO
+from app.adapters.filters.organization.organization_filter import \
+    OrganizationFilter
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
-from app.use_cases.organization.create_organization_case import CreateOrganizationCase
-from app.use_cases.organization.delete_organization_case import DeleteOrganizationCase
-from app.use_cases.organization.get_organization_by_id_case import (
-    GetOrganizationByIdCase,
-)
-from app.use_cases.organization.get_organization_by_value_case import (
-    GetOrganizationByValueCase,
-)
-from app.use_cases.organization.paginate_organization_case import (
-    PaginateOrganizationCase,
-)
-from app.use_cases.organization.update_organization_case import UpdateOrganizationCase
+from app.use_cases.organization.create_organization_case import \
+    CreateOrganizationCase
+from app.use_cases.organization.delete_organization_case import \
+    DeleteOrganizationCase
+from app.use_cases.organization.get_organization_by_id_case import \
+    GetOrganizationByIdCase
+from app.use_cases.organization.get_organization_by_value_case import \
+    GetOrganizationByValueCase
+from app.use_cases.organization.paginate_organization_case import \
+    PaginateOrganizationCase
+from app.use_cases.organization.update_organization_case import \
+    UpdateOrganizationCase
 
 
 class OrganizationApi:

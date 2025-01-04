@@ -3,7 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.adapters.dto.pagination_dto import PaginationVehicleWithRelationsDTO
 from app.adapters.dto.vehicle.vehicle_dto import VehicleWithRelationsDTO
 from app.adapters.filters.vehicle.vehicle_filter import VehicleFilter
-from app.adapters.repositories.vehicle.vehicle_repository import VehicleRepository
+from app.adapters.repositories.vehicle.vehicle_repository import \
+    VehicleRepository
 from app.use_cases.base_case import BaseUseCase
 
 

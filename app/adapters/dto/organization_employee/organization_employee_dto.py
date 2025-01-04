@@ -8,7 +8,7 @@ from app.shared.dto_constants import DTOConstant
 
 
 class OrganizationEmployeeDTO(BaseModel):
-    id:DTOConstant.StandardID()
+    id: DTOConstant.StandardID()
 
     class Config:
         from_attributes = True
@@ -35,10 +35,11 @@ class OrganizationEmployeeRDTO(OrganizationEmployeeDTO):
     class Config:
         from_attributes = True
 
+
 class OrganizationEmployeeWithRelationsDTO(OrganizationEmployeeRDTO):
-    organization:Optional[OrganizationRDTO] = None
-    employee:Optional[UserRDTO] = None
-    #request:Optional[EmployeeRequestRDTO] = None
+    organization: Optional[OrganizationRDTO] = None
+    employee: Optional[UserRDTO] = None
+    # request:Optional[EmployeeRequestRDTO] = None
 
     class Config:
         from_attributes = True

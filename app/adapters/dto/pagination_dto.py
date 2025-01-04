@@ -3,16 +3,16 @@ from typing import Generic, List, TypeVar
 from pydantic import BaseModel
 
 from app.adapters.dto.file.file_dto import FileRDTO
-from app.adapters.dto.organization.organization_dto import OrganizationWithRelationsDTO
-from app.adapters.dto.organization_employee.organization_employee_dto import OrganizationEmployeeWithRelationsDTO
+from app.adapters.dto.organization.organization_dto import \
+    OrganizationWithRelationsDTO
+from app.adapters.dto.organization_employee.organization_employee_dto import \
+    OrganizationEmployeeWithRelationsDTO
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
 from app.adapters.dto.vehicle.vehicle_dto import VehicleWithRelationsDTO
-from app.adapters.dto.verified_user.verified_user_dto import (
-    VerifiedUserWithRelationsDTO,
-)
-from app.adapters.dto.verified_vehicle.verified_vehicle_dto import (
-    VerifiedVehicleWithRelationsDTO,
-)
+from app.adapters.dto.verified_user.verified_user_dto import \
+    VerifiedUserWithRelationsDTO
+from app.adapters.dto.verified_vehicle.verified_vehicle_dto import \
+    VerifiedVehicleWithRelationsDTO
 
 T = TypeVar("T")
 
@@ -68,6 +68,7 @@ class PaginationVerifiedUserWithRelationsDTO(BasePageModel):
 
 class PaginationVerifiedVehicleWithRelationsDTO(BasePageModel):
     items: List[VerifiedVehicleWithRelationsDTO]
+
 
 class PaginationOrganizationEmployeeWithRelationsDTO(BasePageModel):
     items: List[OrganizationEmployeeWithRelationsDTO]
