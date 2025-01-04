@@ -61,6 +61,9 @@ class AppConfiguration(BaseSettings):
     not_allowed_extensions: Optional[list[str]] = Field(
         default={}, env="NOT_ALLOWED_EXTENSIONS"
     )
+    #Security Issues and Vezdehod
+    check_verified_user: bool = Field(default=False, env="CHECK_VERIFIED_USER")
+    check_verified_vehicle: bool = Field(default=False, env="CHECK_VERIFIED_VEHICLE")
 
     @property
     def get_connection_url(self) -> str:

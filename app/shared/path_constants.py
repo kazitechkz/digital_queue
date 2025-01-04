@@ -47,3 +47,5 @@ class AppPathConstants:
     VerifiedUserTagName = "Подтвержденные пользователи"
     VerifiedVehiclePathName = "verified-vehicle"
     VerifiedVehicleTagName = "Подтвержденные транспортные средства (ТС)"
+    OrganizationEmployeePathName = "organization-employee"
+    OrganizationEmployeeTagName = "Работники Организации"

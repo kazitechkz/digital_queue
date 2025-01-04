@@ -7,7 +7,6 @@ from app.shared.db_constants import DbColumnConstants, DbRelationshipConstants
 
 class OrganizationEmployeeModel(Base):
     __tablename__ = AppTableNames.OrganizationEmployeeTableName
-
     # Уникальный идентификатор
     id: Mapped[DbColumnConstants.ID]
     # Идентификатор организации

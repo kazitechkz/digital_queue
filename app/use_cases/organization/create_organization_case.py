@@ -41,7 +41,7 @@ class CreateOrganizationCase(BaseUseCase[OrganizationWithRelationsDTO]):
                 uploaded_folder=AppFileExtensionConstants.OrganizationFolderName,
                 extensions=self.extensions,
             )
-            await self.transform(dto=dto, file=file_model)
+            dto = await self.transform(dto=dto, file=file_model)
         model = await self.repository.create(obj=self.repository.model(**dto.dict()))
         if not model:
             raise AppExceptionResponse().internal_error(

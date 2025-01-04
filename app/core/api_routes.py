@@ -4,6 +4,7 @@ from app.adapters.api.material.material_api import MaterialApi
 from app.adapters.api.operation.operation_api import OperationApi
 from app.adapters.api.order_status.order_status_api import OrderStatusApi
 from app.adapters.api.organization.organization_api import OrganizationApi
+from app.adapters.api.organization_employee.organization_employee_api import OrganizationEmployeeApi
 from app.adapters.api.organization_type.organization_type_api import OrganizationTypeApi
 from app.adapters.api.role.role_api import RoleApi
 from app.adapters.api.test.test_api import TestApi
@@ -106,6 +107,11 @@ def include_routers(app) -> None:
         VerifiedVehicleApi().router,
         prefix=f"/{AppPathConstants.VerifiedVehiclePathName}",
         tags=[AppPathConstants.VerifiedVehicleTagName],
+    )
+    app.include_router(
+        OrganizationEmployeeApi().router,
+        prefix=f"/{AppPathConstants.OrganizationEmployeePathName}",
+        tags=[AppPathConstants.OrganizationEmployeeTagName],
     )
     app.include_router(
         TestApi().router,
