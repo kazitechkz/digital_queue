@@ -39,7 +39,7 @@ class UserCDTO(BaseModel):
 
 class UserRDTO(UserDTO):
     sid: DTOConstant.StandardVarcharField()
-    iin: DTOConstant.StandardUniqueIINField()
+    iin: DTOConstant.StandardNullableVarcharField()
     role_id: DTOConstant.StandardNullableIntegerField()
     type_id: DTOConstant.StandardNullableIntegerField()
     file_id: DTOConstant.StandardNullableIntegerField()
@@ -65,11 +65,32 @@ class UserPasswordDTO(BaseModel):
     class Config:
         from_attributes = True
 
+class UserKeycloakCDTO(BaseModel):
+    sid: DTOConstant.StandardNullableVarcharField()
+    iin: DTOConstant.StandardNullableVarcharField()
+    role_id: DTOConstant.StandardNullableIntegerField()
+    type_id: DTOConstant.StandardNullableIntegerField()
+    file_id: DTOConstant.StandardNullableIntegerField()
+    name: DTOConstant.StandardVarcharField()
+    given_name: DTOConstant.StandardVarcharField()
+    family_name: DTOConstant.StandardVarcharField()
+    preferred_username: DTOConstant.StandardVarcharField()
+    email: DTOConstant.StandardEmailField()
+    email_verified: DTOConstant.StandardBooleanFalseField()
+    phone: DTOConstant.StandardNullableVarcharField()
+    phone_verified: DTOConstant.StandardBooleanFalseField()
+    tabn: DTOConstant.StandardNullableVarcharField()
+    status: DTOConstant.StandardBooleanTrueField()
+    password_hash: DTOConstant.StandardNullableTextField()
+
+    class Config:
+        from_attributes = True
+
 
 class UserWithRelationsDTO(UserRDTO):
     role: Optional[RoleRDTO] = None
     user_type: Optional[UserTypeRDTO] = None
     file: Optional[FileRDTO] = None
-
+    # organizations:Optional[list["OrganizationRDTO"]] = None
     class Config:
         from_attributes = True

@@ -11,7 +11,7 @@ class UserModel(Base):
     __tablename__ = AppTableNames.UserTableName
     id: Mapped[DbColumnConstants.ID]
     sid: Mapped[DbColumnConstants.StandardUniqueValue]
-    iin: Mapped[DbColumnConstants.StandardUniqueIIN]
+    iin: Mapped[DbColumnConstants.StandardNullableVarchar]
     role_id: Mapped[
         DbColumnConstants.ForeignKeyNullableInteger(
             table_name=AppTableNames.RoleTableName,

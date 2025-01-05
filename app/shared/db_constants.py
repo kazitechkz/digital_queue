@@ -11,26 +11,26 @@ from app.shared.field_constants import FieldConstants
 
 class AppDbValueConstants:
     # roles
-    ADMINISTRATOR_VALUE = "administrator"
-    ADMINISTRATOR_KEYCLOAK_VALUE = "administrator"
+    ADMINISTRATOR_VALUE = "digital_queue_administrator"
+    ADMINISTRATOR_KEYCLOAK_VALUE = "digital_queue_administrator"
 
-    SECURITY_VALUE = "security"
-    SECURITY_KEYCLOAK_VALUE = "security"
+    SECURITY_VALUE = "digital_queue_security"
+    SECURITY_KEYCLOAK_VALUE = "digital_queue_security"
 
-    SECURITY_LOADER_VALUE = "security_loader"
-    SECURITY_LOADER_KEYCLOAK_VALUE = "security_loader"
+    SECURITY_LOADER_VALUE = "digital_queue_security_loader"
+    SECURITY_LOADER_KEYCLOAK_VALUE = "digital_queue_security_loader"
 
-    LOADER_VALUE = "loader"
-    LOADER_KEYCLOAK_VALUE = "loader"
+    LOADER_VALUE = "digital_queue_loader"
+    LOADER_KEYCLOAK_VALUE = "digital_queue_loader"
 
-    WEIGHER_VALUE = "weigher"
-    WEIGHER_KEYCLOAK_VALUE = "weigher"
+    WEIGHER_VALUE = "digital_queue_weigher"
+    WEIGHER_KEYCLOAK_VALUE = "digital_queue_weigher"
 
-    MANAGER_VALUE = "manager"
-    MANAGER_KEYCLOAK_VALUE = "manager"
+    MANAGER_VALUE = "digital_queue_manager"
+    MANAGER_KEYCLOAK_VALUE = "digital_queue_manager"
 
-    CLIENT_VALUE = "client"
-    CLIENT_KEYCLOAK_VALUE = "client"
+    CLIENT_VALUE = "digital_queue_client"
+    CLIENT_KEYCLOAK_VALUE = "digital_queue_client"
     # Роли, которые нельзя удалить или изменить
     IMMUTABLE_ROLES = frozenset(
         [

@@ -55,10 +55,10 @@ class UpdateUserCase(BaseUseCase[UserWithRelationsDTO]):
         existed = await self.repository.get_first_with_filters(
             filters=[
                 or_(
-                    and_(
-                        func.lower(self.repository.model.iin) == dto.iin.lower(),
-                        self.repository.model.id != id,
-                    ),
+                    # and_(
+                    #     func.lower(self.repository.model.iin) == dto.iin.lower(),
+                    #     self.repository.model.id != id,
+                    # ),
                     and_(
                         func.lower(self.repository.model.sid) == dto.sid.lower(),
                         self.repository.model.id != id,
@@ -73,8 +73,8 @@ class UpdateUserCase(BaseUseCase[UserWithRelationsDTO]):
         )
         if existed:
             existed_column = ""
-            if existed.iin.lower() == dto.iin.lower():
-                existed_column += "ИИН;"
+            # if existed.iin.lower() == dto.iin.lower():
+            #     existed_column += "ИИН;"
             if existed.sid.lower() == dto.sid.lower():
                 existed_column += "Уникальный идентификатор KeyCloak;"
             if existed.preferred_username.lower() == dto.preferred_username.lower():

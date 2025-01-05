@@ -16,4 +16,5 @@ class UserRepository(BaseRepository[UserModel]):
             selectinload(self.model.role),
             selectinload(self.model.file),
             selectinload(self.model.user_type),
+            selectinload(self.model.organizations)
         ]

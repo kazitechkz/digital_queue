@@ -1,3 +1,4 @@
+from app.adapters.api.auth.auth_api import AuthApi
 from app.adapters.api.factory.factory_api import FactoryApi
 from app.adapters.api.file.file_api import FileApi
 from app.adapters.api.material.material_api import MaterialApi
@@ -116,6 +117,11 @@ def include_routers(app) -> None:
         OrganizationEmployeeApi().router,
         prefix=f"/{AppPathConstants.OrganizationEmployeePathName}",
         tags=[AppPathConstants.OrganizationEmployeeTagName],
+    )
+    app.include_router(
+        AuthApi().router,
+        prefix=f"/{AppPathConstants.AuthPathName}",
+        tags=[AppPathConstants.AuthTagName],
     )
     app.include_router(
         TestApi().router,

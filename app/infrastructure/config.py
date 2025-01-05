@@ -53,9 +53,12 @@ class AppConfiguration(BaseSettings):
     keycloak_client_id: str = Field(..., env="KEYCLOAK_CLIENT_ID")
     keycloak_client_secret: str = Field(..., env="KEYCLOAK_CLIENT_SECRET")
     # User Repo For Check
+    app_user_repo_status:str = Field(default="DEV", env="APP_USER_REPO_STATUS")
     app_user_repo_dev_url: str = Field(..., env="APP_USER_REPO_DEV_URL")
     app_user_repo_stage_url: str = Field(..., env="APP_USER_REPO_STAGE_URL")
     app_user_repo_prod_url: str = Field(..., env="APP_USER_REPO_PROD_URL")
+    allow_fake_user_info: str = Field(..., env="ALLOW_FAKE_USER_INFO")
+    update_user_info_minutes: int = Field(..., env="UPDATE_USER_INFO_MINUTES")
     # File Settings
     static_folder: Optional[str] = Field(default="static", env="STATIC_FOLDER")
     upload_folder: Optional[str] = Field(default="upload", env="UPLOAD_FOLDER")
@@ -90,6 +93,23 @@ class AppConfiguration(BaseSettings):
         if v.lower() not in {"local", "keycloak"}:
             raise ValueError("APP_AUTH_TYPE должен быть 'local' или 'keycloak'")
         return v
+
+    @field_validator("app_user_repo_status")
+    def validate_app_user_repo_status(cls, v):
+        if v.lower() not in {"dev", "stage","prod"}:
+            raise ValueError("APP_USER_REPO_STATUS должен быть 'dev' или 'stage' или 'prod'")
+        return v
+
+    def is_keycloak_auth(self) -> bool:
+        return self.app_auth_type.lower() == "keycloak"
+
+    def get_user_repo_url(self)->str:
+        if self.app_user_repo_status.lower() == "dev":
+            return self.app_user_repo_dev_url
+        if self.app_user_repo_status.lower() == "stage":
+            return self.app_user_repo_stage_url
+        else:
+            return self.app_user_repo_prod_url
 
     class Config:
         env_file = ".env"
