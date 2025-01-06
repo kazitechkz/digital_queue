@@ -20,37 +20,37 @@ class RoleApi:
 
     def _add_routes(self) -> None:
         self.router.get(
-            "/",
+            f"{AppPathConstants.IndexPathName}",
             response_model=list[RoleRDTO],
             summary="Список ролей",
             description="Получение списка ролей",
         )(self.get_all)
         self.router.post(
-            "/create",
+            f"{AppPathConstants.IndexPathName}",
             response_model=RoleRDTO,
             summary="Создать роль",
             description="Создание роли",
         )(self.create)
         self.router.put(
-            "/update/{id}",
+            f"{AppPathConstants.UpdatePathName}",
             response_model=RoleRDTO,
             summary="Обновить роль по уникальному ID",
             description="Обновление роли по уникальному идентификатору",
         )(self.update)
         self.router.delete(
-            "/delete/{id}",
+            f"{AppPathConstants.DeleteByIdPathName}",
             response_model=bool,
             summary="Удалите роль по уникальному ID",
             description="Удаление роли по уникальному идентификатору",
         )(self.delete)
         self.router.get(
-            "/get/{id}",
+            f"{AppPathConstants.GetByIdPathName}",
             response_model=RoleRDTO,
             summary="Получить роль по уникальному ID",
             description="Получение роли по уникальному идентификатору",
         )(self.get)
         self.router.get(
-            "/get-by-value/{value}",
+            f"{AppPathConstants.GetByValuePathName}",
             response_model=RoleRDTO,
             summary="Получить роль по уникальному значению",
             description="Получение роли по уникальному значению",

@@ -1,12 +1,9 @@
-from typing import Optional
-
+from typing import Optional, List
 from pydantic import BaseModel
-
 from app.adapters.dto.file.file_dto import FileRDTO
 from app.adapters.dto.role.role_dto import RoleRDTO
 from app.adapters.dto.user_type.user_type_dto import UserTypeRDTO
 from app.shared.dto_constants import DTOConstant
-
 
 class UserDTO(BaseModel):
     id: DTOConstant.StandardID()
@@ -65,6 +62,7 @@ class UserPasswordDTO(BaseModel):
     class Config:
         from_attributes = True
 
+
 class UserKeycloakCDTO(BaseModel):
     sid: DTOConstant.StandardNullableVarcharField()
     iin: DTOConstant.StandardNullableVarcharField()
@@ -86,11 +84,27 @@ class UserKeycloakCDTO(BaseModel):
     class Config:
         from_attributes = True
 
+class UserOrganizationRDTO(UserRDTO):
+    owner_id: DTOConstant.StandardNullableUnsignedIntegerField()
+    type_id: DTOConstant.StandardNullableUnsignedIntegerField()
+    file_id: DTOConstant.StandardNullableIntegerField()
+    full_name: DTOConstant.StandardTextField()
+    short_name: DTOConstant.StandardTextField()
+    bin: DTOConstant.StandardUniqueBINField()
+    bik: DTOConstant.StandardNullableVarcharField()
+    kbe: DTOConstant.StandardNullableVarcharField()
+    email: DTOConstant.StandardEmailField()
+    phone: DTOConstant.StandardPhoneField()
+    address: DTOConstant.StandardNullableTextField()
+    status: DTOConstant.StandardBooleanTrueField()
+
+    class Config:
+        from_attributes = True
 
 class UserWithRelationsDTO(UserRDTO):
     role: Optional[RoleRDTO] = None
     user_type: Optional[UserTypeRDTO] = None
     file: Optional[FileRDTO] = None
-    # organizations:Optional[list["OrganizationRDTO"]] = None
+    organizations: Optional[List[UserOrganizationRDTO]] = None
     class Config:
         from_attributes = True

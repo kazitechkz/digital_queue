@@ -33,37 +33,37 @@ class OrganizationEmployeeApi:
 
     def _add_routes(self) -> None:
         self.router.get(
-            "/",
+            f"{AppPathConstants.IndexPathName}",
             response_model=PaginationOrganizationEmployeeWithRelationsDTO,
             summary="Список работников организаций",
             description="Получение списка работников организаций",
         )(self.get_all)
         self.router.post(
-            "/create",
+            f"{AppPathConstants.CreatePathName}",
             response_model=OrganizationEmployeeWithRelationsDTO,
             summary="Создать работников организаций в системе",
             description="Создание работников организаций в системе",
         )(self.create)
         self.router.put(
-            "/update/{id}",
+            f"{AppPathConstants.UpdatePathName}",
             response_model=OrganizationEmployeeWithRelationsDTO,
             summary="Обновить работников организаций по уникальному ID",
             description="Обновление работников организаций по уникальному идентификатору",
         )(self.update)
         self.router.delete(
-            "/delete/{id}",
+            f"{AppPathConstants.DeleteByIdPathName}",
             response_model=bool,
             summary="Удалите работников организаций по уникальному ID",
             description="Удаление работников организаций по уникальному идентификатору",
         )(self.delete)
         self.router.get(
-            "/get/{id}",
+            f"{AppPathConstants.GetByIdPathName}",
             response_model=OrganizationEmployeeWithRelationsDTO,
             summary="Получить работников организаций по уникальному ID",
             description="Получение работников организаций по уникальному идентификатору",
         )(self.get)
         self.router.get(
-            "/get-by-value/{value}",
+            f"{AppPathConstants.GetByValuePathName}",
             response_model=OrganizationEmployeeWithRelationsDTO,
             summary="Получить работников организаций по уникальному значению БИН или SID",
             description="Получение работников организаций по уникальному значению БИН или SID в системе",

@@ -53,7 +53,7 @@ class CreateUserCase(BaseUseCase[UserWithRelationsDTO]):
         existed = await self.repository.get_first_with_filters(
             filters=[
                 or_(
-                    #func.lower(self.repository.model.iin) == dto.iin.lower(),
+                    # func.lower(self.repository.model.iin) == dto.iin.lower(),
                     func.lower(self.repository.model.sid) == dto.sid.lower(),
                     func.lower(self.repository.model.preferred_username)
                     == dto.preferred_username.lower(),

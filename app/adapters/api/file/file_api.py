@@ -23,31 +23,31 @@ class FileApi:
 
     def _add_routes(self) -> None:
         self.router.get(
-            "/",
+            f"{AppPathConstants.IndexPathName}",
             response_model=PaginationFileRDTO,
             summary="Список файлов",
             description="Получение списка файлов",
         )(self.get_all)
         self.router.post(
-            "/create",
+            f"{AppPathConstants.CreatePathName}",
             response_model=FileRDTO,
             summary="Создать файл в системе",
             description="Создание файлов в системе",
         )(self.create)
         self.router.put(
-            "/update/{id}",
+            f"{AppPathConstants.UpdatePathName}",
             response_model=FileRDTO,
             summary="Обновить файл по уникальному ID",
             description="Обновление файла по уникальному идентификатору",
         )(self.update)
         self.router.delete(
-            "/delete/{id}",
+            f"{AppPathConstants.DeleteByIdPathName}",
             response_model=bool,
             summary="Удалите файл по уникальному ID",
             description="Удаление файла по уникальному идентификатору",
         )(self.delete)
         self.router.get(
-            "/get/{id}",
+            f"{AppPathConstants.GetByIdPathName}",
             response_model=FileRDTO,
             summary="Получить файл по уникальному ID",
             description="Получение файла по уникальному идентификатору",

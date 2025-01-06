@@ -1,16 +1,12 @@
 from typing import Optional
-
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from app.adapters.dto.pagination_dto import PaginationUserWithRelationsDTO
 from app.adapters.dto.user.user_dto import UserCDTO, UserWithRelationsDTO
 from app.adapters.filters.user.user_filter import UserFilter
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
-from app.shared.app_file_constants import AppFileExtensionConstants
 from app.shared.path_constants import AppPathConstants
-from app.use_cases.file.save_file_case import SaveFileCase
 from app.use_cases.user.create_user_case import CreateUserCase
 from app.use_cases.user.delete_user_case import DeleteUserCase
 from app.use_cases.user.get_user_by_id_case import GetUserByIdCase
@@ -26,37 +22,37 @@ class UserApi:
 
     def _add_routes(self) -> None:
         self.router.get(
-            "/",
+            f"{AppPathConstants.IndexPathName}",
             response_model=PaginationUserWithRelationsDTO,
             summary="Список пользователей",
             description="Получение списка пользователей",
         )(self.get_all)
         self.router.post(
-            "/create",
+            f"{AppPathConstants.CreatePathName}",
             response_model=UserWithRelationsDTO,
             summary="Создать пользователя в системе",
             description="Создание пользователей в системе",
         )(self.create)
         self.router.put(
-            "/update/{id}",
+            f"{AppPathConstants.UpdatePathName}",
             response_model=UserWithRelationsDTO,
             summary="Обновить пользователя по уникальному ID",
             description="Обновление пользователя по уникальному идентификатору",
         )(self.update)
         self.router.delete(
-            "/delete/{id}",
+            f"{AppPathConstants.DeleteByIdPathName}",
             response_model=bool,
             summary="Удалите пользователя по уникальному ID",
             description="Удаление пользователя по уникальному идентификатору",
         )(self.delete)
         self.router.get(
-            "/get/{id}",
+            f"{AppPathConstants.GetByIdPathName}",
             response_model=UserWithRelationsDTO,
             summary="Получить пользователя по уникальному ID",
             description="Получение пользователя по уникальному идентификатору",
         )(self.get)
         self.router.get(
-            "/get-by-value/{value}",
+            f"{AppPathConstants.GetByValuePathName}",
             response_model=UserWithRelationsDTO,
             summary="Получить пользователя по уникальному значению ИИН, НИКНЕЙМУ ИЛИ АЙДИ KEYCLOAK",
             description="Получение пользователя по уникальному значению в системе ИИН, НИКНЕЙМУ ИЛИ АЙДИ KEYCLOAK",

@@ -31,37 +31,37 @@ class VerifiedUserApi:
 
     def _add_routes(self) -> None:
         self.router.get(
-            "/",
+            f"{AppPathConstants.IndexPathName}",
             response_model=PaginationVerifiedUserWithRelationsDTO,
             summary="Список верифицированных пользователей",
             description="Получение списка верифицированных пользователей",
         )(self.get_all)
         self.router.post(
-            "/create",
+            f"{AppPathConstants.CreatePathName}",
             response_model=VerifiedUserWithRelationsDTO,
             summary="Создать цвет ТС",
             description="Создание верифицированного пользователей",
         )(self.create)
         self.router.put(
-            "/update/{id}",
+            f"{AppPathConstants.UpdatePathName}",
             response_model=VerifiedUserWithRelationsDTO,
             summary="Обновить цвет ТС по уникальному ID",
             description="Обновление верифицированного пользователей по уникальному идентификатору",
         )(self.update)
         self.router.delete(
-            "/delete/{id}",
+            f"{AppPathConstants.DeleteByIdPathName}",
             response_model=bool,
             summary="Удалите цвет ТС по уникальному ID",
             description="Удаление верифицированного пользователей по уникальному идентификатору",
         )(self.delete)
         self.router.get(
-            "/get/{id}",
+            f"{AppPathConstants.GetByIdPathName}",
             response_model=VerifiedUserWithRelationsDTO,
             summary="Получить цвет ТС по уникальному ID",
             description="Получение верифицированного пользователей по уникальному идентификатору",
         )(self.get)
         self.router.get(
-            "/get-by-value/{value}",
+            f"{AppPathConstants.GetByValuePathName}",
             response_model=VerifiedUserWithRelationsDTO,
             summary="Получить цвет ТС по уникальному значению",
             description="Получение верифицированного пользователей по уникальному значению ИИН СИД, описанию или отказу",

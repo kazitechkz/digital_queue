@@ -28,37 +28,37 @@ class VehicleApi:
 
     def _add_routes(self) -> None:
         self.router.get(
-            "/",
+            f"{AppPathConstants.IndexPathName}",
             response_model=PaginationVehicleWithRelationsDTO,
             summary="Список транспортных средств",
             description="Получение списка транспортных средств",
         )(self.get_all)
         self.router.post(
-            "/create",
+            f"{AppPathConstants.CreatePathName}",
             response_model=VehicleWithRelationsDTO,
             summary="Создать ТС в системе",
             description="Создание транспортных средств в системе",
         )(self.create)
         self.router.put(
-            "/update/{id}",
+            f"{AppPathConstants.UpdatePathName}",
             response_model=VehicleWithRelationsDTO,
             summary="Обновить ТС по уникальному ID",
             description="Обновление ТС по уникальному идентификатору",
         )(self.update)
         self.router.delete(
-            "/delete/{id}",
+            f"{AppPathConstants.DeleteByIdPathName}",
             response_model=bool,
             summary="Удалите ТС по уникальному ID",
             description="Удаление ТС по уникальному идентификатору",
         )(self.delete)
         self.router.get(
-            "/get/{id}",
+            f"{AppPathConstants.GetByIdPathName}",
             response_model=VehicleWithRelationsDTO,
             summary="Получить ТС по уникальному ID",
             description="Получение ТС по уникальному идентификатору",
         )(self.get)
         self.router.get(
-            "/get-by-value/{value}",
+            f"{AppPathConstants.GetByValuePathName}",
             response_model=VehicleWithRelationsDTO,
             summary="Получить ТС по уникальному значению номера ТС",
             description="Получение ТС по уникальному значению номера ТС в системе",

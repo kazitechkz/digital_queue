@@ -7,8 +7,9 @@ keycloak_openid = KeycloakOpenID(
     realm_name=app_config.keycloak_realm,
     client_id=app_config.keycloak_client_id,
     client_secret_key=app_config.keycloak_client_secret,
-    verify=False  # Отключение проверки сертификатов
+    verify=False,  # Отключение проверки сертификатов
 )
+
 
 def get_openid_config():
     return keycloak_openid.well_known()

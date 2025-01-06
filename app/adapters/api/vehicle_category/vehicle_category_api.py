@@ -27,37 +27,37 @@ class VehicleCategoryApi:
 
     def _add_routes(self) -> None:
         self.router.get(
-            "/",
+            f"{AppPathConstants.IndexPathName}",
             response_model=list[VehicleCategoryRDTO],
             summary="Список категорий ТС",
             description="Получение списка категорий ТС",
         )(self.get_all)
         self.router.post(
-            "/create",
+            f"{AppPathConstants.CreatePathName}",
             response_model=VehicleCategoryRDTO,
             summary="Создать категорию ТС",
             description="Создание категорий ТС",
         )(self.create)
         self.router.put(
-            "/update/{id}",
+            f"{AppPathConstants.UpdatePathName}",
             response_model=VehicleCategoryRDTO,
             summary="Обновить категорию ТС по уникальному ID",
             description="Обновление категорий ТС по уникальному идентификатору",
         )(self.update)
         self.router.delete(
-            "/delete/{id}",
+            f"{AppPathConstants.DeleteByIdPathName}",
             response_model=bool,
             summary="Удалите категорию ТС по уникальному ID",
             description="Удаление категорий ТС по уникальному идентификатору",
         )(self.delete)
         self.router.get(
-            "/get/{id}",
+            f"{AppPathConstants.GetByIdPathName}",
             response_model=VehicleCategoryRDTO,
             summary="Получить категорию ТС по уникальному ID",
             description="Получение категорий ТС по уникальному идентификатору",
         )(self.get)
         self.router.get(
-            "/get-by-value/{value}",
+            f"{AppPathConstants.GetByValuePathName}",
             response_model=VehicleCategoryRDTO,
             summary="Получить категорию ТС по уникальному значению",
             description="Получение категорий ТС по уникальному значению",

@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from dotenv import load_dotenv
 from pydantic import Field, field_validator
@@ -16,9 +16,15 @@ class AppConfiguration(BaseSettings):
     )
     app_version: str = Field(default="1.0.0", env="APP_VERSION")
     app_debug: bool = Field(default=False, env="APP_DEBUG")
+    app_starter_page_url: Optional[str] = Field(default="/", env="APP_STARTER_PAGE_URL")
     app_docs_url: Optional[str] = Field(default=False, env="APP_DOCS_URL")
     app_redoc_url: Optional[str] = Field(default=False, env="APP_REDOC_URL")
     app_status: str = Field(default="development", env="APP_STATUS")
+    app_administrator_docs_url: str = Field(
+        default="administrator", env="APP_ADMINISTRATOR_DOCS_URL"
+    )
+    app_employee_docs_url: str = Field(default="employee", env="APP_EMPLOYEE_DOCS_URL")
+    app_client_docs_url: str = Field(default="client", env="APP_CLIENT_DOCS_URL")
     # Database Choice: 'postgresql' or 'mysql'
     app_database: Optional[str] = Field(default="postgresql", env="APP_DATABASE")
     # Database Settings
@@ -53,7 +59,7 @@ class AppConfiguration(BaseSettings):
     keycloak_client_id: str = Field(..., env="KEYCLOAK_CLIENT_ID")
     keycloak_client_secret: str = Field(..., env="KEYCLOAK_CLIENT_SECRET")
     # User Repo For Check
-    app_user_repo_status:str = Field(default="DEV", env="APP_USER_REPO_STATUS")
+    app_user_repo_status: str = Field(default="DEV", env="APP_USER_REPO_STATUS")
     app_user_repo_dev_url: str = Field(..., env="APP_USER_REPO_DEV_URL")
     app_user_repo_stage_url: str = Field(..., env="APP_USER_REPO_STAGE_URL")
     app_user_repo_prod_url: str = Field(..., env="APP_USER_REPO_PROD_URL")
@@ -71,6 +77,12 @@ class AppConfiguration(BaseSettings):
     # Security Issues and Vezdehod
     check_verified_user: bool = Field(default=False, env="CHECK_VERIFIED_USER")
     check_verified_vehicle: bool = Field(default=False, env="CHECK_VERIFIED_VEHICLE")
+    #CORS MIDDLEWARE
+    app_cors_enabled: bool = Field(default=False, env="APP_CORS_ENABLED")
+    cors_allowed_origins: List[str] = Field(default=["*"], env="CORS_ALLOWED_ORIGINS")
+    cors_allowed_credentials: bool = Field(default=True, env="CORS_ALLOW_CREDENTIALS")
+    cors_allowed_methods: List[str] = Field(default=["*"], env="CORS_ALLOWED_METHODS")
+    cors_allowed_headers: List[str] = Field(default=["*"], env="CORS_ALLOWED_HEADERS")
 
     @property
     def get_connection_url(self) -> str:
@@ -96,14 +108,16 @@ class AppConfiguration(BaseSettings):
 
     @field_validator("app_user_repo_status")
     def validate_app_user_repo_status(cls, v):
-        if v.lower() not in {"dev", "stage","prod"}:
-            raise ValueError("APP_USER_REPO_STATUS должен быть 'dev' или 'stage' или 'prod'")
+        if v.lower() not in {"dev", "stage", "prod"}:
+            raise ValueError(
+                "APP_USER_REPO_STATUS должен быть 'dev' или 'stage' или 'prod'"
+            )
         return v
 
     def is_keycloak_auth(self) -> bool:
         return self.app_auth_type.lower() == "keycloak"
 
-    def get_user_repo_url(self)->str:
+    def get_user_repo_url(self) -> str:
         if self.app_user_repo_status.lower() == "dev":
             return self.app_user_repo_dev_url
         if self.app_user_repo_status.lower() == "stage":

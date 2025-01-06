@@ -25,38 +25,38 @@ class FactoryApi:
         self._add_routes()
 
     def _add_routes(self) -> None:
-        self.router.get(
-            "/",
+        self.create_factory_url = self.router.get(
+            f"{AppPathConstants.IndexPathName}",
             response_model=list[FactoryWithRelationsDTO],
             summary="Список заводов",
             description="Получение списка заводов",
         )(self.get_all)
         self.router.post(
-            "/create",
+            f"{AppPathConstants.CreatePathName}",
             response_model=FactoryWithRelationsDTO,
             summary="Создать завод в системе",
             description="Создание заводов в системе",
         )(self.create)
         self.router.put(
-            "/update/{id}",
+            f"{AppPathConstants.UpdatePathName}",
             response_model=FactoryWithRelationsDTO,
             summary="Обновитьзавод по уникальному ID",
             description="Обновление завода по уникальному идентификатору",
         )(self.update)
         self.router.delete(
-            "/delete/{id}",
+            f"{AppPathConstants.DeleteByIdPathName}",
             response_model=bool,
             summary="Удалите завод по уникальному ID",
             description="Удаление завода по уникальному идентификатору",
         )(self.delete)
         self.router.get(
-            "/get/{id}",
+            f"{AppPathConstants.GetByIdPathName}",
             response_model=FactoryWithRelationsDTO,
             summary="Получить завод по уникальному ID",
             description="Получение завода по уникальному идентификатору",
         )(self.get)
         self.router.get(
-            "/get-by-sap-id/{sap_id}",
+            f"{AppPathConstants.GetByValuePathName}",
             response_model=FactoryWithRelationsDTO,
             summary="Получить завод по уникальному значению SAP",
             description="Получение завода по уникальному значению в системе SAP",
@@ -151,16 +151,16 @@ class FactoryApi:
             )
 
     async def get_by_value(
-        self, sap_id: AppPathConstants.ValuePath, db: AsyncSession = Depends(get_db)
+        self, value: AppPathConstants.ValuePath, db: AsyncSession = Depends(get_db)
     ):
         use_case = GetFactoryByValueCase(db)
         try:
-            return await use_case.execute(value=sap_id)
+            return await use_case.execute(value=value)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
             raise AppExceptionResponse.internal_error(
                 message="Ошибка при получении завода по значению SAP ID",
-                extra={"value": sap_id, "details": str(exc)},
+                extra={"value": value, "details": str(exc)},
                 is_custom=True,
             )

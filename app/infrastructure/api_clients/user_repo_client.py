@@ -8,15 +8,13 @@ from app.infrastructure.config import app_config
 
 
 class UserRepoApiClient:
-    def __init__(self,token: str, base_url: str = None):
+    def __init__(self, token: str, base_url: str = None):
         self.base_url = base_url or app_config.get_user_repo_url()
         self.token = token
 
     async def get_current_user(self):
         url = f"{self.base_url}/user-repository/current-user"
-        headers = {
-            "Authorization": f"Bearer {self.token}"
-        }
+        headers = {"Authorization": f"Bearer {self.token}"}
 
         async with aiohttp.ClientSession() as session:
             try:
@@ -52,7 +50,4 @@ class UserRepoApiClient:
                 )
 
     def generate_fake_mobile_iin(self) -> dict:
-        return {
-            "iin": "123123123123",
-            "mobile": ""
-        }
+        return {"iin": "123123123123", "mobile": ""}

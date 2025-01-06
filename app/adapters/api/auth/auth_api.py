@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -30,10 +29,7 @@ class AuthApi:
             description="Данные пользователя",
         )(self.me)
 
-
-    async def sign_in(
-            self,dto:LoginDTO, db: AsyncSession = Depends(get_db)
-    ):
+    async def sign_in(self, dto: LoginDTO, db: AsyncSession = Depends(get_db)):
         use_case = LoginCase(db)
         try:
             return await use_case.execute(dto=dto)
@@ -46,9 +42,7 @@ class AuthApi:
                 is_custom=True,
             )
 
-    async def me(
-            self,user:UserWithRelationsDTO = Depends(get_current_user)
-    ):
+    async def me(self, user: UserWithRelationsDTO = Depends(get_current_user)):
         try:
             return user
         except HTTPException as exc:

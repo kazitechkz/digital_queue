@@ -22,37 +22,37 @@ class UserTypeApi:
 
     def _add_routes(self) -> None:
         self.router.get(
-            "/",
+            f"{AppPathConstants.IndexPathName}",
             response_model=list[UserTypeRDTO],
             summary="Список типов пользователя",
             description="Получение списка типов пользователя",
         )(self.get_all)
         self.router.post(
-            "/create",
+            f"{AppPathConstants.CreatePathName}",
             response_model=UserTypeRDTO,
             summary="Создать тип пользователя",
             description="Создание типа пользователя",
         )(self.create)
         self.router.put(
-            "/update/{id}",
+            f"{AppPathConstants.UpdatePathName}",
             response_model=UserTypeRDTO,
             summary="Обновить тип пользователя по уникальному ID",
             description="Обновление типа пользователя по уникальному идентификатору",
         )(self.update)
         self.router.delete(
-            "/delete/{id}",
+            f"{AppPathConstants.DeleteByIdPathName}",
             response_model=bool,
             summary="Удалите тип пользователя по уникальному ID",
             description="Удаление типа пользователя по уникальному идентификатору",
         )(self.delete)
         self.router.get(
-            "/get/{id}",
+            f"{AppPathConstants.GetByIdPathName}",
             response_model=UserTypeRDTO,
             summary="Получить тип пользователя по уникальному ID",
             description="Получение типа пользователя по уникальному идентификатору",
         )(self.get)
         self.router.get(
-            "/get-by-value/{value}",
+            f"{AppPathConstants.GetByValuePathName}",
             response_model=UserTypeRDTO,
             summary="Получить тип пользователя по уникальному значению",
             description="Получение типа пользователя по уникальному значению",

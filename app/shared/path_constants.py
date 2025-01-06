@@ -51,3 +51,10 @@ class AppPathConstants:
     OrganizationEmployeeTagName = "Работники Организации"
     AuthPathName = "auth"
     AuthTagName = "Аутентификация"
+
+    IndexPathName = "/"
+    CreatePathName = "/create"
+    UpdatePathName = "/update/{id}"
+    GetByIdPathName = "/get/{id}"
+    DeleteByIdPathName = "/delete/{id}"
+    GetByValuePathName = "/get-by-value/{value}"

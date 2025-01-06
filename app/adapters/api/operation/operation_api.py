@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from app.adapters.dto.operation.operation_dto import (
     OperationCDTO, OperationWithRelationsDTO)
 from app.core.app_exception_response import AppExceptionResponse
@@ -23,37 +22,37 @@ class OperationApi:
 
     def _add_routes(self) -> None:
         self.router.get(
-            "/",
+            f"{AppPathConstants.IndexPathName}",
             response_model=list[OperationWithRelationsDTO],
             summary="Список бизнес процессов",
             description="Получение списка бизнес процессов",
         )(self.get_all)
         self.router.post(
-            "/create",
+            f"{AppPathConstants.CreatePathName}",
             response_model=OperationWithRelationsDTO,
             summary="Создать бизнес процесс",
             description="Создание бизнес процесса",
         )(self.create)
         self.router.put(
-            "/update/{id}",
+            f"{AppPathConstants.UpdatePathName}",
             response_model=OperationWithRelationsDTO,
             summary="Обновить бизнес процесс по уникальному ID",
             description="Обновление бизнес процесса по уникальному идентификатору",
         )(self.update)
         self.router.delete(
-            "/delete/{id}",
+            f"{AppPathConstants.DeleteByIdPathName}",
             response_model=bool,
             summary="Удалите бизнес процесс по уникальному ID",
             description="Удаление бизнес процесса по уникальному идентификатору",
         )(self.delete)
         self.router.get(
-            "/get/{id}",
+            f"{AppPathConstants.GetByIdPathName}",
             response_model=OperationWithRelationsDTO,
             summary="Получить бизнес процесс по уникальному ID",
             description="Получение бизнес процесса по уникальному идентификатору",
         )(self.get)
         self.router.get(
-            "/get-by-value/{value}",
+            f"{AppPathConstants.GetByValuePathName}",
             response_model=OperationWithRelationsDTO,
             summary="Получить бизнес процесс по уникальному значению",
             description="Получение бизнес процесса по уникальному значению",
