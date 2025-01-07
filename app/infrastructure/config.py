@@ -80,7 +80,7 @@ class AppConfiguration(BaseSettings):
     #CORS MIDDLEWARE
     app_cors_enabled: bool = Field(default=False, env="APP_CORS_ENABLED")
     cors_allowed_origins: List[str] = Field(default=["*"], env="CORS_ALLOWED_ORIGINS")
-    cors_allowed_credentials: bool = Field(default=True, env="CORS_ALLOW_CREDENTIALS")
+    cors_allow_credentials: bool = Field(default=True, env="CORS_ALLOW_CREDENTIALS")
     cors_allowed_methods: List[str] = Field(default=["*"], env="CORS_ALLOWED_METHODS")
     cors_allowed_headers: List[str] = Field(default=["*"], env="CORS_ALLOWED_HEADERS")
 

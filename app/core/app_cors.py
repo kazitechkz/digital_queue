@@ -9,7 +9,7 @@ def set_up_cors(app:FastAPI):
         app.add_middleware(
             CORSMiddleware,
             allow_origins=app_config.cors_allowed_origins,
-            allow_credentials=app_config.cors_allowed_credentials,
+            allow_credentials=app_config.cors_allow_credentials,
             allow_methods=app_config.cors_allowed_methods,
             allow_headers=app_config.cors_allowed_headers,
         )

@@ -1,3 +1,4 @@
+import os
 from contextlib import asynccontextmanager
 
 import uvicorn
@@ -36,6 +37,11 @@ app = FastAPI(
 
 # Включаем все роутеры
 include_routers(app)
+
+#Static folder
+# Проверяем существование директории
+if not os.path.exists(app_config.static_folder):
+    os.makedirs(app_config.static_folder)
 
 app.mount(
     f"/{app_config.static_folder}",
