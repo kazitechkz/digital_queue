@@ -77,6 +77,9 @@ class AppConfiguration(BaseSettings):
     # Security Issues and Vezdehod
     check_verified_user: bool = Field(default=False, env="CHECK_VERIFIED_USER")
     check_verified_vehicle: bool = Field(default=False, env="CHECK_VERIFIED_VEHICLE")
+    check_organization_by_moderator: bool = Field(default=False, env="CHECK_ORGANIZATION_BY_MODERATOR")
+    check_vehicle_by_moderator: bool = Field(default=False, env="CHECK_VEHICLE_BY_MODERATOR")
+
     #CORS MIDDLEWARE
     app_cors_enabled: bool = Field(default=False, env="APP_CORS_ENABLED")
     cors_allowed_origins: List[str] = Field(default=["*"], env="CORS_ALLOWED_ORIGINS")

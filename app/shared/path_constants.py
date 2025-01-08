@@ -51,6 +51,8 @@ class AppPathConstants:
     OrganizationEmployeeTagName = "Работники Организации"
     AuthPathName = "auth"
     AuthTagName = "Аутентификация"
+    EmployeeRequestPathName = "employee-request"
+    EmployeeRequestTagName = "Заявка на добавление в организацию"
 
     IndexPathName = "/"
     CreatePathName = "/create"
@@ -58,3 +60,20 @@ class AppPathConstants:
     GetByIdPathName = "/get/{id}"
     DeleteByIdPathName = "/delete/{id}"
     GetByValuePathName = "/get-by-value/{value}"
+
+    #Client
+    #Vehicles
+    AddClientVehiclePathName = "/add-vehicle"
+    PaginateClientVehiclesPathName = "/paginate-client-vehicles"
+    GetClientVehiclesPathName = "/all-client-vehicles"
+    UpdateClientVehiclePathName = "/update-client-vehicle/{id}"
+    #Organization
+    AddClientOrganizationPathName = "/add-client-organization"
+    UpdateClientOrganizationPathName = "/update-client-organization/{id}"
+    AllClientOrganizationPathName = "/all-client-organization"
+    PaginateClientOrganizationPathName = "/paginate-client-organization"
+    #Employee Requests
+    PaginateClientEmployeeRequestPathName = "/my-employee-requests"
+    CreateClientEmployeeRequestPathName = "/create-client"
+    UpdateClientEmployeeRequestPathName = "/make-decision/{id}"
+    DeleteClientEmployeeRequestPathName = "/delete-client/{id}"

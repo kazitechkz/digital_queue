@@ -48,6 +48,8 @@ class VehicleModel(Base):
     car_model: Mapped[DbColumnConstants.StandardVarchar]
     is_trailer: Mapped[DbColumnConstants.StandardBooleanFalse]
     vehicle_info: Mapped[DbColumnConstants.StandardNullableText]
+    is_verified: Mapped[DbColumnConstants.StandardBooleanNullable]
+    status: Mapped[DbColumnConstants.StandardBooleanTrue]
     created_at: Mapped[DbColumnConstants.CreatedAt]
     updated_at: Mapped[DbColumnConstants.UpdatedAt]
 

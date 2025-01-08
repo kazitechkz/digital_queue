@@ -24,6 +24,7 @@ class OrganizationModel(Base):
     phone: Mapped[DbColumnConstants.StandardUniquePhone]
     address: Mapped[DbColumnConstants.StandardNullableText]
     status: Mapped[DbColumnConstants.StandardBooleanTrue]
+    is_verified: Mapped[DbColumnConstants.StandardBooleanNullable]
     owner_id: Mapped[
         DbColumnConstants.ForeignKeyNullableInteger(
             table_name=AppTableNames.UserTableName,

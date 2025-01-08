@@ -2,6 +2,7 @@ from typing import Generic, List, TypeVar
 
 from pydantic import BaseModel
 
+from app.adapters.dto.employee_request.employee_request_dto import EmployeeRequestWithRelationsDTO
 from app.adapters.dto.file.file_dto import FileRDTO
 from app.adapters.dto.organization.organization_dto import \
     OrganizationWithRelationsDTO
@@ -72,3 +73,6 @@ class PaginationVerifiedVehicleWithRelationsDTO(BasePageModel):
 
 class PaginationOrganizationEmployeeWithRelationsDTO(BasePageModel):
     items: List[OrganizationEmployeeWithRelationsDTO]
+
+class PaginationEmployeeRequestWithRelationsDTO(BasePageModel):
+    items: List[EmployeeRequestWithRelationsDTO]

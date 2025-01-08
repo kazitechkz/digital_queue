@@ -212,6 +212,48 @@ def assign_roles(app) -> None:
         path=f"/{AppPathConstants.OrganizationPathName}{AppPathConstants.GetByValuePathName}",
         roles=[AppRouteConstant.AdministratorTagName],
     )
+    # Organization Client
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.OrganizationPathName}{AppPathConstants.AddClientOrganizationPathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.OrganizationPathName}{AppPathConstants.UpdateClientOrganizationPathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.OrganizationPathName}{AppPathConstants.AllClientOrganizationPathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.OrganizationPathName}{AppPathConstants.PaginateClientOrganizationPathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
+    # Employee Request
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.EmployeeRequestPathName}{AppPathConstants.PaginateClientEmployeeRequestPathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.EmployeeRequestPathName}{AppPathConstants.CreateClientEmployeeRequestPathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.EmployeeRequestPathName}{AppPathConstants.UpdateClientEmployeeRequestPathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.EmployeeRequestPathName}{AppPathConstants.DeleteClientEmployeeRequestPathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
     #Organizatiom Employee
     assign_roles_to_route(
         app=app,
@@ -467,6 +509,26 @@ def assign_roles(app) -> None:
         app=app,
         path=f"/{AppPathConstants.VehiclePathName}{AppPathConstants.GetByValuePathName}",
         roles=[AppRouteConstant.AdministratorTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.VehiclePathName}{AppPathConstants.PaginateClientVehiclesPathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.VehiclePathName}{AppPathConstants.GetClientVehiclesPathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.VehiclePathName}{AppPathConstants.AddClientVehiclePathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.VehiclePathName}{AppPathConstants.UpdateClientVehiclePathName}",
+        roles=[AppRouteConstant.ClientTagName],
     )
     # Verified User
     assign_roles_to_route(

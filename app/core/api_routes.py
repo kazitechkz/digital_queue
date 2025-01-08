@@ -1,4 +1,5 @@
 from app.adapters.api.auth.auth_api import AuthApi
+from app.adapters.api.employee_request.employee_request_api import EmployeeRequestApi
 from app.adapters.api.factory.factory_api import FactoryApi
 from app.adapters.api.file.file_api import FileApi
 from app.adapters.api.material.material_api import MaterialApi
@@ -112,6 +113,11 @@ def include_routers(app) -> None:
         VerifiedVehicleApi().router,
         prefix=f"/{AppPathConstants.VerifiedVehiclePathName}",
         tags=[AppPathConstants.VerifiedVehicleTagName],
+    )
+    app.include_router(
+        EmployeeRequestApi().router,
+        prefix=f"/{AppPathConstants.EmployeeRequestPathName}",
+        tags=[AppPathConstants.EmployeeRequestTagName],
     )
     app.include_router(
         OrganizationEmployeeApi().router,

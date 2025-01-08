@@ -29,6 +29,7 @@ class OrganizationCDTO(BaseModel):
     phone: DTOConstant.StandardPhoneField()
     address: DTOConstant.StandardNullableTextField()
     status: DTOConstant.StandardBooleanTrueField()
+    is_verified: DTOConstant.StandardNullableBooleanField()
 
     class Config:
         from_attributes = True
@@ -47,6 +48,7 @@ class OrganizationRDTO(OrganizationDTO):
     phone: DTOConstant.StandardPhoneField()
     address: DTOConstant.StandardNullableTextField()
     status: DTOConstant.StandardBooleanTrueField()
+    is_verified: DTOConstant.StandardNullableBooleanField()
 
     class Config:
         from_attributes = True

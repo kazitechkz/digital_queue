@@ -2,6 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from app.adapters.dto.employee_request.employee_request_dto import EmployeeRequestRDTO
 from app.adapters.dto.organization.organization_dto import OrganizationRDTO
 from app.adapters.dto.user.user_dto import UserRDTO
 from app.shared.dto_constants import DTOConstant
@@ -39,7 +40,7 @@ class OrganizationEmployeeRDTO(OrganizationEmployeeDTO):
 class OrganizationEmployeeWithRelationsDTO(OrganizationEmployeeRDTO):
     organization: Optional[OrganizationRDTO] = None
     employee: Optional[UserRDTO] = None
-    # request:Optional[EmployeeRequestRDTO] = None
+    request:Optional[EmployeeRequestRDTO] = None
 
     class Config:
         from_attributes = True

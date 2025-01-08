@@ -84,7 +84,8 @@ class UserKeycloakCDTO(BaseModel):
     class Config:
         from_attributes = True
 
-class UserOrganizationRDTO(UserRDTO):
+class UserOrganizationRDTO(BaseModel):
+    id: DTOConstant.StandardID()
     owner_id: DTOConstant.StandardNullableUnsignedIntegerField()
     type_id: DTOConstant.StandardNullableUnsignedIntegerField()
     file_id: DTOConstant.StandardNullableIntegerField()

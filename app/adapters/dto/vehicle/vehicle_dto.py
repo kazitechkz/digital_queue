@@ -29,6 +29,8 @@ class VehicleCDTO(BaseModel):
     car_model: DTOConstant.StandardVarcharField()
     is_trailer: DTOConstant.StandardBooleanFalseField()
     vehicle_info: DTOConstant.StandardNullableTextField()
+    is_verified: DTOConstant.StandardNullableBooleanField()
+    status: DTOConstant.StandardBooleanTrueField()
 
     @model_validator(mode="after")
     def check_owner_and_organization(self) -> Self:
@@ -54,6 +56,8 @@ class VehicleRDTO(VehicleDTO):
     car_model: DTOConstant.StandardVarcharField()
     is_trailer: DTOConstant.StandardBooleanFalseField()
     vehicle_info: DTOConstant.StandardNullableTextField()
+    is_verified: DTOConstant.StandardNullableBooleanField()
+    status: DTOConstant.StandardBooleanTrueField()
 
     class Config:
         from_attributes = True
