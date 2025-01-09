@@ -13,6 +13,36 @@ def assign_roles_to_route(app, path, roles) -> None:
 
 
 def assign_roles(app) -> None:
+    #Auth
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.AuthPathName}{AppPathConstants.LoginPathName}",
+        roles=[
+            AppRouteConstant.CommonTagName,
+        ],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.AuthPathName}{AppPathConstants.GetMePathName}",
+        roles=[
+            AppRouteConstant.CommonTagName,
+        ],
+    )
+    #Test
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.TestPathName}/test-get",
+        roles=[
+            AppRouteConstant.CommonTagName,
+        ],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.TestPathName}/test-post",
+        roles=[
+            AppRouteConstant.CommonTagName,
+        ],
+    )
     # Factory
     assign_roles_to_route(
         app=app,
@@ -146,6 +176,14 @@ def assign_roles(app) -> None:
             AppRouteConstant.AdministratorTagName,
             AppRouteConstant.ClientTagName,
             AppRouteConstant.EmployeesTagName,
+        ],
+    )
+    #Order
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.OrderPathName}{AppPathConstants.CreateClientOrderRequestPathName}",
+        roles=[
+            AppRouteConstant.ClientTagName,
         ],
     )
     # Order Status

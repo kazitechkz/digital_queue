@@ -7,6 +7,7 @@ from app.adapters.dto.user.user_dto import UserWithRelationsDTO
 from app.core.app_exception_response import AppExceptionResponse
 from app.core.auth_core import get_current_user
 from app.infrastructure.database import get_db
+from app.shared.path_constants import AppPathConstants
 from app.use_cases.auth.login_case import LoginCase
 
 
@@ -17,13 +18,13 @@ class AuthApi:
 
     def _add_routes(self) -> None:
         self.router.post(
-            "/login",
+            f"{AppPathConstants.LoginPathName}",
             response_model=BearerTokenDTO,
             summary="Авторизация",
             description="Авторизуйтесь с помощью username и password",
         )(self.sign_in)
         self.router.get(
-            "/me",
+            f"{AppPathConstants.GetMePathName}",
             response_model=UserWithRelationsDTO,
             summary="Получить авторизованного пользователя",
             description="Данные пользователя",

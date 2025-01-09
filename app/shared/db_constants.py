@@ -151,11 +151,11 @@ class DbModelValue:
         return f"CAST({column_name} * 1000 AS SIGNED)"
 
     @property
-    def quan(self) -> str:
+    def quan_t(self) -> str:
         """Вычисление QUAN."""
         if self.is_postgresql:
-            return "(quan_t * 1000)::INTEGER"
-        return "CAST(quan_t * 1000 AS SIGNED)"
+            return "(quan / 1000.0)::DOUBLE PRECISION"
+        return "(quan / 1000.0)"
 
     @property
     def quan_released_t(self) -> str:
@@ -175,15 +175,15 @@ class DbModelValue:
     def quan_left(self) -> str:
         """Вычисление QUAN_LEFT."""
         if self.is_postgresql:
-            return "(quan_t * 1000)::INTEGER - quan_booked - quan_released"
-        return "CAST(quan_t * 1000 AS SIGNED) - quan_booked - quan_released"
+            return "quan - quan_booked - quan_released"
+        return "quan - quan_booked - quan_released"
 
     @property
     def quan_left_t(self) -> str:
         """Вычисление QUAN_LEFT_T."""
         if self.is_postgresql:
-            return "((quan_t * 1000)::INTEGER - quan_booked - quan_released) / 1000.0"
-        return "(CAST(quan_t * 1000 AS SIGNED) - quan_booked - quan_released) / 1000.0"
+            return "(quan - quan_booked - quan_released) / 1000.0"
+        return "(quan - quan_booked - quan_released) / 1000.0"
 
     @property
     def tomorrow(self) -> str:

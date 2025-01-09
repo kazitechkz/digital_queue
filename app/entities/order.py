@@ -40,11 +40,10 @@ class OrderModel(Base):
         )
     ]
     material_sap_id: Mapped[DbColumnConstants.StandardVarcharIndex]
-
-    quan_t: Mapped[DbColumnConstants.StandardPrice]
-    quan: Mapped[
-        DbColumnConstants.StandardComputedInteger(
-            table_exp=DbModelValue().quan, is_persisted=True
+    quan: Mapped[DbColumnConstants.StandardInteger]
+    quan_t: Mapped[
+        DbColumnConstants.StandardComputedFloat(
+            table_exp=DbModelValue().quan_t, is_persisted=True
         )
     ]
     quan_released: Mapped[DbColumnConstants.StandardIntegerDefaultZero]
@@ -121,7 +120,7 @@ class OrderModel(Base):
     is_cancel: Mapped[DbColumnConstants.StandardBooleanFalse]
 
     start_at: Mapped[DbColumnConstants.CreatedAt]
-    end_at: Mapped[DbColumnConstants.StandardDateTime]
+    end_at: Mapped[DbColumnConstants.StandardNullableDateTime]
     finished_at: Mapped[DbColumnConstants.StandardNullableDateTime]
     paid_at: Mapped[DbColumnConstants.StandardNullableDateTime]
     cancel_at: Mapped[DbColumnConstants.StandardNullableDateTime]

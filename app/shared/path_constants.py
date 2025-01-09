@@ -27,6 +27,8 @@ class AppPathConstants:
     VehicleCategoryTagName = "Категория транспортного средства"
     OrderStatusPathName = "order-status"
     OrderStatusTagName = "Статус заказа"
+    OrderPathName = "order"
+    OrderTagName = "Заказы"
     OperationPathName = "operation"
     OperationTagName = "Бизнес процесс"
     FactoryPathName = "factory"
@@ -51,6 +53,8 @@ class AppPathConstants:
     OrganizationEmployeeTagName = "Работники Организации"
     AuthPathName = "auth"
     AuthTagName = "Аутентификация"
+    TestPathName = "test"
+    TestTagName = "Для тестирования"
     EmployeeRequestPathName = "employee-request"
     EmployeeRequestTagName = "Заявка на добавление в организацию"
 
@@ -77,3 +81,8 @@ class AppPathConstants:
     CreateClientEmployeeRequestPathName = "/create-client"
     UpdateClientEmployeeRequestPathName = "/make-decision/{id}"
     DeleteClientEmployeeRequestPathName = "/delete-client/{id}"
+    #Order
+    CreateClientOrderRequestPathName = "/create-client-order"
+    #Auth
+    LoginPathName = "/login"
+    GetMePathName = "/me"

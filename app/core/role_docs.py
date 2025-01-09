@@ -24,6 +24,7 @@ def setup_role_documentation(app) -> None:
     admin_docs_url = f"{app_config.app_docs_url}{app_config.app_administrator_docs_url}"
     employee_docs_url = f"{app_config.app_docs_url}{app_config.app_employee_docs_url}"
     client_docs_url = f"{app_config.app_docs_url}{app_config.app_client_docs_url}"
+    common_docs_url = f"{app_config.app_docs_url}common"
     # Указываем папку с шаблонами
     templates = Jinja2Templates(directory="templates")
 
@@ -36,6 +37,7 @@ def setup_role_documentation(app) -> None:
                 "admin_docs_url": admin_docs_url,
                 "employee_docs_url": employee_docs_url,
                 "client_docs_url": client_docs_url,
+                "common_docs_url": common_docs_url,
             },
         )
 
@@ -59,6 +61,12 @@ def setup_role_documentation(app) -> None:
             title=AppRouteConstant.EmployeesName,
         )
 
+    @app.get(common_docs_url, include_in_schema=False)
+    async def get_employee_docs():
+        return get_swagger_ui_html(
+            openapi_url=f"/openapi/{common_docs_url}",
+            title=AppRouteConstant.CommonName,
+        )
     # OpenAPI схемы для каждой роли
     @app.get(f"/openapi/{admin_docs_url}", include_in_schema=False)
     async def get_admin_openapi():
@@ -78,4 +86,10 @@ def setup_role_documentation(app) -> None:
     async def get_employee_openapi():
         return custom_openapi(
             app, AppRouteConstant.EmployeesTagName, AppRouteConstant.EmployeesName
+        )
+
+    @app.get(f"/openapi/{common_docs_url}", include_in_schema=False)
+    async def get_employee_openapi():
+        return custom_openapi(
+            app, AppRouteConstant.CommonTagName, AppRouteConstant.CommonName
         )

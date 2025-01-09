@@ -87,6 +87,48 @@ class AppConfiguration(BaseSettings):
     cors_allowed_methods: List[str] = Field(default=["*"], env="CORS_ALLOWED_METHODS")
     cors_allowed_headers: List[str] = Field(default=["*"], env="CORS_ALLOWED_HEADERS")
 
+    # SAP Configuration
+    sap_use_fake_service: bool = Field(default=True, env="SAP_USE_FAKE_SERVICE")
+
+    # SAP Authentication Settings
+    auth_contract_https_enabled: bool = Field(default=True, env="AUTH_CONTRACT_HTPPS_ENABLED")
+    sap_auth_https_url: str = Field(default="https://sap-piqas.group.erg.kz:50001/RESTAdapter/OAuthServer",
+                                    env="SAP_AUTH_HTTPS_URL")
+    sap_auth_http_url: str = Field(default="http://sap-piqas.group.erg.kz:50000/RESTAdapter/OAuthServer",
+                                   env="SAP_AUTH_HTTP_URL")
+
+    # SAP 083 Configuration
+    sap_083_https_enabled: bool = Field(default=True, env="SAP_083_HTTPS_ENABLED")
+    sap_083_grant_type: str = Field(default="client_credentials", env="SAP_083_GRANT_TYPE")
+    sap_083_client_id: str = Field(..., env="SAP_083_CLIENT_ID")
+    sap_083_client_secret: str = Field(..., env="SAP_083_CLIENT_SECRET")
+    sap_083_scope: str = Field(default="MyERG|BS_MYERG_QAS|CC_REST_MyERG_YOTCI083_SENDER", env="SAP_083_SCOPE")
+    sap_083_https_url: str = Field(default="https://sap-piqas.group.erg.kz:50001/RESTAdapter/MYERG/YOTCI083",
+                                   env="SAP_083_HTTPS_URL")
+    sap_083_http_url: str = Field(default="http://sap-piqas.group.erg.kz:50000/RESTAdapter/MYERG/YOTCI083",
+                                  env="SAP_083_HTTP_URL")
+
+    # SAP 088 Configuration
+    sap_088_create_order_https_enabled: bool = Field(default=True, env="SAP_088_CREATE_ORDER_HTTPS_ENABLED")
+    sap_088_grant_type: str = Field(default="client_credentials", env="SAP_088_GRANT_TYPE")
+    sap_088_client_id: str = Field(..., env="SAP_088_CLIENT_ID")
+    sap_088_client_secret: str = Field(..., env="SAP_088_CLIENT_SECRET")
+    sap_088_create_order_https_url: str = Field(
+        default="https://sap-piqas.group.erg.kz:50001/RESTAdapter/QOLLAB/RubbleOrder",
+        env="SAP_088_CREATE_ORDER_HTTPS_URL")
+    sap_088_create_order_http_url: str = Field(
+        default="http://sap-piqas.group.erg.kz:50000/RESTAdapter/QOLLAB/RubbleOrder",
+        env="SAP_088_CREATE_ORDER_HTTP_URL")
+
+    #ORDER CONFIG
+    order_create_min_kg: int = Field(default=1000, env="ORDER_CREATE_MIN_KG")
+    order_min_left_kg: int = Field(default=500, env="ORDER_MIN_LEFT_KG")
+    #REDIS
+    redis_host: str = Field(default="localhost", env="REDIS_HOST")
+    redis_port: int = Field(default=6739, env="REDIS_PORT")
+    redis_password: Optional[str] = Field(default=None, env="REDIS_PASSWORD")
+    redis_db: int = Field(default=0, env="REDIS_DB")
+
     @property
     def get_connection_url(self) -> str:
         """Get the connection URL for the chosen database."""

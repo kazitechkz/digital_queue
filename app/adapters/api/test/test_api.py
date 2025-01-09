@@ -12,8 +12,10 @@ from app.adapters.dto.user.user_dto import UserRDTO, UserWithRelationsDTO
 from app.adapters.filters.user.user_filter import UserFilter
 from app.adapters.repositories.user.user_repository import UserRepository
 from app.core.app_exception_response import AppExceptionResponse
+from app.infrastructure.api_clients.sap_get_contract_client import SapGetContractApiClient
 from app.infrastructure.database import get_db
 from app.shared.app_file_constants import AppFileExtensionConstants
+from app.shared.dto_constants import DTOConstant
 from app.shared.query_constants import AppQueryConstants
 from app.use_cases.file.save_file_case import SaveFileCase
 
@@ -34,7 +36,6 @@ class TestApi:
             "/test-get",
             summary="Тестовый сервис",
             description="Тест",
-            response_model=PaginationUserWithRelationsDTO,
         )(self.get_test)
 
     async def post_test(
@@ -58,21 +59,11 @@ class TestApi:
 
     async def get_test(
         self,
-        params: UserFilter = Depends(),
-        db: AsyncSession = Depends(get_db),
+            bin:DTOConstant.StandardUniqueBINField(description="БИН")
     ):
         try:
-            userRepo = UserRepository(db=db)
-            all = await userRepo.paginate(
-                per_page=params.per_page,
-                page=params.page,
-                filters=params.apply(),
-                dto=UserWithRelationsDTO,
-                order_by=params.order_by,
-                order_direction=params.order_direction,
-                options=userRepo.default_relationships(),
-            )
-            return all
+            service = SapGetContractApiClient()
+            return await service.get_organization_contracts_by_bin_response(bin=bin)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
