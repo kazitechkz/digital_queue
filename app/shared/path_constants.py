@@ -29,6 +29,8 @@ class AppPathConstants:
     OrderStatusTagName = "Статус заказа"
     OrderPathName = "order"
     OrderTagName = "Заказы"
+    SapRequestPathName = "sap-request"
+    SapRequestTagName = "САП"
     OperationPathName = "operation"
     OperationTagName = "Бизнес процесс"
     FactoryPathName = "factory"
@@ -83,6 +85,8 @@ class AppPathConstants:
     DeleteClientEmployeeRequestPathName = "/delete-client/{id}"
     #Order
     CreateClientOrderRequestPathName = "/create-client-order"
+    #SAP
+    RecreateSAPOrderRequestPathName = "/recreate/{order_id}"
     #Auth
     LoginPathName = "/login"
     GetMePathName = "/me"

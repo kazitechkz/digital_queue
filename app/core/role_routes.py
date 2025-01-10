@@ -186,6 +186,14 @@ def assign_roles(app) -> None:
             AppRouteConstant.ClientTagName,
         ],
     )
+    # Sap Request
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.SapRequestPathName}{AppPathConstants.RecreateSAPOrderRequestPathName}",
+        roles=[
+            AppRouteConstant.ClientTagName,
+        ],
+    )
     # Order Status
     assign_roles_to_route(
         app=app,

@@ -1,16 +1,14 @@
 from datetime import datetime
-
 from sqlalchemy import and_, func
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from app.adapters.dto.order.create_order_dto import CreateOrderDTO
 from app.adapters.dto.order.order_dto import OrderWithRelationsDTO, OrderCDTO
-from app.adapters.dto.order_status.order_status_dto import OrderStatusWithRelationsDTO
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
 from app.adapters.repositories.material.material_repository import MaterialRepository
 from app.adapters.repositories.order.order_repository import OrderRepository
 from app.adapters.repositories.order_status.order_status_repository import OrderStatusRepository
 from app.adapters.repositories.organization.organization_repository import OrganizationRepository
+from app.adapters.repositories.sap_request.sap_request_repository import SapRequestRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.config import app_config
 from app.shared.db_constants import AppDbValueConstants
@@ -23,18 +21,19 @@ class CreateClientOrderCase(BaseUseCase[OrderWithRelationsDTO]):
         self.material_repository = MaterialRepository(db)
         self.organization_repository = OrganizationRepository(db)
         self.order_status_repository = OrderStatusRepository(db)
+        self.sap_request_repository = SapRequestRepository(db)
 
     async def execute(self,
                       dto: CreateOrderDTO,
                       user:UserWithRelationsDTO,
-                      ) -> OrderStatusWithRelationsDTO:
+                      ) -> OrderWithRelationsDTO:
         await self.validate(dto,user)
         dto:OrderCDTO = await self.transform(dto=dto,user=user)
         model = await self.repository.create(obj=self.repository.model(**dto.dict()))
         if not model:
             raise AppExceptionResponse.internal_error("Ошибка создания заказа")
         model = await self.repository.get(id=model.id, options=self.repository.default_relationships())
-        return model
+        return OrderWithRelationsDTO.from_orm(model)
 
 
     async def validate(self, dto: CreateOrderDTO,user:UserWithRelationsDTO):

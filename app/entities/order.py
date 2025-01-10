@@ -171,7 +171,13 @@ class OrderModel(Base):
             foreign_keys=f"{AppModelNames.KaspiPaymentsModelName}.order_id",
         )
     )
-
+    order_status: Mapped[AppModelNames.OrderStatusModelName] = (
+        DbRelationshipConstants.many_to_one(
+            target=AppModelNames.OrderStatusModelName,
+            back_populates="orders",
+            foreign_keys=f"{AppModelNames.OrderModelName}.status_id",
+        )
+    )
     factory: Mapped[AppModelNames.FactoryModelName] = (
         DbRelationshipConstants.many_to_one(
             target=AppModelNames.FactoryModelName,

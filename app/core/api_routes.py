@@ -12,6 +12,7 @@ from app.adapters.api.organization_employee.organization_employee_api import \
 from app.adapters.api.organization_type.organization_type_api import \
     OrganizationTypeApi
 from app.adapters.api.role.role_api import RoleApi
+from app.adapters.api.sap.sap_request_api import SapRequestApi
 from app.adapters.api.test.test_api import TestApi
 from app.adapters.api.user.user_api import UserApi
 from app.adapters.api.user_type.user_type_api import UserTypeApi
@@ -69,6 +70,11 @@ def include_routers(app) -> None:
         OrderApi().router,
         prefix=f"/{AppPathConstants.OrderPathName}",
         tags=[AppPathConstants.OrderTagName],
+    )
+    app.include_router(
+        SapRequestApi().router,
+        prefix=f"/{AppPathConstants.SapRequestPathName}",
+        tags=[AppPathConstants.SapRequestTagName],
     )
     app.include_router(
         OperationApi().router,

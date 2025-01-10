@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from sqlalchemy.orm import Mapped
 
@@ -43,5 +43,13 @@ class OrderStatusModel(Base):
             target=AppModelNames.OrderStatusModelName,
             foreign_keys=f"{AppModelNames.OrderStatusModelName}.next_id",
             remote_side=f"{AppModelNames.OrderStatusModelName}.id",
+        )
+    )
+
+    orders: Mapped[List[AppModelNames.OrderModelName]] = (
+        DbRelationshipConstants.one_to_many(
+            target=AppModelNames.OrderModelName,
+            back_populates="order_status",
+            foreign_keys=f"{AppModelNames.OrderModelName}.status_id",
         )
     )

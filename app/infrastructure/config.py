@@ -34,6 +34,7 @@ class AppConfiguration(BaseSettings):
     db_pool_recycle: int = Field(..., env="DB_POOL_RECYCLE")
     # My SQL
     mysql_connection: str = Field(default="mysql+aiomysql", env="MYSQL_CONNECTION")
+    mysql_timezone:str = Field(default="+05:00",env="MYSQL_TIMEZONE")
     mysql_db_host: str = Field(default="localhost", env="MYSQL_DB_HOST")
     mysql_db_port: int = Field(default=5432, env="MYSQL_DB_PORT")
     mysql_db_user: str = Field(default="postgres", env="MYSQL_DB_USER")
@@ -41,6 +42,7 @@ class AppConfiguration(BaseSettings):
     mysql_db_name: str = Field(default="digital_queue", env="MYSQL_DB_NAME")
     # PostgreSQL specific settings
     pg_connection: str = Field(default="postgresql+asyncpg", env="PG_CONNECTION")
+    pg_timezone:str = Field(default="Asia/Almaty",env="PG_TIMEZONE")
     pg_db_host: str = Field(default="localhost", env="PG_DB_HOST")
     pg_db_port: int = Field(default=5432, env="PG_DB_PORT")
     pg_db_user: str = Field(default="postgres", env="PG_DB_USER")
@@ -89,6 +91,7 @@ class AppConfiguration(BaseSettings):
 
     # SAP Configuration
     sap_use_fake_service: bool = Field(default=True, env="SAP_USE_FAKE_SERVICE")
+    sap_create_order_after_order: bool = Field(default=True, env="SAP_CREATE_ORDER_AFTER_ORDER")
 
     # SAP Authentication Settings
     auth_contract_https_enabled: bool = Field(default=True, env="AUTH_CONTRACT_HTPPS_ENABLED")

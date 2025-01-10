@@ -237,3 +237,166 @@ class DTOConstant:
     StandardUpdatedAt = Annotated[
         datetime, Field(description="Дата обновления", example="2024-01-01T12:00:00")
     ]
+
+    @staticmethod
+    def SAP_DOGOVOR_FIELD(description=None):
+        return Annotated[
+            str,
+            Field(
+                max_length=FieldConstants.SAP_DOGOVOR_LENGTH,
+                description=description
+                            or f"№ договора в SAP",
+            ),
+        ]
+
+    @staticmethod
+    def MATNR_FIELD(description=None):
+        return Annotated[
+            str,
+            Field(
+                max_length=FieldConstants.MATNR_LENGTH,
+                description=description
+                            or f"№ материала в SAP",
+            ),
+        ]
+
+    @staticmethod
+    def SAP_QUAN_FIELD(description=None):
+        return Annotated[
+            float,
+            Field(
+                gt=0,
+                le=FieldConstants.SAP_QUAN_LE,
+                description=description
+                            or f"Объем заказа (NUMC, 13) в тоннах",
+            ),
+        ]
+
+    @staticmethod
+    def SAP_ORDER_ID_FIELD(description=None):
+        return Annotated[
+            int,
+            Field(
+                gt=0,
+                le=FieldConstants.SAP_ORDER_ID_LE,
+                description=description
+                            or f"Идентификатор заказа",
+            ),
+        ]
+
+    @staticmethod
+    def SAP_NULLABLE_ORDER_ID_FIELD(description=None):
+        return Annotated[
+            Optional[int],
+            Field(
+                le=FieldConstants.SAP_ORDER_ID_LE,
+                description=description
+                            or f"Идентификатор заказа",
+            ),
+        ]
+
+    @staticmethod
+    def WERKS_FIELD(description=None):
+        return Annotated[
+            str,
+            Field(
+                max_length=FieldConstants.WERKS_LENGTH,
+                description=description
+                            or f"Код завода в SA",
+            ),
+        ]
+
+    @staticmethod
+    def KUN_NAME_FIELD(description=None):
+        return Annotated[
+            str,
+            Field(
+                max_length=FieldConstants.SAP_KUN_NAME,
+                description=description
+                            or f"Код завода в SA",
+            ),
+        ]
+
+    @staticmethod
+    def SAP_ADR_INDEX_FIELD(description=None):
+        return Annotated[
+            str,
+            Field(
+                max_length=FieldConstants.SAP_ADR_INDEX,
+                description=description
+                            or f"Данные адреса, почтовый индекс",
+            ),
+        ]
+
+    @staticmethod
+    def SAP_ADR_CITY_FIELD(description=None):
+        return Annotated[
+            str,
+            Field(
+                max_length=FieldConstants.SAP_ADR_CITY,
+                description=description
+                            or f"Данные адреса, город",
+            ),
+        ]
+
+    @staticmethod
+    def SAP_ADR_STR_FIELD(description=None):
+        return Annotated[
+            str,
+            Field(
+                max_length=FieldConstants.SAP_ADR_STR,
+                description=description
+                            or f"Данные адреса, улица",
+            ),
+        ]
+
+    @staticmethod
+    def SAP_ADR_DOM_FIELD(description=None):
+        return Annotated[
+            str,
+            Field(
+                max_length=FieldConstants.SAP_ADR_DOM,
+                description=description
+                            or f"Данные адреса, № дома",
+            ),
+        ]
+
+    @staticmethod
+    def SAP_PDF(description=None):
+        return Annotated[
+            Optional[str],
+            Field(
+                description=description
+                            or f"Счет на предоплату в формате Base64",
+            ),
+        ]
+
+    @staticmethod
+    def SAP_TEXT(description=None):
+        return Annotated[
+            Optional[str],
+            Field(
+                description=description
+                            or f"Описание причины ошибки (пустое значение, если перенос успешен)",
+            ),
+        ]
+
+    @staticmethod
+    def SAP_DATE(description=None):
+        return Annotated[
+            Optional[str],
+            Field(
+                description=description
+                            or f"Дата переноса (формат YYYY-MM-DD)",
+            ),
+        ]
+
+    @staticmethod
+    def SAP_TIME(description=None):
+        return Annotated[
+            Optional[str],
+            Field(
+                description=description
+                            or f"Время переноса (формат HH:MM:SS)",
+            ),
+        ]

@@ -4,7 +4,9 @@ from pydantic import BaseModel
 
 from app.adapters.dto.factory.factory_dto import FactoryRDTO
 from app.adapters.dto.material.material_dto import MaterialRDTO
+from app.adapters.dto.order_status.order_status_dto import OrderStatusRDTO
 from app.adapters.dto.organization.organization_dto import OrganizationRDTO
+from app.adapters.dto.sap.sap_request_dto import SapRequestRDTO
 from app.adapters.dto.user.user_dto import UserRDTO
 from app.adapters.dto.workshop.workshop_dto import WorkshopRDTO
 from app.shared.dto_constants import DTOConstant
@@ -134,10 +136,11 @@ class OrderWithRelationsDTO(OrderRDTO):
     factory:Optional[FactoryRDTO] = None
     workshop:Optional[WorkshopRDTO] = None
     material:Optional[MaterialRDTO] = None
-    #sap:Optional[SapRequestRDTO] = None
+    sap:Optional[SapRequestRDTO] = None
     #kaspi:Optional[KaspiPaymentRDTO] = None
     owner:Optional[UserRDTO] = None
     organization:Optional[OrganizationRDTO] = None
     canceled_by:Optional[UserRDTO] = None
     checked_payment_by:Optional[UserRDTO] = None
+    order_status:Optional[OrderStatusRDTO] = None
     #payment_return:Optional[PaymentReturnRDTO] = None
