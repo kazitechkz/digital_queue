@@ -4,6 +4,7 @@ from pydantic import BaseModel
 
 from app.adapters.dto.employee_request.employee_request_dto import EmployeeRequestWithRelationsDTO
 from app.adapters.dto.file.file_dto import FileRDTO
+from app.adapters.dto.order.order_dto import OrderWithRelationsDTO
 from app.adapters.dto.organization.organization_dto import \
     OrganizationWithRelationsDTO
 from app.adapters.dto.organization_employee.organization_employee_dto import \
@@ -76,3 +77,6 @@ class PaginationOrganizationEmployeeWithRelationsDTO(BasePageModel):
 
 class PaginationEmployeeRequestWithRelationsDTO(BasePageModel):
     items: List[EmployeeRequestWithRelationsDTO]
+
+class PaginationOrderWithRelationsDTO(BasePageModel):
+    items: List[OrderWithRelationsDTO]
