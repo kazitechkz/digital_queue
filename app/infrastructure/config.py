@@ -131,6 +131,11 @@ class AppConfiguration(BaseSettings):
     redis_port: int = Field(default=6739, env="REDIS_PORT")
     redis_password: Optional[str] = Field(default=None, env="REDIS_PASSWORD")
     redis_db: int = Field(default=0, env="REDIS_DB")
+    #KASPI
+    fast_payment_kaspi_service: Optional[str] = Field(default=None, env="FAST_PAYMENT_KASPI_SERVICE")
+    fast_payment_kaspi_url: Optional[str] = Field(default="https://kaspi.kz/online", env="FAST_PAYMENT_KASPI_URL")
+    fast_payment_kaspi_refer_host: Optional[str] = Field(default="https://kaspi.kz/online", env="FAST_PAYMENT_KASPI_REFER_HOST")
+    fast_payment_kaspi_return_url: Optional[str] = Field(default="https://kaspi.kz/online", env="FAST_PAYMENT_KASPI_RETURN_URL")
 
     @property
     def get_connection_url(self) -> str:

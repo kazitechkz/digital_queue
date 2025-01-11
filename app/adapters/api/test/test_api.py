@@ -1,22 +1,12 @@
-import json
-from typing import Optional
-
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
-from app.adapters.dto.pagination_dto import (Pagination,
-                                             PaginationUserWithRelationsDTO)
 from app.adapters.dto.role.role_dto import RoleCDTO
-from app.adapters.dto.user.user_dto import UserRDTO, UserWithRelationsDTO
-from app.adapters.filters.user.user_filter import UserFilter
-from app.adapters.repositories.user.user_repository import UserRepository
 from app.core.app_exception_response import AppExceptionResponse
-from app.infrastructure.api_clients.sap_get_contract_client import SapGetContractApiClient
+from app.infrastructure.api_clients.sap.sap_get_contract_client import SapGetContractApiClient
 from app.infrastructure.database import get_db
 from app.shared.app_file_constants import AppFileExtensionConstants
 from app.shared.dto_constants import DTOConstant
-from app.shared.query_constants import AppQueryConstants
 from app.use_cases.file.save_file_case import SaveFileCase
 
 

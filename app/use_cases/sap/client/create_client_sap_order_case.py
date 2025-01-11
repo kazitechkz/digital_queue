@@ -1,7 +1,6 @@
 from datetime import datetime
 from typing import Optional, Union
 
-from sqlalchemy import and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.sap.create_sap_order_dto import CreateLegalSapOrderDTO, CreateIndividualSapOrderDTO, SapStatusDTO
@@ -11,7 +10,7 @@ from app.adapters.repositories.order.order_repository import OrderRepository
 from app.adapters.repositories.sap_request.sap_request_repository import SapRequestRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import OrderModel
-from app.infrastructure.api_clients.sap_create_order_client import SapCreateOrderApiClient
+from app.infrastructure.api_clients.sap.sap_create_order_client import SapCreateOrderApiClient
 from app.shared.db_constants import AppDbValueConstants
 from app.use_cases.base_case import BaseUseCase
 
