@@ -2,6 +2,7 @@ from app.adapters.api.auth.auth_api import AuthApi
 from app.adapters.api.employee_request.employee_request_api import EmployeeRequestApi
 from app.adapters.api.factory.factory_api import FactoryApi
 from app.adapters.api.file.file_api import FileApi
+from app.adapters.api.kaspi.kaspi_payment_api import KaspiPaymentApi
 from app.adapters.api.material.material_api import MaterialApi
 from app.adapters.api.operation.operation_api import OperationApi
 from app.adapters.api.order.order_api import OrderApi
@@ -70,6 +71,11 @@ def include_routers(app) -> None:
         OrderApi().router,
         prefix=f"/{AppPathConstants.OrderPathName}",
         tags=[AppPathConstants.OrderTagName],
+    )
+    app.include_router(
+        KaspiPaymentApi().router,
+        prefix=f"/{AppPathConstants.KaspiPaymentPathName}",
+        tags=[AppPathConstants.KaspiPaymentTagName],
     )
     app.include_router(
         SapRequestApi().router,

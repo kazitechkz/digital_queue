@@ -7,7 +7,7 @@ class KaspiFastPaymentDTO(BaseModel):
     TranId: DTOConstant.StandardVarcharField(description="Номер транзакции, номер заказа")
     OrderId:DTOConstant.StandardVarcharField(description="Номер транзакции, номер заказа SAP")
     Amount:DTOConstant.StandardIntegerField(description="Сумма оплаты в тиынах")
-    Service: DTOConstant.StandardIntegerField(description="Уникальная строка сервиса")
+    Service: DTOConstant.StandardVarcharField(description="Уникальная строка сервиса")
     returnUrl: DTOConstant.StandardVarcharField(description="Адрес страницы для возврата после проведения платежа")
     refererHost: DTOConstant.StandardVarcharField(description="Домен, с которого происходит отправка запроса (только для JSON запроса)")
     GenerateQrCode: DTOConstant.StandardBooleanTrueField(description="Флаг для получения картинки с QR в формате base 64 (только для JSON запроса)")

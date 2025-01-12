@@ -1,21 +1,21 @@
 import requests
-from app.adapters.dto.kaspi.kaspi_request_dto import KaspiFastPaymentResponseDTO
+from app.adapters.dto.kaspi.kaspi_request_dto import KaspiFastPaymentResponseDTO, KaspiFastPaymentDTO
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.config import app_config
 
 
 class KaspiPaymentApiClient:
 
-    async def fast_payments(self,KaspiFastPaymentDTO):
+    async def fast_payments(self,dto:KaspiFastPaymentDTO)->KaspiFastPaymentResponseDTO:
         kaspi_url = app_config.fast_payment_kaspi_url
         payload = {
-            "TranId": f"{KaspiFastPaymentDTO.TranId}",
-            "OrderId": f"{KaspiFastPaymentDTO.OrderId}",
-            "Amount": KaspiFastPaymentDTO.Amount,
-            "Service": KaspiFastPaymentDTO.Service,
-            "returnUrl": f"{KaspiFastPaymentDTO.ReturnUrl}",
-            "refererHost": f"{KaspiFastPaymentDTO.RefererHost}",
-            "GenerateQrCode": f"{KaspiFastPaymentDTO.GenerateQrCode}",
+            "TranId": f"{dto.TranId}",
+            "OrderId": f"{dto.OrderId}",
+            "Amount": dto.Amount,
+            "Service": dto.Service,
+            "returnUrl": f"{dto.returnUrl}",
+            "refererHost": f"{dto.refererHost}",
+            "GenerateQrCode": f"{dto.GenerateQrCode}",
         }
         headers = {
             "Content-Type": "application/json",

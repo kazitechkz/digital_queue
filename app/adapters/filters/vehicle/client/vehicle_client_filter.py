@@ -85,6 +85,14 @@ class VehicleClientFilter(BasePaginationFilter[VehicleModel]):
             filters.append(and_(self.model.category_id.in_(self.category_ids)))
         if self.colors_ids:
             filters.append(and_(self.model.color_id.in_(self.colors_ids)))
+
+        organization_ids = [org.id for org in user.organizations]
+        filters.append(and_(
+            or_(
+                self.model.owner_id == user.id,
+                self.model.organization_id.in_(organization_ids)
+            )
+        ))
         if self.owner_id:
             if self.owner_id != user.id:
                 raise AppExceptionResponse().bad_request("Вы не можете просматривать ТС других пользователей")

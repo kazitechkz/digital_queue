@@ -24,4 +24,6 @@ class OrderRepository(BaseRepository[OrderModel]):
             selectinload(self.model.checked_payment_by),
             selectinload(self.model.payment_return),
             selectinload(self.model.order_status),
+            selectinload(self.model.sap_requests),
+            selectinload(self.model.kaspi_payments),
         ]

@@ -24,7 +24,7 @@ class CreateOrganizationEmployeeCase(BaseUseCase[OrganizationEmployeeWithRelatio
         self.user_repository = UserRepository(db)
 
     async def execute(
-        self, dto: OrganizationEmployeeCDTO, file: Optional[UploadFile] = None
+        self, dto: OrganizationEmployeeCDTO
     ) -> OrganizationEmployeeWithRelationsDTO:
         dto = await self.validate(dto)
         model = await self.repository.create(obj=self.repository.model(**dto.dict()))
@@ -52,7 +52,7 @@ class CreateOrganizationEmployeeCase(BaseUseCase[OrganizationEmployeeWithRelatio
                 message="Работник организации должен быть физ. лицом"
             )
 
-        organization = await self.organization_repository.get(id=dto.id)
+        organization = await self.organization_repository.get(id=dto.organization_id)
         if not organization:
             raise AppExceptionResponse().bad_request(message="Организация не найдена")
         existed_organization_employee = await self.repository.get_first_with_filters(

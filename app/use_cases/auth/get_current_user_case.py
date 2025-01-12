@@ -14,7 +14,7 @@ from app.adapters.repositories.user_type.user_type_repository import \
     UserTypeRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.core.key_cloak_core import keycloak_openid
-from app.infrastructure.api_clients.user_repo_client import UserRepoApiClient
+from app.infrastructure.api_clients.user_repo.user_repo_client import UserRepoApiClient
 from app.infrastructure.config import app_config
 from app.use_cases.base_case import BaseUseCase
 

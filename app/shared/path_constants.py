@@ -59,6 +59,8 @@ class AppPathConstants:
     TestTagName = "Для тестирования"
     EmployeeRequestPathName = "employee-request"
     EmployeeRequestTagName = "Заявка на добавление в организацию"
+    KaspiPaymentPathName = "kaspi"
+    KaspiPaymentTagName = "Каспи оплата"
 
     IndexPathName = "/"
     CreatePathName = "/create"
@@ -85,8 +87,23 @@ class AppPathConstants:
     DeleteClientEmployeeRequestPathName = "/delete-client/{id}"
     #Order
     CreateClientOrderRequestPathName = "/create-client-order"
+    AllClientOrderPathName = "/all-client-order"
+    PaginateClientOrderPathName = "/paginate-client-order"
+    GetClientOrderByIdPathName = "/client-order/{id}"
+    GetClientOrderByValuePathName = "/client-order/{value}"
     #SAP
     RecreateSAPOrderRequestPathName = "/recreate/{order_id}"
     #Auth
     LoginPathName = "/login"
     GetMePathName = "/me"
+    #Kaspi
+    KaspiFastPaymentPathName="/generate-payment-url"
+    KaspiCheckPathName="/check"
+    KaspiPayPathName="/pay"
+    #Organization
+    GetAllOrganizationEmployeeClientPathName = "/get-all-organization-employee"
+    PaginateOrganizationEmployeeClientPathName = "/paginate-organization-employee"
+    GetOrganizationEmployeeClientByIdPathName = "/get-organization-employee/{id}"
+    DeleteOrganizationEmployeeClientPathName = "/delete-organization-employee/{id}"
+
+

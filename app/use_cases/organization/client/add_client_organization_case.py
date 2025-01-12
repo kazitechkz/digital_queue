@@ -32,7 +32,7 @@ class AddClientOrganizationCase(BaseUseCase[OrganizationWithRelationsDTO]):
             user: UserWithRelationsDTO,
             file: Optional[UploadFile] = None
     ) -> OrganizationWithRelationsDTO:
-        await self.validate(dto)
+        await self.validate(dto=dto,user=user)
         file_model = None
         if AppFileExtensionConstants.is_upload_file(file):
             file_model = await self.service.save_file(

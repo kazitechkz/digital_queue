@@ -1,8 +1,9 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
 
 from app.adapters.dto.factory.factory_dto import FactoryRDTO
+from app.adapters.dto.kaspi.kaspi_payment_dto import KaspiPaymentRDTO
 from app.adapters.dto.material.material_dto import MaterialRDTO
 from app.adapters.dto.order_status.order_status_dto import OrderStatusRDTO
 from app.adapters.dto.organization.organization_dto import OrganizationRDTO
@@ -137,7 +138,9 @@ class OrderWithRelationsDTO(OrderRDTO):
     workshop:Optional[WorkshopRDTO] = None
     material:Optional[MaterialRDTO] = None
     sap:Optional[SapRequestRDTO] = None
-    #kaspi:Optional[KaspiPaymentRDTO] = None
+    sap_requests:Optional[List[SapRequestRDTO]] = None
+    kaspi:Optional[KaspiPaymentRDTO] = None
+    kaspi_payments:Optional[List[KaspiPaymentRDTO]] = None
     owner:Optional[UserRDTO] = None
     organization:Optional[OrganizationRDTO] = None
     canceled_by:Optional[UserRDTO] = None

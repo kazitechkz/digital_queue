@@ -186,6 +186,56 @@ def assign_roles(app) -> None:
             AppRouteConstant.ClientTagName,
         ],
     )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.OrderPathName}{AppPathConstants.AllClientOrderPathName}",
+        roles=[
+            AppRouteConstant.ClientTagName,
+        ],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.OrderPathName}{AppPathConstants.PaginateClientOrderPathName}",
+        roles=[
+            AppRouteConstant.ClientTagName,
+        ],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.OrderPathName}{AppPathConstants.GetClientOrderByIdPathName}",
+        roles=[
+            AppRouteConstant.ClientTagName,
+        ],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.OrderPathName}{AppPathConstants.GetClientOrderByValuePathName}",
+        roles=[
+            AppRouteConstant.ClientTagName,
+        ],
+    )
+    # Kaspi
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.KaspiPaymentPathName}{AppPathConstants.KaspiCheckPathName}",
+        roles=[
+            AppRouteConstant.CommonTagName,
+        ],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.KaspiPaymentPathName}{AppPathConstants.KaspiPayPathName}",
+        roles=[
+            AppRouteConstant.CommonTagName,
+        ],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.KaspiPaymentPathName}{AppPathConstants.KaspiFastPaymentPathName}",
+        roles=[
+            AppRouteConstant.ClientTagName,
+        ],
+    )
     # Sap Request
     assign_roles_to_route(
         app=app,
@@ -325,6 +375,27 @@ def assign_roles(app) -> None:
         app=app,
         path=f"/{AppPathConstants.OrganizationEmployeePathName}{AppPathConstants.GetByValuePathName}",
         roles=[AppRouteConstant.AdministratorTagName],
+    )
+    #Client
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.OrganizationEmployeePathName}{AppPathConstants.PaginateOrganizationEmployeeClientPathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.OrganizationEmployeePathName}{AppPathConstants.GetAllOrganizationEmployeeClientPathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.OrganizationEmployeePathName}{AppPathConstants.GetOrganizationEmployeeClientByIdPathName}",
+        roles=[AppRouteConstant.ClientTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.OrganizationEmployeePathName}{AppPathConstants.DeleteOrganizationEmployeeClientPathName}",
+        roles=[AppRouteConstant.ClientTagName],
     )
     # Organization Type
     assign_roles_to_route(

@@ -48,6 +48,7 @@ class EmployeeRequestApi:
             summary="Удалите заявку по уникальному ID",
             description="Удаление заявок по уникальному идентификатору",
         )(self.delete)
+        #client
 
 
     async def get_all(

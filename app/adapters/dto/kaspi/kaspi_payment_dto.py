@@ -23,7 +23,7 @@ class KaspiPaymentCDTO(BaseModel):
     is_failed: DTOConstant.StandardBooleanFalseField()
     is_paid: DTOConstant.StandardBooleanFalseField()
     is_qr_generate: DTOConstant.StandardBooleanFalseField()
-    paid_at: DTOConstant.StandardNullableDateField()
+    paid_at: DTOConstant.StandardNullableDateTimeField()
 
     class Config:
         from_attributes = True
@@ -41,7 +41,7 @@ class KaspiPaymentRDTO(KaspiPaymentDTO):
     is_failed:DTOConstant.StandardBooleanFalseField()
     is_paid:DTOConstant.StandardBooleanFalseField()
     is_qr_generate:DTOConstant.StandardBooleanFalseField()
-    paid_at:DTOConstant.StandardNullableDateField()
+    paid_at:DTOConstant.StandardNullableDateTimeField()
 
     class Config:
         from_attributes = True
