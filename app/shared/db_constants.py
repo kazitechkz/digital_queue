@@ -284,6 +284,16 @@ class DbColumnConstants:
             )
         ),
     ]
+    StandardZeroPrice = Annotated[
+        float,
+        mapped_column(
+            Numeric(
+                precision=FieldConstants.PRICE_PRECISION,
+                scale=FieldConstants.PRICE_SCALE,
+            ),
+            default=0.00,
+        ),
+    ]
     StandardNullablePrice = Annotated[
         Optional[float],
         mapped_column(

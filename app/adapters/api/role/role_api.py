@@ -26,7 +26,7 @@ class RoleApi:
             description="Получение списка ролей",
         )(self.get_all)
         self.router.post(
-            f"{AppPathConstants.IndexPathName}",
+            f"{AppPathConstants.CreatePathName}",
             response_model=RoleRDTO,
             summary="Создать роль",
             description="Создание роли",

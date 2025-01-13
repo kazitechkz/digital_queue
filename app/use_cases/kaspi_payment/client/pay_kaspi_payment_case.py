@@ -54,6 +54,13 @@ class PayKaspiPaymentCase(BaseUseCase[KaspiPaymentPayResponseDTO]):
                 sum=order.price_with_taxes,
                 prv_txn_id=kaspi_payment.txn_check_id,
             )
+        if order.price_with_taxes != dto.sum:
+            return self._create_response(
+                dto=dto,
+                result=KaspiPaymentHelper.PROVIDER_ERROR,
+                comment=f"Сумма недостаточно для оплаты заказа {order.price_with_taxes}, а вы оплачиваете {dto.sum}",
+                sum=order.price_with_taxes,
+            )
 
         await self._process_payment(order, dto, kaspi_payment, success=False)
         return self._create_response(
@@ -63,14 +70,19 @@ class PayKaspiPaymentCase(BaseUseCase[KaspiPaymentPayResponseDTO]):
             sum=order.price_with_taxes,
         )
 
+    async def validate(self, dto: KaspiPaymentPayRequestDTO):
+        return
+
     async def _get_order(self, dto: KaspiPaymentPayRequestDTO) -> Optional[OrderModel]:
         return await self.order_repository.get_first_with_filters(
             filters=[
                 and_(
                     func.lower(self.order_repository.model.zakaz)
                     == dto.account.lower(),
-                    func.lower(self.order_repository.model.status)
-                    == AppDbValueConstants.WAITING_FOR_PAYMENT_STATUS.lower(),
+                    self.order_repository.model.status.in_([
+                        AppDbValueConstants.WAITING_FOR_PAYMENT_STATUS,
+                        AppDbValueConstants.PAYMENT_REJECTED_STATUS
+                    ])
                 )
             ],
             options=self.order_repository.default_relationships(),
@@ -110,10 +122,12 @@ class PayKaspiPaymentCase(BaseUseCase[KaspiPaymentPayResponseDTO]):
     ) -> KaspiPaymentCDTO:
         payment_dto = KaspiPaymentCDTO.from_orm(kaspi_payment)
         payment_dto.txn_id = dto.txn_id
+        payment_dto.txn_pay_id = dto.txn_id
         payment_dto.command = KaspiPaymentHelper.PAY_COMMAND
         if success:
             payment_dto.is_paid = True
             payment_dto.is_failed = False
+            payment_dto.txn_date = dto.txn_date
             payment_dto.paid_at = KaspiPaymentHelper.get_paid_date_and_time(
                 dto.txn_date
             )[2]

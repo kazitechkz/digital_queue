@@ -36,6 +36,9 @@ class CheckKaspiPaymentCase(BaseUseCase[KaspiPaymentCheckResponseDTO]):
         kaspi_payment = await self._get_kaspi_payment(dto)
         return await self._generate_response(order, kaspi_payment, dto)
 
+    async def validate(self, dto: KaspiPaymentCheckRequestDTO):
+        return
+
     async def _get_order(
         self, dto: KaspiPaymentCheckRequestDTO
     ) -> Optional[OrderModel]:

@@ -24,7 +24,9 @@ class VehicleSeeder(BaseSeeder):
                 registration_number="123ABC12",
                 car_model="MAN",
                 is_trailer=False,
-                vehicle_info=None,
+                vehicle_info="Оранжевый MAN 123ABC12 (C)",
+                is_verified=True,
+                status=True,
             ),
             VehicleModel(
                 id=2,
@@ -36,7 +38,9 @@ class VehicleSeeder(BaseSeeder):
                 registration_number="546ABD11",
                 car_model="METTLER TOLEDO",
                 is_trailer=False,
-                vehicle_info=None,
+                vehicle_info="Оранжевый METTLER TOLEDO 546ABD11 (CE)",
+                is_verified=True,
+                status=True,
             ),
             VehicleModel(
                 id=3,
@@ -48,7 +52,9 @@ class VehicleSeeder(BaseSeeder):
                 registration_number="543DVE12",
                 car_model="MERCEDES ACTROS",
                 is_trailer=False,
-                vehicle_info=None,
+                vehicle_info="Белый MERCEDES ACTROS 543DVE12 (C1)",
+                is_verified=True,
+                status=True,
             ),
             VehicleModel(
                 id=4,
@@ -60,7 +66,9 @@ class VehicleSeeder(BaseSeeder):
                 registration_number="859DDD12",
                 car_model="KAMAZ",
                 is_trailer=False,
-                vehicle_info=None,
+                vehicle_info="Оранжевый KAMAZ 859DDD12 (C)",
+                is_verified=True,
+                status=True,
             ),
         ]
 

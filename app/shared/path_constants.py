@@ -31,6 +31,8 @@ class AppPathConstants:
     OrderTagName = "Заказы"
     SapRequestPathName = "sap-request"
     SapRequestTagName = "САП"
+    SchedulePathName = "schedule"
+    ScheduleTagName = "Расписание"
     OperationPathName = "operation"
     OperationTagName = "Бизнес процесс"
     FactoryPathName = "factory"
@@ -105,3 +107,7 @@ class AppPathConstants:
     PaginateOrganizationEmployeeClientPathName = "/paginate-organization-employee"
     GetOrganizationEmployeeClientByIdPathName = "/get-organization-employee/{id}"
     DeleteOrganizationEmployeeClientPathName = "/delete-organization-employee/{id}"
+    #Schedule
+    CreateClientSchedulePathName = "/create-client-schedule"
+    #Workshop Schedule
+    GetFreeSpacePathName = "/get-workshop-schedule"

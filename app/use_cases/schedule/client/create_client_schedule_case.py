@@ -1,11 +1,12 @@
 from datetime import datetime
 from typing import List, Optional
 
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, or_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.adapters.dto.order.order_dto import OrderCDTO
 from app.adapters.dto.schedule.create_schedule_dto import CreateScheduleDTO
-from app.adapters.dto.schedule.schedule_dto import ScheduleWithRelationsDTO, ScheduleRDTO
+from app.adapters.dto.schedule.schedule_dto import ScheduleWithRelationsDTO, ScheduleRDTO, ScheduleCDTO
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
 from app.adapters.dto.workshop_schedule.workshop_schedule_by_day_dto import WorkshopScheduleByDayDTO
 from app.adapters.dto.workshop_schedule.workshop_schedule_space_dto import WorkshopScheduleSpaceDTO
@@ -21,8 +22,10 @@ from app.adapters.repositories.vehicle.vehicle_repository import VehicleReposito
 from app.adapters.repositories.workshop_schdedule.workshop_schedule_repository import WorkshopScheduleRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import OrderModel, OrganizationModel, VehicleModel, ScheduleModel, OperationModel
+from app.infrastructure.config import app_config
 from app.shared.db_constants import AppDbValueConstants
 from app.use_cases.base_case import BaseUseCase
+from app.use_cases.order.recalculate_order_by_id_case import RecalculateOrderByIdCase
 from app.use_cases.workshop_schedule.get_workshop_schedule_by_day_case import GetWorkshopScheduleByDayCase
 
 
@@ -34,6 +37,7 @@ class CreateClientScheduleCase(BaseUseCase[ScheduleWithRelationsDTO]):
         self.organization_repository = OrganizationRepository(db)
         self.organization_employee_repository = OrganizationEmployeeRepository(db)
         self.get_workshop_schedule_by_day_case = GetWorkshopScheduleByDayCase(db)
+        self.recalculate_order_by_id_case = RecalculateOrderByIdCase(db)
         self.order_repository = OrderRepository(db)
         self.order_status_repository = OrderStatusRepository(db)
         self.operation_repository = OperationRepository(db)
@@ -53,7 +57,7 @@ class CreateClientScheduleCase(BaseUseCase[ScheduleWithRelationsDTO]):
         dto: CreateScheduleDTO,
     ):
         await self.validate(dto=dto, user=user)
-        operation = self.operation_repository.get_first_with_filters(
+        operation = await self.operation_repository.get_first_with_filters(
             filters=[
                 and_(
                     self.operation_repository.model.value == AppDbValueConstants.ENTRY_CHECKPOINT,
@@ -63,16 +67,18 @@ class CreateClientScheduleCase(BaseUseCase[ScheduleWithRelationsDTO]):
         if not operation:
             raise AppExceptionResponse.bad_request(message="Операция вход в контрольную точку не найдена")
         self.operation = operation
-        model = await self.transform(dto=dto,user=user)
-        model = await self.repository.create(obj=model)
+        cdto = await self.transform(dto=dto,user=user)
+        model = await self.repository.create(obj=ScheduleModel(**cdto.dict()))
         if not model:
             raise AppExceptionResponse.internal_error(message="Произошла ошибка при создании расписания")
-        model = self.repository.get(id=model.id,options=self.repository.default_relationships())
+        await self._update_order()
+        await self.recalculate_order_by_id_case.execute(id=self.order.id)
+        model = await self.repository.get(id=model.id,options=self.repository.default_relationships())
         return ScheduleWithRelationsDTO.from_orm(model)
 
 
-    async def transform(self, dto: CreateScheduleDTO, user: UserWithRelationsDTO)->ScheduleModel:
-       return ScheduleModel(
+    async def transform(self, dto: CreateScheduleDTO, user: UserWithRelationsDTO)->ScheduleCDTO:
+       return ScheduleCDTO(
             order_id = dto.order_id,
             zakaz = self.order.zakaz if self.order else None,
             owner_id = user.id,
@@ -99,7 +105,7 @@ class CreateClientScheduleCase(BaseUseCase[ScheduleWithRelationsDTO]):
             end_at=datetime.combine(dto.scheduled_data, dto.end_at),
             rescheduled_start_at=None,
             rescheduled_end_at=None,
-            loading_volume=int(dto.booked_quan_t * 1000),
+            loading_volume=dto.booked_quan_t,
             vehicle_tara = 0,
             vehicle_netto = 0,
             vehicle_brutto = 0,
@@ -139,6 +145,23 @@ class CreateClientScheduleCase(BaseUseCase[ScheduleWithRelationsDTO]):
         # Проверяем транспортное средство
         await self._validate_vehicle_access(dto, user)
 
+
+    async def _update_order(self):
+        if self.order:
+            if self.order.status == AppDbValueConstants.PAID_WAITING_FOR_BOOKING_STATUS:
+                order_dto = OrderCDTO.from_orm(self.order)
+                next_order = await self.order_status_repository.get_first_with_filters(
+                    filters=[
+                        and_(
+                            func.lower(self.order_status_repository.model.value) == AppDbValueConstants.IN_PROGRESS_STATUS
+                        )
+                    ],
+                )
+                order_dto.status = next_order.value
+                order_dto.status_id = next_order.id
+                self.order = await self.order_repository.update(obj=self.order,dto=order_dto)
+
+
     async def _validate_order_access(self, dto: CreateScheduleDTO, user: UserWithRelationsDTO):
         available_order_statuses = await self.order_status_repository.get_with_filters(
             filters=[
@@ -172,7 +195,7 @@ class CreateClientScheduleCase(BaseUseCase[ScheduleWithRelationsDTO]):
     async def _validate_schedule(self, dto: CreateScheduleDTO):
         workshop_schedule = await self.workshop_schedule_repository.get_first_with_filters(
             filters=[
-                self.workshop_schedule_repository.model.workshop_id == dto.workshop_id,
+                self.workshop_schedule_repository.model.id == dto.workshop_schedule_id,
             ]
         )
         if not workshop_schedule:
@@ -188,10 +211,10 @@ class CreateClientScheduleCase(BaseUseCase[ScheduleWithRelationsDTO]):
             dto=get_free_space_dto)
         if not available_times:
             raise AppExceptionResponse.bad_request(message="В выбранную дату нет свободного времени")
-
         for available_time in available_times:
-            if available_time.start_at != dto.start_at or available_time.end_at != dto.end_at or available_time.free_space == 0:
-                raise AppExceptionResponse.bad_request(message="Недостаточно места в выбранное время")
+            if available_time.start_at == dto.start_at or available_time.end_at == dto.end_at or available_time.free_space > 0:
+                return True
+        raise AppExceptionResponse.bad_request(message="Недостаточно места в выбранное время")
 
     async def _validate_organization_access(self, dto: CreateScheduleDTO, user: UserWithRelationsDTO):
         organization_ids = [organization.id for organization in user.organizations if organization.is_verified]
@@ -258,4 +281,9 @@ class CreateClientScheduleCase(BaseUseCase[ScheduleWithRelationsDTO]):
         )
         if not vehicle:
             raise AppExceptionResponse.bad_request(message="У вас нет доступа к этому ТС")
+        if dto.booked_quan_t >= app_config.max_booked_quan_t or dto.booked_quan_t <= app_config.min_booked_quan_t:
+            raise AppExceptionResponse.bad_request(message=f"Количество забронированных количество вне допустимого диапазона {app_config.min_booked_quan_t} - {app_config.max_booked_quan_t} тонн")
+
+        if dto.booked_quan_t > self.order.quan_left_t:
+            raise AppExceptionResponse.bad_request(message=f"У вас недостаточно материала для данного заказа {dto.booked_quan_t - self.order.quan_left_t} превышено!")
         self.vehicle = vehicle

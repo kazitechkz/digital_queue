@@ -214,6 +214,14 @@ def assign_roles(app) -> None:
             AppRouteConstant.ClientTagName,
         ],
     )
+    # Schedule
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.SchedulePathName}{AppPathConstants.CreateClientSchedulePathName}",
+        roles=[
+            AppRouteConstant.ClientTagName,
+        ],
+    )
     # Kaspi
     assign_roles_to_route(
         app=app,
@@ -731,6 +739,53 @@ def assign_roles(app) -> None:
     assign_roles_to_route(
         app=app,
         path=f"/{AppPathConstants.WorkshopPathName}{AppPathConstants.GetByValuePathName}",
+        roles=[
+            AppRouteConstant.AdministratorTagName,
+            AppRouteConstant.ClientTagName,
+            AppRouteConstant.EmployeesTagName,
+        ],
+    )
+    #Workshop Schedule
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.WorkshopSchedulePathName}{AppPathConstants.IndexPathName}",
+        roles=[
+            AppRouteConstant.AdministratorTagName,
+            AppRouteConstant.ClientTagName,
+            AppRouteConstant.EmployeesTagName,
+        ],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.WorkshopSchedulePathName}{AppPathConstants.CreatePathName}",
+        roles=[AppRouteConstant.AdministratorTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.WorkshopSchedulePathName}{AppPathConstants.UpdatePathName}",
+        roles=[AppRouteConstant.AdministratorTagName],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.WorkshopSchedulePathName}{AppPathConstants.GetByIdPathName}",
+        roles=[
+            AppRouteConstant.AdministratorTagName,
+            AppRouteConstant.ClientTagName,
+            AppRouteConstant.EmployeesTagName,
+        ],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.WorkshopSchedulePathName}{AppPathConstants.GetByValuePathName}",
+        roles=[
+            AppRouteConstant.AdministratorTagName,
+            AppRouteConstant.ClientTagName,
+            AppRouteConstant.EmployeesTagName,
+        ],
+    )
+    assign_roles_to_route(
+        app=app,
+        path=f"/{AppPathConstants.WorkshopSchedulePathName}{AppPathConstants.GetFreeSpacePathName}",
         roles=[
             AppRouteConstant.AdministratorTagName,
             AppRouteConstant.ClientTagName,

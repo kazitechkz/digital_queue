@@ -1,4 +1,5 @@
 from datetime import date, datetime, time
+from decimal import Decimal
 from typing import Annotated, Optional
 
 from pydantic import EmailStr, Field
@@ -145,23 +146,25 @@ class DTOConstant:
     @staticmethod
     def StandardPriceField(description=None):
         return Annotated[
-            float,
+            Decimal,
             Field(
                 ge=0,
+                decimal_places=FieldConstants.PRICE_SCALE,
                 description=description
-                or f"Цена должна быть больше 0. Длина до {FieldConstants.PRICE_PRECISION} знаков",
+                            or f"Цена должна быть больше 0 с точностью до {FieldConstants.PRICE_SCALE} знаков",
             ),
         ]
 
     @staticmethod
     def StandardNullablePriceField(description=None):
         return Annotated[
-            Optional[float],
+            Optional[Decimal],
             Field(
                 default=None,
                 ge=0,
+                decimal_places=FieldConstants.PRICE_SCALE,
                 description=description
-                or f"Опциональная цена больше 0. Длина до {FieldConstants.PRICE_PRECISION} знаков",
+                            or f"Опциональная цена больше 0 с точностью до {FieldConstants.PRICE_SCALE} знаков",
             ),
         ]
 

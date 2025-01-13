@@ -29,7 +29,7 @@ class GetWorkshopScheduleByDayCase(BaseUseCase[list[WorkshopScheduleSpaceDTO]]):
 
     async def execute(
         self, dto: WorkshopScheduleByDayDTO
-    ) -> list[WorkshopScheduleByDayDTO]:
+    ) -> list[WorkshopScheduleSpaceDTO]:
         workshop = await self.workshop_repository.get_first_with_filters(
             filters=[
                 and_(

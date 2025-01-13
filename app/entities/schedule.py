@@ -106,9 +106,9 @@ class ScheduleModel(Base):
             table_exp=DbModelValue().to_kg(column_name="loading_volume")
         )
     ]
-    vehicle_tara: Mapped[DbColumnConstants.StandardPrice]
-    vehicle_netto: Mapped[DbColumnConstants.StandardPrice]
-    vehicle_brutto: Mapped[DbColumnConstants.StandardPrice]
+    vehicle_tara: Mapped[DbColumnConstants.StandardZeroPrice]
+    vehicle_netto: Mapped[DbColumnConstants.StandardZeroPrice]
+    vehicle_brutto: Mapped[DbColumnConstants.StandardZeroPrice]
     vehicle_tara_kg: Mapped[
         DbColumnConstants.StandardComputedInteger(
             table_exp=DbModelValue().to_kg(column_name="vehicle_tara")

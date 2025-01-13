@@ -62,7 +62,7 @@ class SapCreateOrderApiClient:
         current_date = now.strftime("%Y-%m-%d")  # Формат YYYY-MM-DD
         # Форматирование времени
         current_time = now.strftime("%H:%M:%S")  # Формат HH:MM:SS
-        if percentage > 30:
+        if percentage < 5:
             return {
                 "items": {
                     "item": {

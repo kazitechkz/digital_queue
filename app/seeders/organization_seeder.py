@@ -28,6 +28,7 @@ class OrganizationSeeder(BaseSeeder):
                 status=True,
                 owner_id=2,
                 type_id=1,
+                is_verified=True,
             ),
             OrganizationModel(
                 id=2,
@@ -43,6 +44,7 @@ class OrganizationSeeder(BaseSeeder):
                 status=True,
                 owner_id=3,
                 type_id=1,
+                is_verified=True,
             ),
         ]
 
