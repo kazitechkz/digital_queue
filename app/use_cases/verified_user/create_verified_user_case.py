@@ -1,10 +1,13 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.verified_user.verified_user_dto import (
-    VerifiedUserCDTO, VerifiedUserWithRelationsDTO)
+    VerifiedUserCDTO,
+    VerifiedUserWithRelationsDTO,
+)
 from app.adapters.repositories.user.user_repository import UserRepository
-from app.adapters.repositories.verified_user.verified_user_repository import \
-    VerifiedUserRepository
+from app.adapters.repositories.verified_user.verified_user_repository import (
+    VerifiedUserRepository,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.use_cases.base_case import BaseUseCase
 

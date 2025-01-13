@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -19,55 +19,56 @@ class OrderDTO(BaseModel):
     class Config:
         from_attributes = True
 
+
 class OrderCDTO(BaseModel):
-    status_id:DTOConstant.StandardIntegerField()
-    status:DTOConstant.StandardVarcharField()
+    status_id: DTOConstant.StandardIntegerField()
+    status: DTOConstant.StandardVarcharField()
     factory_id: DTOConstant.StandardIntegerField()
     factory_sap_id: DTOConstant.StandardVarcharField()
     workshop_id: DTOConstant.StandardIntegerField()
     workshop_sap_id: DTOConstant.StandardVarcharField()
     material_id: DTOConstant.StandardIntegerField()
     material_sap_id: DTOConstant.StandardVarcharField()
-    quan:DTOConstant.StandardIntegerField()
-    quan_released:DTOConstant.StandardIntegerField()
-    quan_booked:DTOConstant.StandardIntegerField()
-    executed_cruise:DTOConstant.StandardNullableIntegerField()
-    price_without_taxes:DTOConstant.StandardPriceField()
-    price_with_taxes:DTOConstant.StandardPriceField()
-    sap_id:DTOConstant.StandardNullableIntegerField()
-    zakaz:DTOConstant.StandardNullableVarcharField()
-    kaspi_id:DTOConstant.StandardNullableIntegerField()
-    txn_id:DTOConstant.StandardNullableVarcharField()
-    owner_id:DTOConstant.StandardIntegerField()
-    iin:DTOConstant.StandardNullableVarcharField()
-    owner_username:DTOConstant.StandardNullableVarcharField()
-    owner_email:DTOConstant.StandardNullableVarcharField()
-    owner_mobile:DTOConstant.StandardNullableVarcharField()
-    name:DTOConstant.StandardNullableVarcharField()
-    adr_index:DTOConstant.StandardNullableVarcharField()
-    adr_city:DTOConstant.StandardNullableVarcharField()
-    adr_str:DTOConstant.StandardNullableVarcharField()
-    adr_dom:DTOConstant.StandardNullableVarcharField()
-    organization_id:DTOConstant.StandardNullableIntegerField()
-    bin:DTOConstant.StandardNullableVarcharField()
-    dogovor:DTOConstant.StandardNullableVarcharField()
-    is_active:DTOConstant.StandardBooleanTrueField()
-    is_finished:DTOConstant.StandardBooleanFalseField()
-    is_failed:DTOConstant.StandardBooleanFalseField()
-    is_paid:DTOConstant.StandardBooleanFalseField()
-    is_cancel:DTOConstant.StandardBooleanFalseField()
-    start_at:DTOConstant.StandardCreatedAt
-    end_at:DTOConstant.StandardNullableDateTimeField()
-    finished_at:DTOConstant.StandardNullableDateTimeField()
-    paid_at:DTOConstant.StandardNullableDateTimeField()
-    cancel_at:DTOConstant.StandardNullableDateTimeField()
-    canceled_by_user:DTOConstant.StandardNullableVarcharField()
-    canceled_by_sid:DTOConstant.StandardNullableVarcharField()
-    canceled_by_name:DTOConstant.StandardNullableVarcharField()
-    checked_payment_by_id:DTOConstant.StandardNullableIntegerField()
-    checked_payment_by:DTOConstant.StandardNullableVarcharField()
-    checked_payment_at:DTOConstant.StandardNullableDateTimeField()
-    payment_return_id:DTOConstant.StandardNullableIntegerField()
+    quan: DTOConstant.StandardIntegerField()
+    quan_released: DTOConstant.StandardIntegerField()
+    quan_booked: DTOConstant.StandardIntegerField()
+    executed_cruise: DTOConstant.StandardNullableIntegerField()
+    price_without_taxes: DTOConstant.StandardPriceField()
+    price_with_taxes: DTOConstant.StandardPriceField()
+    sap_id: DTOConstant.StandardNullableIntegerField()
+    zakaz: DTOConstant.StandardNullableVarcharField()
+    kaspi_id: DTOConstant.StandardNullableIntegerField()
+    txn_id: DTOConstant.StandardNullableVarcharField()
+    owner_id: DTOConstant.StandardIntegerField()
+    iin: DTOConstant.StandardNullableVarcharField()
+    owner_username: DTOConstant.StandardNullableVarcharField()
+    owner_email: DTOConstant.StandardNullableVarcharField()
+    owner_mobile: DTOConstant.StandardNullableVarcharField()
+    name: DTOConstant.StandardNullableVarcharField()
+    adr_index: DTOConstant.StandardNullableVarcharField()
+    adr_city: DTOConstant.StandardNullableVarcharField()
+    adr_str: DTOConstant.StandardNullableVarcharField()
+    adr_dom: DTOConstant.StandardNullableVarcharField()
+    organization_id: DTOConstant.StandardNullableIntegerField()
+    bin: DTOConstant.StandardNullableVarcharField()
+    dogovor: DTOConstant.StandardNullableVarcharField()
+    is_active: DTOConstant.StandardBooleanTrueField()
+    is_finished: DTOConstant.StandardBooleanFalseField()
+    is_failed: DTOConstant.StandardBooleanFalseField()
+    is_paid: DTOConstant.StandardBooleanFalseField()
+    is_cancel: DTOConstant.StandardBooleanFalseField()
+    start_at: DTOConstant.StandardCreatedAt
+    end_at: DTOConstant.StandardNullableDateTimeField()
+    finished_at: DTOConstant.StandardNullableDateTimeField()
+    paid_at: DTOConstant.StandardNullableDateTimeField()
+    cancel_at: DTOConstant.StandardNullableDateTimeField()
+    canceled_by_user: DTOConstant.StandardNullableVarcharField()
+    canceled_by_sid: DTOConstant.StandardNullableVarcharField()
+    canceled_by_name: DTOConstant.StandardNullableVarcharField()
+    checked_payment_by_id: DTOConstant.StandardNullableIntegerField()
+    checked_payment_by: DTOConstant.StandardNullableVarcharField()
+    checked_payment_at: DTOConstant.StandardNullableDateTimeField()
+    payment_return_id: DTOConstant.StandardNullableIntegerField()
 
     class Config:
         from_attributes = True
@@ -133,17 +134,18 @@ class OrderRDTO(OrderDTO):
     class Config:
         from_attributes = True
 
+
 class OrderWithRelationsDTO(OrderRDTO):
-    factory:Optional[FactoryRDTO] = None
-    workshop:Optional[WorkshopRDTO] = None
-    material:Optional[MaterialRDTO] = None
-    sap:Optional[SapRequestRDTO] = None
-    sap_requests:Optional[List[SapRequestRDTO]] = None
-    kaspi:Optional[KaspiPaymentRDTO] = None
-    kaspi_payments:Optional[List[KaspiPaymentRDTO]] = None
-    owner:Optional[UserRDTO] = None
-    organization:Optional[OrganizationRDTO] = None
-    canceled_by:Optional[UserRDTO] = None
-    checked_payment_by:Optional[UserRDTO] = None
-    order_status:Optional[OrderStatusRDTO] = None
-    #payment_return:Optional[PaymentReturnRDTO] = None
+    factory: Optional[FactoryRDTO] = None
+    workshop: Optional[WorkshopRDTO] = None
+    material: Optional[MaterialRDTO] = None
+    sap: Optional[SapRequestRDTO] = None
+    sap_requests: Optional[List[SapRequestRDTO]] = None
+    kaspi: Optional[KaspiPaymentRDTO] = None
+    kaspi_payments: Optional[List[KaspiPaymentRDTO]] = None
+    owner: Optional[UserRDTO] = None
+    organization: Optional[OrganizationRDTO] = None
+    canceled_by: Optional[UserRDTO] = None
+    checked_payment_by: Optional[UserRDTO] = None
+    order_status: Optional[OrderStatusRDTO] = None
+    # payment_return:Optional[PaymentReturnRDTO] = None

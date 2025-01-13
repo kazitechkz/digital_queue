@@ -6,8 +6,7 @@ from typing_extensions import Self
 from app.adapters.dto.file.file_dto import FileRDTO
 from app.adapters.dto.organization.organization_dto import OrganizationRDTO
 from app.adapters.dto.user.user_dto import UserRDTO
-from app.adapters.dto.vehicle_category.vehicle_category_dto import \
-    VehicleCategoryRDTO
+from app.adapters.dto.vehicle_category.vehicle_category_dto import VehicleCategoryRDTO
 from app.adapters.dto.vehicle_color.vehicle_color_dto import VehicleColorRDTO
 from app.shared.dto_constants import DTOConstant
 

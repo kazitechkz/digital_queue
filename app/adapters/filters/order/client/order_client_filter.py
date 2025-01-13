@@ -1,5 +1,6 @@
-from typing import Optional, List
-from sqlalchemy import and_, or_, inspect
+from typing import List, Optional
+
+from sqlalchemy import and_, inspect, or_
 from sqlalchemy.orm import Query as SQLAlchemyQuery
 
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
@@ -92,11 +93,16 @@ class OrderClientFilter(BasePaginationFilter[OrderModel]):
         # Поиск по строке
         if self.search:
             model_columns = {column.key for column in inspect(self.model).columns}
-            valid_fields = [field for field in self.get_search_filters() if field in model_columns]
+            valid_fields = [
+                field for field in self.get_search_filters() if field in model_columns
+            ]
             if valid_fields:
                 filters.append(
                     or_(
-                        *[getattr(self.model, field).like(f"%{self.search}%") for field in valid_fields]
+                        *[
+                            getattr(self.model, field).like(f"%{self.search}%")
+                            for field in valid_fields
+                        ]
                     )
                 )
 

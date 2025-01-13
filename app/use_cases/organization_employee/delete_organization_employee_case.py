@@ -1,7 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.repositories.organization_employee.organization_employee_repository import \
-    OrganizationEmployeeRepository
+from app.adapters.repositories.organization_employee.organization_employee_repository import (
+    OrganizationEmployeeRepository,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.services.file_service import FileService
 from app.use_cases.base_case import BaseUseCase

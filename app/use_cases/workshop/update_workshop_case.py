@@ -5,12 +5,12 @@ from sqlalchemy import and_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.adapters.dto.workshop.workshop_dto import (WorkshopCDTO,
-                                                    WorkshopWithRelationsDTO)
-from app.adapters.repositories.factory.factory_repository import \
-    FactoryRepository
-from app.adapters.repositories.workshop.workshop_repository import \
-    WorkshopRepository
+from app.adapters.dto.workshop.workshop_dto import (
+    WorkshopCDTO,
+    WorkshopWithRelationsDTO,
+)
+from app.adapters.repositories.factory.factory_repository import FactoryRepository
+from app.adapters.repositories.workshop.workshop_repository import WorkshopRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import WorkshopModel
 from app.infrastructure.services.file_service import FileService

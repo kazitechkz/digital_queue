@@ -1,4 +1,4 @@
-from sqlalchemy import or_,and_
+from sqlalchemy import and_, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.order.order_dto import OrderWithRelationsDTO
@@ -12,7 +12,9 @@ class GetClientOrderByIdCase(BaseUseCase[OrderWithRelationsDTO]):
     def __init__(self, db: AsyncSession):
         self.repository = OrderRepository(db)
 
-    async def execute(self, id: int,user:UserWithRelationsDTO) -> OrderWithRelationsDTO:
+    async def execute(
+        self, id: int, user: UserWithRelationsDTO
+    ) -> OrderWithRelationsDTO:
         model = await self.repository.get_first_with_filters(
             filters=[
                 and_(

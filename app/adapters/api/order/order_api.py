@@ -20,7 +20,9 @@ from app.use_cases.order.client.create_order_case import CreateClientOrderCase
 from app.use_cases.order.client.get_order_by_id_case import GetClientOrderByIdCase
 from app.use_cases.order.client.get_order_by_value_case import GetClientOrderByValueCase
 from app.use_cases.order.client.paginate_order_case import PaginateClientOrderCase
-from app.use_cases.sap.client.create_client_sap_order_case import CreateClientSapOrderCase
+from app.use_cases.sap.client.create_client_sap_order_case import (
+    CreateClientSapOrderCase,
+)
 
 
 class OrderApi:
@@ -30,7 +32,7 @@ class OrderApi:
         self._add_routes()
 
     def _add_routes(self) -> None:
-        #Client
+        # Client
         self.router.post(
             f"{AppPathConstants.CreateClientOrderRequestPathName}",
             response_model=OrderWithRelationsDTO,
@@ -62,19 +64,22 @@ class OrderApi:
             description="Получение заказа клиента по значению",
         )(self.get_client_order_by_value)
 
-    async def create_client_order(self,
-                            dto:CreateOrderDTO,
-                            user:UserWithRelationsDTO = Depends(check_client),
-                            db: AsyncSession = Depends(get_db)
-                            ):
+    async def create_client_order(
+        self,
+        dto: CreateOrderDTO,
+        user: UserWithRelationsDTO = Depends(check_client),
+        db: AsyncSession = Depends(get_db),
+    ):
         use_case = CreateClientOrderCase(db)
         sap_case = CreateClientSapOrderCase(db)
         update_order_case = AddSapIdToOrderCase(db)
         try:
-            order = await use_case.execute(dto=dto,user=user)
+            order = await use_case.execute(dto=dto, user=user)
             if app_config.sap_create_order_after_order:
-                sap_request = await sap_case.execute(order_id=order.id,user=user)
-                order = await update_order_case.execute(sap_id=sap_request.id,user=user)
+                sap_request = await sap_case.execute(order_id=order.id, user=user)
+                order = await update_order_case.execute(
+                    sap_id=sap_request.id, user=user
+                )
             return order
         except HTTPException as exc:
             raise exc
@@ -86,14 +91,15 @@ class OrderApi:
                 is_custom=True,
             )
 
-    async def all_client_order(self,
-                                  parameters: OrderClientFilter = Depends(),
-                                  user: UserWithRelationsDTO = Depends(check_client),
-                                  db: AsyncSession = Depends(get_db)
-                                  ):
+    async def all_client_order(
+        self,
+        parameters: OrderClientFilter = Depends(),
+        user: UserWithRelationsDTO = Depends(check_client),
+        db: AsyncSession = Depends(get_db),
+    ):
         use_case = AllClientOrderCase(db)
         try:
-            order = await use_case.execute(parameters=parameters,user=user)
+            order = await use_case.execute(parameters=parameters, user=user)
             return order
         except HTTPException as exc:
             raise exc
@@ -104,14 +110,15 @@ class OrderApi:
                 is_custom=True,
             )
 
-    async def paginate_client_order(self,
-                                  parameters: OrderClientFilter = Depends(),
-                                  user: UserWithRelationsDTO = Depends(check_client),
-                                  db: AsyncSession = Depends(get_db)
-                                  ):
+    async def paginate_client_order(
+        self,
+        parameters: OrderClientFilter = Depends(),
+        user: UserWithRelationsDTO = Depends(check_client),
+        db: AsyncSession = Depends(get_db),
+    ):
         use_case = PaginateClientOrderCase(db)
         try:
-            order = await use_case.execute(filter=parameters,user=user)
+            order = await use_case.execute(filter=parameters, user=user)
             return order
         except HTTPException as exc:
             raise exc
@@ -122,14 +129,15 @@ class OrderApi:
                 is_custom=True,
             )
 
-    async def get_client_order_by_id(self,
-                                  id:AppPathConstants.IDPath,
-                                  user: UserWithRelationsDTO = Depends(check_client),
-                                  db: AsyncSession = Depends(get_db)
-                                  ):
+    async def get_client_order_by_id(
+        self,
+        id: AppPathConstants.IDPath,
+        user: UserWithRelationsDTO = Depends(check_client),
+        db: AsyncSession = Depends(get_db),
+    ):
         use_case = GetClientOrderByIdCase(db)
         try:
-            order = await use_case.execute(id=id,user=user)
+            order = await use_case.execute(id=id, user=user)
             return order
         except HTTPException as exc:
             raise exc
@@ -140,14 +148,15 @@ class OrderApi:
                 is_custom=True,
             )
 
-    async def get_client_order_by_value(self,
-                                  value:AppPathConstants.ValuePath,
-                                  user: UserWithRelationsDTO = Depends(check_client),
-                                  db: AsyncSession = Depends(get_db)
-                                  ):
+    async def get_client_order_by_value(
+        self,
+        value: AppPathConstants.ValuePath,
+        user: UserWithRelationsDTO = Depends(check_client),
+        db: AsyncSession = Depends(get_db),
+    ):
         use_case = GetClientOrderByValueCase(db)
         try:
-            order = await use_case.execute(value=value,user=user)
+            order = await use_case.execute(value=value, user=user)
             return order
         except HTTPException as exc:
             raise exc

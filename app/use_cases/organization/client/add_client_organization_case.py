@@ -1,13 +1,20 @@
 from typing import Optional
 
 from fastapi import UploadFile
-from sqlalchemy import or_, func, and_
+from sqlalchemy import and_, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.organization.organization_dto import OrganizationWithRelationsDTO, OrganizationCDTO
+from app.adapters.dto.organization.organization_dto import (
+    OrganizationCDTO,
+    OrganizationWithRelationsDTO,
+)
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
-from app.adapters.repositories.organization.organization_repository import OrganizationRepository
-from app.adapters.repositories.organization_type.organization_type_repository import OrganizationTypeRepository
+from app.adapters.repositories.organization.organization_repository import (
+    OrganizationRepository,
+)
+from app.adapters.repositories.organization_type.organization_type_repository import (
+    OrganizationTypeRepository,
+)
 from app.adapters.repositories.user.user_repository import UserRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import FileModel
@@ -28,11 +35,11 @@ class AddClientOrganizationCase(BaseUseCase[OrganizationWithRelationsDTO]):
 
     async def execute(
         self,
-            dto: OrganizationCDTO,
-            user: UserWithRelationsDTO,
-            file: Optional[UploadFile] = None
+        dto: OrganizationCDTO,
+        user: UserWithRelationsDTO,
+        file: Optional[UploadFile] = None,
     ) -> OrganizationWithRelationsDTO:
-        await self.validate(dto=dto,user=user)
+        await self.validate(dto=dto, user=user)
         file_model = None
         if AppFileExtensionConstants.is_upload_file(file):
             file_model = await self.service.save_file(
@@ -40,7 +47,7 @@ class AddClientOrganizationCase(BaseUseCase[OrganizationWithRelationsDTO]):
                 uploaded_folder=AppFileExtensionConstants.OrganizationFolderName,
                 extensions=self.extensions,
             )
-        dto = await self.transform(dto=dto, file=file_model,user=user)
+        dto = await self.transform(dto=dto, file=file_model, user=user)
         model = await self.repository.create(obj=self.repository.model(**dto.dict()))
         if not model:
             raise AppExceptionResponse().internal_error(
@@ -52,7 +59,7 @@ class AddClientOrganizationCase(BaseUseCase[OrganizationWithRelationsDTO]):
         )
         return OrganizationWithRelationsDTO.from_orm(model)
 
-    async def validate(self,user:UserWithRelationsDTO, dto: OrganizationCDTO):
+    async def validate(self, user: UserWithRelationsDTO, dto: OrganizationCDTO):
         if dto.owner_id != user.id:
             raise AppExceptionResponse().bad_request(
                 message="Укажите верного владельца"
@@ -97,7 +104,12 @@ class AddClientOrganizationCase(BaseUseCase[OrganizationWithRelationsDTO]):
                 message=f"Организация с такими данными уже существует {detail}"
             )
 
-    async def transform(self, dto: OrganizationCDTO, file: Optional[FileModel],user:UserWithRelationsDTO):
+    async def transform(
+        self,
+        dto: OrganizationCDTO,
+        file: Optional[FileModel],
+        user: UserWithRelationsDTO,
+    ):
         if file:
             dto.file_id = file.id
         dto.owner_id = user.id

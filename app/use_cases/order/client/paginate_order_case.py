@@ -13,7 +13,7 @@ class PaginateClientOrderCase(BaseUseCase[PaginationOrderWithRelationsDTO]):
         self.repository = OrderRepository(db)
 
     async def execute(
-        self, filter: OrderClientFilter,user:UserWithRelationsDTO
+        self, filter: OrderClientFilter, user: UserWithRelationsDTO
     ) -> PaginationOrderWithRelationsDTO:
         models = await self.repository.paginate(
             dto=OrderWithRelationsDTO,

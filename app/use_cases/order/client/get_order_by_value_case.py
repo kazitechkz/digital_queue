@@ -1,5 +1,6 @@
 from sqlalchemy import and_, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.adapters.dto.order.order_dto import OrderWithRelationsDTO
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
 from app.adapters.repositories.order.order_repository import OrderRepository
@@ -11,7 +12,9 @@ class GetClientOrderByValueCase(BaseUseCase[OrderWithRelationsDTO]):
     def __init__(self, db: AsyncSession):
         self.repository = OrderRepository(db)
 
-    async def execute(self, value: str,user:UserWithRelationsDTO) -> OrderWithRelationsDTO:
+    async def execute(
+        self, value: str, user: UserWithRelationsDTO
+    ) -> OrderWithRelationsDTO:
         filters = [
             and_(
                 or_(
@@ -34,13 +37,14 @@ class GetClientOrderByValueCase(BaseUseCase[OrderWithRelationsDTO]):
                     func.lower(self.repository.model.bin) == value.lower(),
                     func.lower(self.repository.model.dogovor) == value.lower(),
                     func.lower(self.repository.model.canceled_by_sid) == value.lower(),
-                    func.lower(self.repository.model.checked_payment_by) == value.lower(),
+                    func.lower(self.repository.model.checked_payment_by)
+                    == value.lower(),
                 ),
                 or_(
                     self.repository.model.owner_id == user.id,
                     self.repository.model.iin == user.iin,
                     self.repository.model.owner_sid == user.sid,
-                )
+                ),
             )
         ]
         model = await self.repository.get_first_with_filters(

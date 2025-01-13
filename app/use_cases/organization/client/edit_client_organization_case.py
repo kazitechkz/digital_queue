@@ -1,13 +1,20 @@
 from typing import Optional
 
 from fastapi import UploadFile
-from sqlalchemy import and_, or_, func
+from sqlalchemy import and_, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.organization.organization_dto import OrganizationWithRelationsDTO, OrganizationCDTO
+from app.adapters.dto.organization.organization_dto import (
+    OrganizationCDTO,
+    OrganizationWithRelationsDTO,
+)
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
-from app.adapters.repositories.organization.organization_repository import OrganizationRepository
-from app.adapters.repositories.organization_type.organization_type_repository import OrganizationTypeRepository
+from app.adapters.repositories.organization.organization_repository import (
+    OrganizationRepository,
+)
+from app.adapters.repositories.organization_type.organization_type_repository import (
+    OrganizationTypeRepository,
+)
 from app.adapters.repositories.user.user_repository import UserRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import FileModel, OrganizationModel
@@ -27,17 +34,21 @@ class EditClientOrganizationCase(BaseUseCase[OrganizationWithRelationsDTO]):
         self.extensions = AppFileExtensionConstants.IMAGE_EXTENSIONS
 
     async def execute(
-        self, id: int, dto: OrganizationCDTO,user: UserWithRelationsDTO, file: Optional[UploadFile] = None
+        self,
+        id: int,
+        dto: OrganizationCDTO,
+        user: UserWithRelationsDTO,
+        file: Optional[UploadFile] = None,
     ) -> OrganizationWithRelationsDTO:
         file_model = None
-        model = await self.validate(id=id, dto=dto,user=user)
+        model = await self.validate(id=id, dto=dto, user=user)
         if AppFileExtensionConstants.is_upload_file(file):
             file_model = await self.service.save_file(
                 file=file,
                 uploaded_folder=AppFileExtensionConstants.OrganizationFolderName,
                 extensions=self.extensions,
             )
-        dto = await self.transform(dto=dto, file=file_model, model=model,user=user)
+        dto = await self.transform(dto=dto, file=file_model, model=model, user=user)
         model = await self.repository.update(obj=model, dto=dto)
         if not model:
             raise AppExceptionResponse().internal_error(
@@ -49,14 +60,19 @@ class EditClientOrganizationCase(BaseUseCase[OrganizationWithRelationsDTO]):
         )
         return OrganizationWithRelationsDTO.from_orm(model)
 
-    async def validate(self, id: int, dto: OrganizationCDTO,user: UserWithRelationsDTO,) -> OrganizationModel:
+    async def validate(
+        self,
+        id: int,
+        dto: OrganizationCDTO,
+        user: UserWithRelationsDTO,
+    ) -> OrganizationModel:
         if dto.owner_id != user.id:
             raise AppExceptionResponse().bad_request(
                 message="Укажите верного владельца"
             )
-        model = await self.repository.get_first_with_filters(filters=[
-            and_(self.repository.model.owner_id == dto.owner_id)
-        ])
+        model = await self.repository.get_first_with_filters(
+            filters=[and_(self.repository.model.owner_id == dto.owner_id)]
+        )
         if not model:
             raise AppExceptionResponse.not_found("Организация не найдена")
         verified_user = await self.user_repository.get_first_with_filters(
@@ -93,7 +109,7 @@ class EditClientOrganizationCase(BaseUseCase[OrganizationWithRelationsDTO]):
                     and_(
                         func.lower(self.repository.model.bin) == dto.bin.lower(),
                         self.repository.model.id != id,
-                        self.repository.model.owner_id == user.id
+                        self.repository.model.owner_id == user.id,
                     ),
                 )
             ]
@@ -112,7 +128,11 @@ class EditClientOrganizationCase(BaseUseCase[OrganizationWithRelationsDTO]):
         return model
 
     async def transform(
-        self, dto: OrganizationCDTO,user: UserWithRelationsDTO, file: Optional[FileModel], model: OrganizationModel
+        self,
+        dto: OrganizationCDTO,
+        user: UserWithRelationsDTO,
+        file: Optional[FileModel],
+        model: OrganizationModel,
     ):
         if file:
             dto.file_id = file.id

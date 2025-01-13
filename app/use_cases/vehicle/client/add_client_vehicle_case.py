@@ -5,17 +5,18 @@ from sqlalchemy import and_, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
-from app.adapters.dto.vehicle.vehicle_dto import (VehicleCDTO,
-                                                  VehicleWithRelationsDTO)
-from app.adapters.repositories.organization.organization_repository import \
-    OrganizationRepository
+from app.adapters.dto.vehicle.vehicle_dto import VehicleCDTO, VehicleWithRelationsDTO
+from app.adapters.repositories.organization.organization_repository import (
+    OrganizationRepository,
+)
 from app.adapters.repositories.user.user_repository import UserRepository
-from app.adapters.repositories.vehicle.vehicle_repository import \
-    VehicleRepository
-from app.adapters.repositories.vehicle_category.vehicle_category_repository import \
-    VehicleCategoryRepository
-from app.adapters.repositories.vehicle_color.vehicle_color_repository import \
-    VehicleColorRepository
+from app.adapters.repositories.vehicle.vehicle_repository import VehicleRepository
+from app.adapters.repositories.vehicle_category.vehicle_category_repository import (
+    VehicleCategoryRepository,
+)
+from app.adapters.repositories.vehicle_color.vehicle_color_repository import (
+    VehicleColorRepository,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import FileModel
 from app.infrastructure.config import app_config
@@ -35,12 +36,12 @@ class AddClientVehicleCase(BaseUseCase[VehicleWithRelationsDTO]):
         self.extensions = AppFileExtensionConstants.IMAGE_EXTENSIONS
 
     async def execute(
-            self,
-            dto: VehicleCDTO,
-            user: UserWithRelationsDTO,
-            file: Optional[UploadFile] = None
+        self,
+        dto: VehicleCDTO,
+        user: UserWithRelationsDTO,
+        file: Optional[UploadFile] = None,
     ) -> VehicleWithRelationsDTO:
-        await self.validate(dto=dto,user=user)
+        await self.validate(dto=dto, user=user)
         file_model = None
         if AppFileExtensionConstants.is_upload_file(file):
             file_model = await self.service.save_file(
@@ -60,7 +61,7 @@ class AddClientVehicleCase(BaseUseCase[VehicleWithRelationsDTO]):
         )
         return VehicleWithRelationsDTO.from_orm(model)
 
-    async def validate(self, dto: VehicleCDTO,user:UserWithRelationsDTO):
+    async def validate(self, dto: VehicleCDTO, user: UserWithRelationsDTO):
         if dto.owner_id:
             verified_user = await self.user_repository.get_first_with_filters(
                 filters=[and_(self.user_repository.model.id == dto.owner_id)],
@@ -82,8 +83,9 @@ class AddClientVehicleCase(BaseUseCase[VehicleWithRelationsDTO]):
                 await self.organization_repository.get_first_with_filters(
                     filters=[
                         and_(
-                            self.organization_repository.model.id == dto.organization_id,
-                            self.organization_repository.model.owner_id == user.id
+                            self.organization_repository.model.id
+                            == dto.organization_id,
+                            self.organization_repository.model.owner_id == user.id,
                         )
                     ],
                 )

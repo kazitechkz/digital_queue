@@ -4,12 +4,11 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import Depends, FastAPI
 from fastapi.exceptions import RequestValidationError
-
-from app.core.app_cors import set_up_cors
 from infrastructure.config import app_config
 from starlette.staticfiles import StaticFiles
 
 from app.core.api_routes import include_routers
+from app.core.app_cors import set_up_cors
 from app.core.app_exception_handler import validation_exception_handler
 from app.core.auth_bearer_core import AuthBearer
 from app.core.role_docs import setup_role_documentation
@@ -38,7 +37,7 @@ app = FastAPI(
 # Включаем все роутеры
 include_routers(app)
 
-#Static folder
+# Static folder
 # Проверяем существование директории
 if not os.path.exists(app_config.static_folder):
     os.makedirs(app_config.static_folder)
@@ -54,7 +53,7 @@ setup_role_documentation(app)
 assign_roles(app)
 # Регистрация обработчика
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
-#Middleware
+# Middleware
 set_up_cors(app)
 
 

@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from http.client import HTTPException
-from typing import Dict, List, Callable
+from typing import Callable, Dict, List
 
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
@@ -48,6 +48,8 @@ def create_refresh_token(data: int) -> str:
     expire = datetime.now() + timedelta(days=app_config.refresh_token_expire_days)
     to_encode.update({"exp": expire.timestamp()})
     return jwt.encode(to_encode, app_config.secret_key, algorithm=app_config.algorithm)
+
+
 # === Получение текущего пользователя ===
 async def get_current_user(
     token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)
@@ -58,14 +60,20 @@ async def get_current_user(
         raise AppExceptionResponse.unauthorized(message="Не авторизован")
     return user
 
-def role_and_type_checker(required_roles: List[str], required_user_type: str = None) -> Callable:
+
+def role_and_type_checker(
+    required_roles: List[str], required_user_type: str = None
+) -> Callable:
     def checker(current_user: UserWithRelationsDTO = Depends(get_current_user)):
         if app_config.is_keycloak_auth():
             if current_user.role.keycloak_value not in required_roles:
                 raise AppExceptionResponse.forbidden(
                     detail="Отказано в доступе",
                 )
-            if required_user_type and current_user.user_type.keycloak_value != required_user_type:
+            if (
+                required_user_type
+                and current_user.user_type.keycloak_value != required_user_type
+            ):
                 raise AppExceptionResponse.forbidden(
                     detail="Отказано в доступе",
                 )
@@ -74,12 +82,17 @@ def role_and_type_checker(required_roles: List[str], required_user_type: str = N
                 raise AppExceptionResponse.forbidden(
                     detail="Отказано в доступе",
                 )
-            if required_user_type and current_user.user_type.value != required_user_type:
+            if (
+                required_user_type
+                and current_user.user_type.value != required_user_type
+            ):
                 raise AppExceptionResponse.forbidden(
                     detail="Отказано в доступе",
                 )
         return current_user
+
     return checker
+
 
 def get_role_value(role_keycloak_value: str, role_local_value: str) -> str:
     """Возвращает значение роли в зависимости от конфигурации Keycloak."""

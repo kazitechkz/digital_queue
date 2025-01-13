@@ -3,8 +3,9 @@ from typing import Optional
 from pydantic import BaseModel
 
 from app.adapters.dto.file.file_dto import FileRDTO
-from app.adapters.dto.organization_type.organization_type_dto import \
-    OrganizationTypeRDTO
+from app.adapters.dto.organization_type.organization_type_dto import (
+    OrganizationTypeRDTO,
+)
 from app.adapters.dto.user.user_dto import UserRDTO
 from app.shared.dto_constants import DTOConstant
 

@@ -67,6 +67,7 @@ def setup_role_documentation(app) -> None:
             openapi_url=f"/openapi/{common_docs_url}",
             title=AppRouteConstant.CommonName,
         )
+
     # OpenAPI схемы для каждой роли
     @app.get(f"/openapi/{admin_docs_url}", include_in_schema=False)
     async def get_admin_openapi():

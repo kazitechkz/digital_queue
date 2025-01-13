@@ -1,12 +1,18 @@
 import requests
-from app.adapters.dto.kaspi.kaspi_request_dto import KaspiFastPaymentResponseDTO, KaspiFastPaymentDTO
+
+from app.adapters.dto.kaspi.kaspi_request_dto import (
+    KaspiFastPaymentDTO,
+    KaspiFastPaymentResponseDTO,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.config import app_config
 
 
 class KaspiPaymentApiClient:
 
-    async def fast_payments(self,dto:KaspiFastPaymentDTO)->KaspiFastPaymentResponseDTO:
+    async def fast_payments(
+        self, dto: KaspiFastPaymentDTO
+    ) -> KaspiFastPaymentResponseDTO:
         kaspi_url = app_config.fast_payment_kaspi_url
         payload = {
             "TranId": f"{dto.TranId}",

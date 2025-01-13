@@ -2,12 +2,20 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.role.role_dto import RoleCDTO
+from app.adapters.dto.workshop_schedule.workshop_schedule_by_day_dto import (
+    WorkshopScheduleByDayDTO,
+)
 from app.core.app_exception_response import AppExceptionResponse
-from app.infrastructure.api_clients.sap.sap_get_contract_client import SapGetContractApiClient
+from app.infrastructure.api_clients.sap.sap_get_contract_client import (
+    SapGetContractApiClient,
+)
 from app.infrastructure.database import get_db
 from app.shared.app_file_constants import AppFileExtensionConstants
 from app.shared.dto_constants import DTOConstant
 from app.use_cases.file.save_file_case import SaveFileCase
+from app.use_cases.workshop_schedule.get_workshop_schedule_by_day_case import (
+    GetWorkshopScheduleByDayCase,
+)
 
 
 class TestApi:
@@ -49,11 +57,13 @@ class TestApi:
 
     async def get_test(
         self,
-            bin:DTOConstant.StandardUniqueBINField(description="БИН")
+        dto: WorkshopScheduleByDayDTO = Depends(),
+        db: AsyncSession = Depends(get_db),
     ):
         try:
             service = SapGetContractApiClient()
-            return await service.get_organization_contracts_by_bin_response(bin=bin)
+            use_case = GetWorkshopScheduleByDayCase(db)
+            return await use_case.execute(dto=dto)
         except HTTPException as exc:
             raise exc
         except Exception as exc:

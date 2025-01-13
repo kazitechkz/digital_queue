@@ -8,26 +8,24 @@ from app.adapters.api.operation.operation_api import OperationApi
 from app.adapters.api.order.order_api import OrderApi
 from app.adapters.api.order_status.order_status_api import OrderStatusApi
 from app.adapters.api.organization.organization_api import OrganizationApi
-from app.adapters.api.organization_employee.organization_employee_api import \
-    OrganizationEmployeeApi
-from app.adapters.api.organization_type.organization_type_api import \
-    OrganizationTypeApi
+from app.adapters.api.organization_employee.organization_employee_api import (
+    OrganizationEmployeeApi,
+)
+from app.adapters.api.organization_type.organization_type_api import OrganizationTypeApi
 from app.adapters.api.role.role_api import RoleApi
 from app.adapters.api.sap.sap_request_api import SapRequestApi
 from app.adapters.api.test.test_api import TestApi
 from app.adapters.api.user.user_api import UserApi
 from app.adapters.api.user_type.user_type_api import UserTypeApi
 from app.adapters.api.vehicle.vehicle_api import VehicleApi
-from app.adapters.api.vehicle_category.vehicle_category_api import \
-    VehicleCategoryApi
+from app.adapters.api.vehicle_category.vehicle_category_api import VehicleCategoryApi
 from app.adapters.api.vehicle_color.vehicle_color_api import VehicleColorApi
-from app.adapters.api.verified_user_api.verified_user_api import \
-    VerifiedUserApi
-from app.adapters.api.verified_vehicle_api.verified_vehicle_api import \
-    VerifiedVehicleApi
+from app.adapters.api.verified_user_api.verified_user_api import VerifiedUserApi
+from app.adapters.api.verified_vehicle_api.verified_vehicle_api import (
+    VerifiedVehicleApi,
+)
 from app.adapters.api.workshop.workshop_api import WorkshopApi
-from app.adapters.api.workshop_schedule.workshop_schedule_api import \
-    WorkshopScheduleApi
+from app.adapters.api.workshop_schedule.workshop_schedule_api import WorkshopScheduleApi
 from app.shared.path_constants import AppPathConstants
 
 

@@ -54,7 +54,7 @@ class OrganizationEmployeeClientFilter(BasePaginationFilter[OrganizationEmployee
             "sid",
         ]
 
-    def apply(self,user:UserWithRelationsDTO) -> List[SQLAlchemyQuery]:
+    def apply(self, user: UserWithRelationsDTO) -> List[SQLAlchemyQuery]:
         filters = []
         if self.search:
             # Проверяем существование полей в модели

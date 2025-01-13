@@ -244,8 +244,7 @@ class DTOConstant:
             str,
             Field(
                 max_length=FieldConstants.SAP_DOGOVOR_LENGTH,
-                description=description
-                            or f"№ договора в SAP",
+                description=description or f"№ договора в SAP",
             ),
         ]
 
@@ -255,8 +254,7 @@ class DTOConstant:
             str,
             Field(
                 max_length=FieldConstants.MATNR_LENGTH,
-                description=description
-                            or f"№ материала в SAP",
+                description=description or f"№ материала в SAP",
             ),
         ]
 
@@ -267,8 +265,7 @@ class DTOConstant:
             Field(
                 gt=0,
                 le=FieldConstants.SAP_QUAN_LE,
-                description=description
-                            or f"Объем заказа (NUMC, 13) в тоннах",
+                description=description or f"Объем заказа (NUMC, 13) в тоннах",
             ),
         ]
 
@@ -279,8 +276,7 @@ class DTOConstant:
             Field(
                 gt=0,
                 le=FieldConstants.SAP_ORDER_ID_LE,
-                description=description
-                            or f"Идентификатор заказа",
+                description=description or f"Идентификатор заказа",
             ),
         ]
 
@@ -290,8 +286,7 @@ class DTOConstant:
             Optional[int],
             Field(
                 le=FieldConstants.SAP_ORDER_ID_LE,
-                description=description
-                            or f"Идентификатор заказа",
+                description=description or f"Идентификатор заказа",
             ),
         ]
 
@@ -301,8 +296,7 @@ class DTOConstant:
             str,
             Field(
                 max_length=FieldConstants.WERKS_LENGTH,
-                description=description
-                            or f"Код завода в SA",
+                description=description or f"Код завода в SA",
             ),
         ]
 
@@ -312,8 +306,7 @@ class DTOConstant:
             str,
             Field(
                 max_length=FieldConstants.SAP_KUN_NAME,
-                description=description
-                            or f"Код завода в SA",
+                description=description or f"Код завода в SA",
             ),
         ]
 
@@ -323,8 +316,7 @@ class DTOConstant:
             str,
             Field(
                 max_length=FieldConstants.SAP_ADR_INDEX,
-                description=description
-                            or f"Данные адреса, почтовый индекс",
+                description=description or f"Данные адреса, почтовый индекс",
             ),
         ]
 
@@ -334,8 +326,7 @@ class DTOConstant:
             str,
             Field(
                 max_length=FieldConstants.SAP_ADR_CITY,
-                description=description
-                            or f"Данные адреса, город",
+                description=description or f"Данные адреса, город",
             ),
         ]
 
@@ -345,8 +336,7 @@ class DTOConstant:
             str,
             Field(
                 max_length=FieldConstants.SAP_ADR_STR,
-                description=description
-                            or f"Данные адреса, улица",
+                description=description or f"Данные адреса, улица",
             ),
         ]
 
@@ -356,8 +346,7 @@ class DTOConstant:
             str,
             Field(
                 max_length=FieldConstants.SAP_ADR_DOM,
-                description=description
-                            or f"Данные адреса, № дома",
+                description=description or f"Данные адреса, № дома",
             ),
         ]
 
@@ -366,8 +355,7 @@ class DTOConstant:
         return Annotated[
             Optional[str],
             Field(
-                description=description
-                            or f"Счет на предоплату в формате Base64",
+                description=description or f"Счет на предоплату в формате Base64",
             ),
         ]
 
@@ -377,7 +365,7 @@ class DTOConstant:
             Optional[str],
             Field(
                 description=description
-                            or f"Описание причины ошибки (пустое значение, если перенос успешен)",
+                or f"Описание причины ошибки (пустое значение, если перенос успешен)",
             ),
         ]
 
@@ -386,8 +374,7 @@ class DTOConstant:
         return Annotated[
             Optional[str],
             Field(
-                description=description
-                            or f"Дата переноса (формат YYYY-MM-DD)",
+                description=description or f"Дата переноса (формат YYYY-MM-DD)",
             ),
         ]
 
@@ -396,7 +383,6 @@ class DTOConstant:
         return Annotated[
             Optional[str],
             Field(
-                description=description
-                            or f"Время переноса (формат HH:MM:SS)",
+                description=description or f"Время переноса (формат HH:MM:SS)",
             ),
         ]

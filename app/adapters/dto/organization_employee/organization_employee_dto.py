@@ -40,7 +40,7 @@ class OrganizationEmployeeRDTO(OrganizationEmployeeDTO):
 class OrganizationEmployeeWithRelationsDTO(OrganizationEmployeeRDTO):
     organization: Optional[OrganizationRDTO] = None
     employee: Optional[UserRDTO] = None
-    request:Optional[EmployeeRequestRDTO] = None
+    request: Optional[EmployeeRequestRDTO] = None
 
     class Config:
         from_attributes = True

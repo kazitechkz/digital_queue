@@ -1,36 +1,46 @@
-from typing import Optional, List
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.organization.organization_dto import (
-    OrganizationCDTO, OrganizationWithRelationsDTO)
-from app.adapters.dto.pagination_dto import \
-    PaginationOrganizationWithRelationsDTO
+    OrganizationCDTO,
+    OrganizationWithRelationsDTO,
+)
+from app.adapters.dto.pagination_dto import PaginationOrganizationWithRelationsDTO
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
-from app.adapters.filters.organization.client.organization_client_filter import OrganizationClientFilter
-from app.adapters.filters.organization.organization_filter import \
-    OrganizationFilter
+from app.adapters.filters.organization.client.organization_client_filter import (
+    OrganizationClientFilter,
+)
+from app.adapters.filters.organization.organization_filter import OrganizationFilter
 from app.core.api_middleware_core import check_legal_client
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
-from app.use_cases.organization.client.add_client_organization_case import AddClientOrganizationCase
-from app.use_cases.organization.client.all_client_organization_case import AllClientOrganizationCase
-from app.use_cases.organization.client.edit_client_organization_case import EditClientOrganizationCase
-from app.use_cases.organization.client.pagination_client_organization_case import PaginateClientOrganizationCase
-from app.use_cases.organization.create_organization_case import \
-    CreateOrganizationCase
-from app.use_cases.organization.delete_organization_case import \
-    DeleteOrganizationCase
-from app.use_cases.organization.get_organization_by_id_case import \
-    GetOrganizationByIdCase
-from app.use_cases.organization.get_organization_by_value_case import \
-    GetOrganizationByValueCase
-from app.use_cases.organization.paginate_organization_case import \
-    PaginateOrganizationCase
-from app.use_cases.organization.update_organization_case import \
-    UpdateOrganizationCase
+from app.use_cases.organization.client.add_client_organization_case import (
+    AddClientOrganizationCase,
+)
+from app.use_cases.organization.client.all_client_organization_case import (
+    AllClientOrganizationCase,
+)
+from app.use_cases.organization.client.edit_client_organization_case import (
+    EditClientOrganizationCase,
+)
+from app.use_cases.organization.client.pagination_client_organization_case import (
+    PaginateClientOrganizationCase,
+)
+from app.use_cases.organization.create_organization_case import CreateOrganizationCase
+from app.use_cases.organization.delete_organization_case import DeleteOrganizationCase
+from app.use_cases.organization.get_organization_by_id_case import (
+    GetOrganizationByIdCase,
+)
+from app.use_cases.organization.get_organization_by_value_case import (
+    GetOrganizationByValueCase,
+)
+from app.use_cases.organization.paginate_organization_case import (
+    PaginateOrganizationCase,
+)
+from app.use_cases.organization.update_organization_case import UpdateOrganizationCase
 
 
 class OrganizationApi:
@@ -75,7 +85,7 @@ class OrganizationApi:
             summary="Получить организацию по уникальному значению БИН",
             description="Получение организации по уникальному значению БИН в системе",
         )(self.get_by_value)
-        #Client
+        # Client
         self.router.get(
             f"{AppPathConstants.PaginateClientOrganizationPathName}",
             response_model=PaginationOrganizationWithRelationsDTO,
@@ -122,11 +132,11 @@ class OrganizationApi:
         self,
         parameters: OrganizationClientFilter = Depends(),
         db: AsyncSession = Depends(get_db),
-        user:UserWithRelationsDTO = Depends(check_legal_client)
+        user: UserWithRelationsDTO = Depends(check_legal_client),
     ):
         use_case = PaginateClientOrganizationCase(db)
         try:
-            return await use_case.execute(filter=parameters,client_id=user.id)
+            return await use_case.execute(filter=parameters, client_id=user.id)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
@@ -135,15 +145,16 @@ class OrganizationApi:
                 extra={"details": str(exc)},
                 is_custom=True,
             )
+
     async def get_active_client(
         self,
         parameters: OrganizationClientFilter = Depends(),
         db: AsyncSession = Depends(get_db),
-        user:UserWithRelationsDTO = Depends(check_legal_client)
+        user: UserWithRelationsDTO = Depends(check_legal_client),
     ):
         use_case = AllClientOrganizationCase(db)
         try:
-            return await use_case.execute(filter=parameters,client_id=user.id)
+            return await use_case.execute(filter=parameters, client_id=user.id)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
@@ -191,11 +202,11 @@ class OrganizationApi:
         dto: OrganizationCDTO = Depends(),
         file: Optional[UploadFile] = File(default=None),
         db: AsyncSession = Depends(get_db),
-        user: UserWithRelationsDTO = Depends(check_legal_client)
+        user: UserWithRelationsDTO = Depends(check_legal_client),
     ):
         use_case = AddClientOrganizationCase(db)
         try:
-            return await use_case.execute(dto=dto, file=file,user=user)
+            return await use_case.execute(dto=dto, file=file, user=user)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
@@ -223,17 +234,18 @@ class OrganizationApi:
                 extra={"id": id, "details": str(exc)},
                 is_custom=True,
             )
+
     async def update_client(
         self,
         id: AppPathConstants.IDPath,
         dto: OrganizationCDTO = Depends(),
         file: Optional[UploadFile] = File(default=None),
         db: AsyncSession = Depends(get_db),
-        user: UserWithRelationsDTO = Depends(check_legal_client)
+        user: UserWithRelationsDTO = Depends(check_legal_client),
     ):
         use_case = EditClientOrganizationCase(db)
         try:
-            return await use_case.execute(id=id, dto=dto, file=file,user=user)
+            return await use_case.execute(id=id, dto=dto, file=file, user=user)
         except HTTPException as exc:
             raise exc
         except Exception as exc:

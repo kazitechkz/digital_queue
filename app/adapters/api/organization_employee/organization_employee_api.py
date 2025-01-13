@@ -4,38 +4,53 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.organization_employee.organization_employee_dto import (
-    OrganizationEmployeeCDTO, OrganizationEmployeeWithRelationsDTO)
-from app.adapters.dto.pagination_dto import \
-    PaginationOrganizationEmployeeWithRelationsDTO
+    OrganizationEmployeeCDTO,
+    OrganizationEmployeeWithRelationsDTO,
+)
+from app.adapters.dto.pagination_dto import (
+    PaginationOrganizationEmployeeWithRelationsDTO,
+)
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
-from app.adapters.filters.organization_employee.client.organization_employee_client_filter import \
-    OrganizationEmployeeClientFilter
-from app.adapters.filters.organization_employee.organization_employee_filter import \
-    OrganizationEmployeeFilter
+from app.adapters.filters.organization_employee.client.organization_employee_client_filter import (
+    OrganizationEmployeeClientFilter,
+)
+from app.adapters.filters.organization_employee.organization_employee_filter import (
+    OrganizationEmployeeFilter,
+)
 from app.core.api_middleware_core import check_client
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
-from app.use_cases.organization_employee.client.all_client_organization_employee_case import \
-    AllClientOrganizationEmployeeCase
-from app.use_cases.organization_employee.client.delete_client_organization_employee_case import \
-    DeleteClientOrganizationEmployeeCase
-from app.use_cases.organization_employee.client.get_client_organization_employee_by_id_case import \
-    GetClientOrganizationEmployeeByIdCase
-from app.use_cases.organization_employee.client.paginate_client_organization_employee_case import \
-    PaginateClientOrganizationEmployeeCase
-from app.use_cases.organization_employee.create_organization_employee_case import \
-    CreateOrganizationEmployeeCase
-from app.use_cases.organization_employee.delete_organization_employee_case import \
-    DeleteOrganizationEmployeeCase
-from app.use_cases.organization_employee.get_organization_employee_by_id_case import \
-    GetOrganizationEmployeeByIdCase
-from app.use_cases.organization_employee.get_organization_employee_by_value_case import \
-    GetOrganizationEmployeeByValueCase
-from app.use_cases.organization_employee.paginate_organization_employee_case import \
-    PaginateOrganizationEmployeeCase
-from app.use_cases.organization_employee.update_organization_employee_case import \
-    UpdateOrganizationEmployeeCase
+from app.use_cases.organization_employee.client.all_client_organization_employee_case import (
+    AllClientOrganizationEmployeeCase,
+)
+from app.use_cases.organization_employee.client.delete_client_organization_employee_case import (
+    DeleteClientOrganizationEmployeeCase,
+)
+from app.use_cases.organization_employee.client.get_client_organization_employee_by_id_case import (
+    GetClientOrganizationEmployeeByIdCase,
+)
+from app.use_cases.organization_employee.client.paginate_client_organization_employee_case import (
+    PaginateClientOrganizationEmployeeCase,
+)
+from app.use_cases.organization_employee.create_organization_employee_case import (
+    CreateOrganizationEmployeeCase,
+)
+from app.use_cases.organization_employee.delete_organization_employee_case import (
+    DeleteOrganizationEmployeeCase,
+)
+from app.use_cases.organization_employee.get_organization_employee_by_id_case import (
+    GetOrganizationEmployeeByIdCase,
+)
+from app.use_cases.organization_employee.get_organization_employee_by_value_case import (
+    GetOrganizationEmployeeByValueCase,
+)
+from app.use_cases.organization_employee.paginate_organization_employee_case import (
+    PaginateOrganizationEmployeeCase,
+)
+from app.use_cases.organization_employee.update_organization_employee_case import (
+    UpdateOrganizationEmployeeCase,
+)
 
 
 class OrganizationEmployeeApi:
@@ -80,7 +95,7 @@ class OrganizationEmployeeApi:
             summary="Получить работников организаций по уникальному значению БИН или SID",
             description="Получение работников организаций по уникальному значению БИН или SID в системе",
         )(self.get_by_value)
-        #Client
+        # Client
         self.router.get(
             f"{AppPathConstants.PaginateOrganizationEmployeeClientPathName}",
             response_model=PaginationOrganizationEmployeeWithRelationsDTO,
@@ -105,7 +120,6 @@ class OrganizationEmployeeApi:
             summary="Удалите работников организаций по уникальному ID",
             description="Удаление работников организаций по уникальному идентификатору",
         )(self.delete_client)
-
 
     async def get_all(
         self,
@@ -132,7 +146,7 @@ class OrganizationEmployeeApi:
     ):
         use_case = PaginateClientOrganizationEmployeeCase(db)
         try:
-            return await use_case.execute(filter=parameters,user=user)
+            return await use_case.execute(filter=parameters, user=user)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
@@ -144,13 +158,13 @@ class OrganizationEmployeeApi:
 
     async def get_all_client(
         self,
-            parameters: OrganizationEmployeeClientFilter = Depends(),
-            user: UserWithRelationsDTO = Depends(check_client),
-            db: AsyncSession = Depends(get_db),
+        parameters: OrganizationEmployeeClientFilter = Depends(),
+        user: UserWithRelationsDTO = Depends(check_client),
+        db: AsyncSession = Depends(get_db),
     ):
         use_case = AllClientOrganizationEmployeeCase(db)
         try:
-            return await use_case.execute(filter=parameters,user=user)
+            return await use_case.execute(filter=parameters, user=user)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
@@ -159,13 +173,16 @@ class OrganizationEmployeeApi:
                 extra={"details": str(exc)},
                 is_custom=True,
             )
+
     async def get_client_by_id(
-        self, id: AppPathConstants.IDPath, db: AsyncSession = Depends(get_db),
-            user: UserWithRelationsDTO = Depends(check_client)
+        self,
+        id: AppPathConstants.IDPath,
+        db: AsyncSession = Depends(get_db),
+        user: UserWithRelationsDTO = Depends(check_client),
     ):
         use_case = GetClientOrganizationEmployeeByIdCase(db)
         try:
-            return await use_case.execute(id=id,user=user)
+            return await use_case.execute(id=id, user=user)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
@@ -174,6 +191,7 @@ class OrganizationEmployeeApi:
                 extra={"id": id, "details": str(exc)},
                 is_custom=True,
             )
+
     async def get(
         self, id: AppPathConstants.IDPath, db: AsyncSession = Depends(get_db)
     ):
@@ -240,12 +258,14 @@ class OrganizationEmployeeApi:
             )
 
     async def delete_client(
-        self, id: AppPathConstants.IDPath, db: AsyncSession = Depends(get_db),
-            user:UserWithRelationsDTO = Depends(check_client)
+        self,
+        id: AppPathConstants.IDPath,
+        db: AsyncSession = Depends(get_db),
+        user: UserWithRelationsDTO = Depends(check_client),
     ):
         use_case = DeleteClientOrganizationEmployeeCase(db)
         try:
-            return await use_case.execute(id=id,user=user)
+            return await use_case.execute(id=id, user=user)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
@@ -254,7 +274,6 @@ class OrganizationEmployeeApi:
                 extra={"id": id, "details": str(exc)},
                 is_custom=True,
             )
-
 
     async def get_by_value(
         self, value: AppPathConstants.ValuePath, db: AsyncSession = Depends(get_db)

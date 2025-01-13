@@ -1,6 +1,6 @@
-from typing import Optional, List
+from typing import List, Optional
 
-from sqlalchemy import or_, inspect, and_
+from sqlalchemy import and_, inspect, or_
 from sqlalchemy.orm import Query as SQLAlchemyQuery
 
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
@@ -45,7 +45,7 @@ class EmployeeRequestClientFilter(BasePaginationFilter[EmployeeRequestModel]):
             "owner_sid",
         ]
 
-    def apply(self,user:UserWithRelationsDTO) -> List[SQLAlchemyQuery]:
+    def apply(self, user: UserWithRelationsDTO) -> List[SQLAlchemyQuery]:
         filters = []
         if self.search:
             # Проверяем существование полей в модели

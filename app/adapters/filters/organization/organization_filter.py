@@ -10,30 +10,30 @@ from app.shared.query_constants import AppQueryConstants
 
 class OrganizationFilter(BasePaginationFilter[OrganizationModel]):
     def __init__(
-            self,
-            per_page: int = AppQueryConstants.StandardPerPageQuery(),
-            page: int = AppQueryConstants.StandardPageQuery(),
-            search: Optional[str] = AppQueryConstants.StandardOptionalSearchQuery(
-                description="Уникальный поиск по наименованию, БИН, БИК, email, телефону"
-            ),
-            order_by: Optional[str] = AppQueryConstants.StandardSortFieldQuery(),
-            order_direction: Optional[str] = AppQueryConstants.StandardSortDirectionQuery(),
-            owner_ids: Optional[
-                list[int]
-            ] = AppQueryConstants.StandardOptionalIntegerArrayQuery(
-                description="Поиск по ID владельцам"
-            ),
-            type_ids: Optional[
-                list[int]
-            ] = AppQueryConstants.StandardOptionalIntegerArrayQuery(
-                description="Поиск по типам пользователя"
-            ),
-            status: Optional[bool] = AppQueryConstants.StandardOptionalBooleanQuery(
-                description="Статус активности"
-            ),
-            is_verified: Optional[bool] = AppQueryConstants.StandardOptionalBooleanQuery(
-                description="Подтвержден ли модератором"
-            ),
+        self,
+        per_page: int = AppQueryConstants.StandardPerPageQuery(),
+        page: int = AppQueryConstants.StandardPageQuery(),
+        search: Optional[str] = AppQueryConstants.StandardOptionalSearchQuery(
+            description="Уникальный поиск по наименованию, БИН, БИК, email, телефону"
+        ),
+        order_by: Optional[str] = AppQueryConstants.StandardSortFieldQuery(),
+        order_direction: Optional[str] = AppQueryConstants.StandardSortDirectionQuery(),
+        owner_ids: Optional[
+            list[int]
+        ] = AppQueryConstants.StandardOptionalIntegerArrayQuery(
+            description="Поиск по ID владельцам"
+        ),
+        type_ids: Optional[
+            list[int]
+        ] = AppQueryConstants.StandardOptionalIntegerArrayQuery(
+            description="Поиск по типам пользователя"
+        ),
+        status: Optional[bool] = AppQueryConstants.StandardOptionalBooleanQuery(
+            description="Статус активности"
+        ),
+        is_verified: Optional[bool] = AppQueryConstants.StandardOptionalBooleanQuery(
+            description="Подтвержден ли модератором"
+        ),
     ):
         super().__init__(
             model=OrganizationModel,

@@ -1,6 +1,8 @@
 from typing import Optional
+
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.adapters.dto.pagination_dto import PaginationUserWithRelationsDTO
 from app.adapters.dto.user.user_dto import UserCDTO, UserWithRelationsDTO
 from app.adapters.filters.user.user_filter import UserFilter

@@ -1,9 +1,12 @@
-from typing import Optional, List
+from typing import List, Optional
 
 import requests
 
 from app.adapters.dto.sap.sap_bearer_token_dto import SapBearerTokenDTO
-from app.adapters.dto.sap.sap_contract_dto import SapContractDTO, SapContractForResponseDTO
+from app.adapters.dto.sap.sap_contract_dto import (
+    SapContractDTO,
+    SapContractForResponseDTO,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.config import app_config
 from app.infrastructure.redis_client import redis_client
@@ -11,9 +14,11 @@ from app.shared.dto_constants import DTOConstant
 
 
 class SapGetContractApiClient:
-    ACCESS_TOKEN_SAP083="access_token_sap083"
+    ACCESS_TOKEN_SAP083 = "access_token_sap083"
 
-    async def get_organization_contracts_by_bin_response(self,bin:DTOConstant.StandardUniqueBINField())->List[SapContractForResponseDTO]:
+    async def get_organization_contracts_by_bin_response(
+        self, bin: DTOConstant.StandardUniqueBINField()
+    ) -> List[SapContractForResponseDTO]:
         contract = await self.get_organization_contracts_by_bin(bin)
 
         def parse_float(value: Optional[str]) -> float:
@@ -50,18 +55,18 @@ class SapGetContractApiClient:
 
         return response_list
 
-    async def get_organization_contracts_by_bin(self,bin:DTOConstant.StandardUniqueBINField())->SapContractDTO:
-        token:str = await self.get_access_token()
+    async def get_organization_contracts_by_bin(
+        self, bin: DTOConstant.StandardUniqueBINField()
+    ) -> SapContractDTO:
+        token: str = await self.get_access_token()
         basic_url = app_config.sap_083_http_url
         if app_config.sap_083_https_enabled:
             basic_url = app_config.sap_083_https_url
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {token}"
+            "Authorization": f"Bearer {token}",
         }
-        payload = {
-            "BIN_PARTNER": bin
-        }
+        payload = {"BIN_PARTNER": bin}
         try:
             response = requests.post(basic_url, json=payload, headers=headers)
             response.raise_for_status()  # Проверка статуса HTTP
@@ -73,15 +78,14 @@ class SapGetContractApiClient:
                 message=f"Ошибка при получении договоров организации SAP 083 {str(e)}"
             )
 
-    async def get_access_token(self)->str:
-        access_token:Optional[str] = redis_client.get(self.ACCESS_TOKEN_SAP083)
+    async def get_access_token(self) -> str:
+        access_token: Optional[str] = redis_client.get(self.ACCESS_TOKEN_SAP083)
         if not access_token:
             token_dto = await self._make_call_to_sap_auth()
             return token_dto.access_token
         return access_token
 
-
-    async def _make_call_to_sap_auth(self)->SapBearerTokenDTO:
+    async def _make_call_to_sap_auth(self) -> SapBearerTokenDTO:
         payload = {
             "grant_type": app_config.sap_083_grant_type,
             "client_id": app_config.sap_083_client_id,
@@ -92,16 +96,16 @@ class SapGetContractApiClient:
         if app_config.auth_contract_https_enabled:
             basic_url = app_config.sap_auth_https_url
 
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
+        headers = {"Content-Type": "application/x-www-form-urlencoded"}
 
         try:
             response = requests.post(basic_url, data=payload, headers=headers)
             response.raise_for_status()
             token_data = response.json()
             token_dto = SapBearerTokenDTO.parse_obj(token_data)
-            redis_client.setex(self.ACCESS_TOKEN_SAP083, token_dto.expires_in, token_dto.access_token)
+            redis_client.setex(
+                self.ACCESS_TOKEN_SAP083, token_dto.expires_in, token_dto.access_token
+            )
             return token_dto
         except requests.exceptions.RequestException as e:
             raise AppExceptionResponse.internal_error(

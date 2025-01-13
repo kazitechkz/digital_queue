@@ -12,7 +12,7 @@ def get_redis_client():
         port=app_config.redis_port,
         password=app_config.redis_password,
         db=app_config.redis_db,
-        decode_responses=True
+        decode_responses=True,
     )
 
 

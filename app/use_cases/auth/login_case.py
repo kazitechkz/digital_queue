@@ -6,8 +6,11 @@ from app.adapters.dto.auth.login_dto import LoginDTO
 from app.adapters.dto.auth.token_dto import BearerTokenDTO
 from app.adapters.repositories.user.user_repository import UserRepository
 from app.core.app_exception_response import AppExceptionResponse
-from app.core.auth_core import (create_access_token, create_refresh_token,
-                                verify_password)
+from app.core.auth_core import (
+    create_access_token,
+    create_refresh_token,
+    verify_password,
+)
 from app.core.key_cloak_core import keycloak_openid
 from app.infrastructure.config import app_config
 from app.use_cases.base_case import BaseUseCase

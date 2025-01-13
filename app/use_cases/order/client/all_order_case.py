@@ -11,10 +11,12 @@ class AllClientOrderCase(BaseUseCase[list[OrderWithRelationsDTO]]):
     def __init__(self, db: AsyncSession):
         self.repository = OrderRepository(db)
 
-    async def execute(self,parameters:OrderClientFilter,user:UserWithRelationsDTO) -> list[OrderWithRelationsDTO]:
+    async def execute(
+        self, parameters: OrderClientFilter, user: UserWithRelationsDTO
+    ) -> list[OrderWithRelationsDTO]:
         models = await self.repository.get_with_filters(
             options=self.repository.default_relationships(),
-            filters=parameters.apply(user=user)
+            filters=parameters.apply(user=user),
         )
         return [OrderWithRelationsDTO.from_orm(model) for model in models]
 

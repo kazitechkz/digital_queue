@@ -2,22 +2,30 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.workshop_schedule.workshop_schedule_dto import (
-    WorkshopScheduleCDTO, WorkshopScheduleWithRelationsDTO)
+    WorkshopScheduleCDTO,
+    WorkshopScheduleWithRelationsDTO,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
-from app.use_cases.workshop_schedule.all_workshop_schedule_case import \
-    AllWorkshopScheduleCase
-from app.use_cases.workshop_schedule.create_workshop_schedule_case import \
-    CreateWorkshopScheduleCase
-from app.use_cases.workshop_schedule.delete_workshop_schedule_case import \
-    DeleteWorkshopScheduleCase
-from app.use_cases.workshop_schedule.get_workshop_schedule_by_id_case import \
-    GetWorkshopScheduleByIdCase
-from app.use_cases.workshop_schedule.get_workshop_schedule_by_value_case import \
-    GetWorkshopScheduleByValueCase
-from app.use_cases.workshop_schedule.update_workshop_schedule_case import \
-    UpdateWorkshopScheduleCase
+from app.use_cases.workshop_schedule.all_workshop_schedule_case import (
+    AllWorkshopScheduleCase,
+)
+from app.use_cases.workshop_schedule.create_workshop_schedule_case import (
+    CreateWorkshopScheduleCase,
+)
+from app.use_cases.workshop_schedule.delete_workshop_schedule_case import (
+    DeleteWorkshopScheduleCase,
+)
+from app.use_cases.workshop_schedule.get_workshop_schedule_by_id_case import (
+    GetWorkshopScheduleByIdCase,
+)
+from app.use_cases.workshop_schedule.get_workshop_schedule_by_value_case import (
+    GetWorkshopScheduleByValueCase,
+)
+from app.use_cases.workshop_schedule.update_workshop_schedule_case import (
+    UpdateWorkshopScheduleCase,
+)
 
 
 class WorkshopScheduleApi:

@@ -1,21 +1,38 @@
 from typing import Optional
+
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.employee_request.employee_request_dto import EmployeeRequestWithRelationsDTO, EmployeeRequestCDTO, \
-    EmployeeRequestClientCDTO
-from app.adapters.dto.pagination_dto import \
-    PaginationEmployeeRequestWithRelationsDTO
+from app.adapters.dto.employee_request.employee_request_dto import (
+    EmployeeRequestCDTO,
+    EmployeeRequestClientCDTO,
+    EmployeeRequestWithRelationsDTO,
+)
+from app.adapters.dto.pagination_dto import PaginationEmployeeRequestWithRelationsDTO
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
-from app.adapters.filters.employee_request.client.employee_request_client_filter import EmployeeRequestClientFilter
-from app.core.api_middleware_core import check_client, check_legal_client, check_individual_client
+from app.adapters.filters.employee_request.client.employee_request_client_filter import (
+    EmployeeRequestClientFilter,
+)
+from app.core.api_middleware_core import (
+    check_client,
+    check_individual_client,
+    check_legal_client,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
-from app.use_cases.employee_request.client.create_employee_request_case import CreateEmployeeRequestCase
-from app.use_cases.employee_request.client.delete_employee_request_case import DeleteEmployeeRequestCase
-from app.use_cases.employee_request.client.paginate_employee_request_case import PaginateEmployeeRequestCase
-from app.use_cases.employee_request.client.update_employee_request_case import UpdateEmployeeRequestCase
+from app.use_cases.employee_request.client.create_employee_request_case import (
+    CreateEmployeeRequestCase,
+)
+from app.use_cases.employee_request.client.delete_employee_request_case import (
+    DeleteEmployeeRequestCase,
+)
+from app.use_cases.employee_request.client.paginate_employee_request_case import (
+    PaginateEmployeeRequestCase,
+)
+from app.use_cases.employee_request.client.update_employee_request_case import (
+    UpdateEmployeeRequestCase,
+)
 
 
 class EmployeeRequestApi:
@@ -48,18 +65,17 @@ class EmployeeRequestApi:
             summary="Удалите заявку по уникальному ID",
             description="Удаление заявок по уникальному идентификатору",
         )(self.delete)
-        #client
-
+        # client
 
     async def get_all(
         self,
         parameters: EmployeeRequestClientFilter = Depends(),
         db: AsyncSession = Depends(get_db),
-        user:UserWithRelationsDTO = Depends(check_client)
+        user: UserWithRelationsDTO = Depends(check_client),
     ):
         use_case = PaginateEmployeeRequestCase(db)
         try:
-            return await use_case.execute(filter=parameters,user=user)
+            return await use_case.execute(filter=parameters, user=user)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
@@ -73,11 +89,11 @@ class EmployeeRequestApi:
         self,
         dto: EmployeeRequestCDTO,
         db: AsyncSession = Depends(get_db),
-        user: UserWithRelationsDTO = Depends(check_legal_client)
+        user: UserWithRelationsDTO = Depends(check_legal_client),
     ):
         use_case = CreateEmployeeRequestCase(db)
         try:
-            return await use_case.execute(dto=dto,user=user)
+            return await use_case.execute(dto=dto, user=user)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
@@ -92,7 +108,7 @@ class EmployeeRequestApi:
         id: AppPathConstants.IDPath,
         dto: EmployeeRequestClientCDTO,
         db: AsyncSession = Depends(get_db),
-        user: UserWithRelationsDTO = Depends(check_individual_client)
+        user: UserWithRelationsDTO = Depends(check_individual_client),
     ):
         use_case = UpdateEmployeeRequestCase(db)
         try:
@@ -107,12 +123,14 @@ class EmployeeRequestApi:
             )
 
     async def delete(
-        self, id: AppPathConstants.IDPath, db: AsyncSession = Depends(get_db),
-            user: UserWithRelationsDTO = Depends(check_legal_client)
+        self,
+        id: AppPathConstants.IDPath,
+        db: AsyncSession = Depends(get_db),
+        user: UserWithRelationsDTO = Depends(check_legal_client),
     ):
         use_case = DeleteEmployeeRequestCase(db)
         try:
-            return await use_case.execute(id=id,user=user)
+            return await use_case.execute(id=id, user=user)
         except HTTPException as exc:
             raise exc
         except Exception as exc:
@@ -121,5 +139,3 @@ class EmployeeRequestApi:
                 extra={"id": id, "details": str(exc)},
                 is_custom=True,
             )
-
-

@@ -13,7 +13,7 @@ def assign_roles_to_route(app, path, roles) -> None:
 
 
 def assign_roles(app) -> None:
-    #Auth
+    # Auth
     assign_roles_to_route(
         app=app,
         path=f"/{AppPathConstants.AuthPathName}{AppPathConstants.LoginPathName}",
@@ -28,7 +28,7 @@ def assign_roles(app) -> None:
             AppRouteConstant.CommonTagName,
         ],
     )
-    #Test
+    # Test
     assign_roles_to_route(
         app=app,
         path=f"/{AppPathConstants.TestPathName}/test-get",
@@ -178,7 +178,7 @@ def assign_roles(app) -> None:
             AppRouteConstant.EmployeesTagName,
         ],
     )
-    #Order
+    # Order
     assign_roles_to_route(
         app=app,
         path=f"/{AppPathConstants.OrderPathName}{AppPathConstants.CreateClientOrderRequestPathName}",
@@ -350,7 +350,7 @@ def assign_roles(app) -> None:
         path=f"/{AppPathConstants.EmployeeRequestPathName}{AppPathConstants.DeleteClientEmployeeRequestPathName}",
         roles=[AppRouteConstant.ClientTagName],
     )
-    #Organizatiom Employee
+    # Organizatiom Employee
     assign_roles_to_route(
         app=app,
         path=f"/{AppPathConstants.OrganizationEmployeePathName}{AppPathConstants.IndexPathName}",
@@ -376,7 +376,7 @@ def assign_roles(app) -> None:
         path=f"/{AppPathConstants.OrganizationEmployeePathName}{AppPathConstants.GetByValuePathName}",
         roles=[AppRouteConstant.AdministratorTagName],
     )
-    #Client
+    # Client
     assign_roles_to_route(
         app=app,
         path=f"/{AppPathConstants.OrganizationEmployeePathName}{AppPathConstants.PaginateOrganizationEmployeeClientPathName}",
@@ -737,6 +737,3 @@ def assign_roles(app) -> None:
             AppRouteConstant.EmployeesTagName,
         ],
     )
-
-
-

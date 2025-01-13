@@ -1,13 +1,11 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.organization.organization_dto import \
-    OrganizationWithRelationsDTO
-from app.adapters.dto.pagination_dto import \
-    PaginationOrganizationWithRelationsDTO
-from app.adapters.filters.organization.organization_filter import \
-    OrganizationFilter
-from app.adapters.repositories.organization.organization_repository import \
-    OrganizationRepository
+from app.adapters.dto.organization.organization_dto import OrganizationWithRelationsDTO
+from app.adapters.dto.pagination_dto import PaginationOrganizationWithRelationsDTO
+from app.adapters.filters.organization.organization_filter import OrganizationFilter
+from app.adapters.repositories.organization.organization_repository import (
+    OrganizationRepository,
+)
 from app.use_cases.base_case import BaseUseCase
 
 

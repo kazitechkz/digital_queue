@@ -6,13 +6,14 @@ from app.shared.dto_constants import DTOConstant
 
 
 class CreateLegalSapOrderDTO(BaseModel):
-    DOGOVOR:DTOConstant.SAP_DOGOVOR_FIELD()
-    MATNR:DTOConstant.MATNR_FIELD()
-    QUAN:DTOConstant.SAP_QUAN_FIELD()
-    ORDER_ID:DTOConstant.SAP_ORDER_ID_FIELD()
+    DOGOVOR: DTOConstant.SAP_DOGOVOR_FIELD()
+    MATNR: DTOConstant.MATNR_FIELD()
+    QUAN: DTOConstant.SAP_QUAN_FIELD()
+    ORDER_ID: DTOConstant.SAP_ORDER_ID_FIELD()
 
     class Config:
         from_attributes = True
+
 
 class CreateIndividualSapOrderDTO(BaseModel):
     WERKS: DTOConstant.WERKS_FIELD()
@@ -30,6 +31,7 @@ class CreateIndividualSapOrderDTO(BaseModel):
     class Config:
         from_attributes = True
 
+
 class SapOrderStatusItemDTO(BaseModel):
     STATUS: DTOConstant.StandardNullableIntegerField() = None
     ZAKAZ: DTOConstant.StandardNullableVarcharField() = None
@@ -42,6 +44,6 @@ class SapOrderStatusItemDTO(BaseModel):
     class Config:
         from_attributes = True
 
+
 class SapStatusDTO(BaseModel):
     items: List[SapOrderStatusItemDTO]
-

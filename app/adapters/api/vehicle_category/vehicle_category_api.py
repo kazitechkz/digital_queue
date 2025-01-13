@@ -2,22 +2,30 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.vehicle_category.vehicle_category_dto import (
-    VehicleCategoryCDTO, VehicleCategoryRDTO)
+    VehicleCategoryCDTO,
+    VehicleCategoryRDTO,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.path_constants import AppPathConstants
-from app.use_cases.vehicle_category.all_vehicle_category_case import \
-    AllVehicleCategoryCase
-from app.use_cases.vehicle_category.create_vehicle_category_case import \
-    CreateVehicleCategoryCase
-from app.use_cases.vehicle_category.delete_vehicle_category_case import \
-    DeleteVehicleCategoryCase
-from app.use_cases.vehicle_category.get_vehicle_category_by_id_case import \
-    GetVehicleCategoryByIdCase
-from app.use_cases.vehicle_category.get_vehicle_category_by_value_case import \
-    GetVehicleCategoryByValueCase
-from app.use_cases.vehicle_category.update_vehicle_category_case import \
-    UpdateVehicleCategoryCase
+from app.use_cases.vehicle_category.all_vehicle_category_case import (
+    AllVehicleCategoryCase,
+)
+from app.use_cases.vehicle_category.create_vehicle_category_case import (
+    CreateVehicleCategoryCase,
+)
+from app.use_cases.vehicle_category.delete_vehicle_category_case import (
+    DeleteVehicleCategoryCase,
+)
+from app.use_cases.vehicle_category.get_vehicle_category_by_id_case import (
+    GetVehicleCategoryByIdCase,
+)
+from app.use_cases.vehicle_category.get_vehicle_category_by_value_case import (
+    GetVehicleCategoryByValueCase,
+)
+from app.use_cases.vehicle_category.update_vehicle_category_case import (
+    UpdateVehicleCategoryCase,
+)
 
 
 class VehicleCategoryApi:

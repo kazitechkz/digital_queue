@@ -1,7 +1,9 @@
+from datetime import datetime
 from typing import Annotated, Optional
 
 from fastapi import Query
 
+from app.infrastructure.config import app_config
 from app.shared.field_constants import FieldConstants
 from app.shared.validation_constants import app_validation
 
@@ -136,5 +138,14 @@ class AppQueryConstants:
     def StandardOptionalIntegerArrayQuery(description="Опциональный массив чисел"):
         return Query(
             default=None,
+            description=description,
+        )
+
+    @staticmethod
+    def StandardOptionalDateForScheduleQuery(description="Опциональный дата"):
+        return Query(
+            ge=app_config.get_scheduled_date_from_now().isoformat(),
+            le=app_config.get_max_scheduled_date_from_now().isoformat(),
+            default=app_config.get_scheduled_date_from_now().isoformat(),
             description=description,
         )

@@ -69,41 +69,39 @@ class AppPathConstants:
     DeleteByIdPathName = "/delete/{id}"
     GetByValuePathName = "/get-by-value/{value}"
 
-    #Client
-    #Vehicles
+    # Client
+    # Vehicles
     AddClientVehiclePathName = "/add-vehicle"
     PaginateClientVehiclesPathName = "/paginate-client-vehicles"
     GetClientVehiclesPathName = "/all-client-vehicles"
     UpdateClientVehiclePathName = "/update-client-vehicle/{id}"
-    #Organization
+    # Organization
     AddClientOrganizationPathName = "/add-client-organization"
     UpdateClientOrganizationPathName = "/update-client-organization/{id}"
     AllClientOrganizationPathName = "/all-client-organization"
     PaginateClientOrganizationPathName = "/paginate-client-organization"
-    #Employee Requests
+    # Employee Requests
     PaginateClientEmployeeRequestPathName = "/my-employee-requests"
     CreateClientEmployeeRequestPathName = "/create-client"
     UpdateClientEmployeeRequestPathName = "/make-decision/{id}"
     DeleteClientEmployeeRequestPathName = "/delete-client/{id}"
-    #Order
+    # Order
     CreateClientOrderRequestPathName = "/create-client-order"
     AllClientOrderPathName = "/all-client-order"
     PaginateClientOrderPathName = "/paginate-client-order"
     GetClientOrderByIdPathName = "/client-order/{id}"
     GetClientOrderByValuePathName = "/client-order/{value}"
-    #SAP
+    # SAP
     RecreateSAPOrderRequestPathName = "/recreate/{order_id}"
-    #Auth
+    # Auth
     LoginPathName = "/login"
     GetMePathName = "/me"
-    #Kaspi
-    KaspiFastPaymentPathName="/generate-payment-url"
-    KaspiCheckPathName="/check"
-    KaspiPayPathName="/pay"
-    #Organization
+    # Kaspi
+    KaspiFastPaymentPathName = "/generate-payment-url"
+    KaspiCheckPathName = "/check"
+    KaspiPayPathName = "/pay"
+    # Organization
     GetAllOrganizationEmployeeClientPathName = "/get-all-organization-employee"
     PaginateOrganizationEmployeeClientPathName = "/paginate-organization-employee"
     GetOrganizationEmployeeClientByIdPathName = "/get-organization-employee/{id}"
     DeleteOrganizationEmployeeClientPathName = "/delete-organization-employee/{id}"
-
-

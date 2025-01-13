@@ -7,8 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.adapters.dto.user.user_dto import UserCDTO, UserWithRelationsDTO
 from app.adapters.repositories.role.role_repository import RoleRepository
 from app.adapters.repositories.user.user_repository import UserRepository
-from app.adapters.repositories.user_type.user_type_repository import \
-    UserTypeRepository
+from app.adapters.repositories.user_type.user_type_repository import UserTypeRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.core.auth_core import get_password_hash
 from app.entities import FileModel, UserModel

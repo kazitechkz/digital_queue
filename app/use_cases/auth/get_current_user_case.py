@@ -5,13 +5,11 @@ from keycloak import KeycloakAuthenticationError
 from sqlalchemy import and_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.user.user_dto import (UserKeycloakCDTO,
-                                            UserWithRelationsDTO)
+from app.adapters.dto.user.user_dto import UserKeycloakCDTO, UserWithRelationsDTO
 from app.adapters.dto.user.user_response_dto import UserResponseDTO
 from app.adapters.repositories.role.role_repository import RoleRepository
 from app.adapters.repositories.user.user_repository import UserRepository
-from app.adapters.repositories.user_type.user_type_repository import \
-    UserTypeRepository
+from app.adapters.repositories.user_type.user_type_repository import UserTypeRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.core.key_cloak_core import keycloak_openid
 from app.infrastructure.api_clients.user_repo.user_repo_client import UserRepoApiClient

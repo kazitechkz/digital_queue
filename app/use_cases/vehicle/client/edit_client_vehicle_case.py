@@ -5,17 +5,18 @@ from sqlalchemy import and_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
-from app.adapters.dto.vehicle.vehicle_dto import (VehicleCDTO,
-                                                  VehicleWithRelationsDTO)
-from app.adapters.repositories.organization.organization_repository import \
-    OrganizationRepository
+from app.adapters.dto.vehicle.vehicle_dto import VehicleCDTO, VehicleWithRelationsDTO
+from app.adapters.repositories.organization.organization_repository import (
+    OrganizationRepository,
+)
 from app.adapters.repositories.user.user_repository import UserRepository
-from app.adapters.repositories.vehicle.vehicle_repository import \
-    VehicleRepository
-from app.adapters.repositories.vehicle_category.vehicle_category_repository import \
-    VehicleCategoryRepository
-from app.adapters.repositories.vehicle_color.vehicle_color_repository import \
-    VehicleColorRepository
+from app.adapters.repositories.vehicle.vehicle_repository import VehicleRepository
+from app.adapters.repositories.vehicle_category.vehicle_category_repository import (
+    VehicleCategoryRepository,
+)
+from app.adapters.repositories.vehicle_color.vehicle_color_repository import (
+    VehicleColorRepository,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import FileModel, VehicleModel
 from app.infrastructure.config import app_config
@@ -36,12 +37,12 @@ class EditClientVehicleCase(BaseUseCase[VehicleWithRelationsDTO]):
 
     async def execute(
         self,
-            id: int,
-            dto: VehicleCDTO,
-            user:UserWithRelationsDTO,
-            file: Optional[UploadFile] = None
+        id: int,
+        dto: VehicleCDTO,
+        user: UserWithRelationsDTO,
+        file: Optional[UploadFile] = None,
     ) -> VehicleWithRelationsDTO:
-        model = await self.validate(id=id, dto=dto,user=user)
+        model = await self.validate(id=id, dto=dto, user=user)
         file_model = None
         if AppFileExtensionConstants.is_upload_file(file):
             file_model = await self.service.save_file(
@@ -49,7 +50,7 @@ class EditClientVehicleCase(BaseUseCase[VehicleWithRelationsDTO]):
                 uploaded_folder=AppFileExtensionConstants.VehicleFolderName,
                 extensions=self.extensions,
             )
-        dto = await self.transform(model=model, dto=dto, file=file_model,user=user)
+        dto = await self.transform(model=model, dto=dto, file=file_model, user=user)
         model = await self.repository.update(obj=model, dto=dto)
         if not model:
             raise AppExceptionResponse().internal_error(
@@ -62,10 +63,7 @@ class EditClientVehicleCase(BaseUseCase[VehicleWithRelationsDTO]):
         return VehicleWithRelationsDTO.from_orm(model)
 
     async def validate(
-            self,
-            id: int,
-            user: UserWithRelationsDTO,
-            dto: VehicleCDTO
+        self, id: int, user: UserWithRelationsDTO, dto: VehicleCDTO
     ) -> VehicleModel:
         model = await self.repository.get(id=id)
         if not model:
@@ -87,8 +85,9 @@ class EditClientVehicleCase(BaseUseCase[VehicleWithRelationsDTO]):
                 await self.organization_repository.get_first_with_filters(
                     filters=[
                         and_(
-                            self.organization_repository.model.id == dto.organization_id,
-                            self.organization_repository.model.owner_id == user.id
+                            self.organization_repository.model.id
+                            == dto.organization_id,
+                            self.organization_repository.model.owner_id == user.id,
                         )
                     ],
                 )
@@ -125,11 +124,11 @@ class EditClientVehicleCase(BaseUseCase[VehicleWithRelationsDTO]):
         return model
 
     async def transform(
-            self,
-            model: VehicleModel,
-            user: UserWithRelationsDTO,
-            dto: VehicleCDTO,
-            file: Optional[FileModel] = None
+        self,
+        model: VehicleModel,
+        user: UserWithRelationsDTO,
+        dto: VehicleCDTO,
+        file: Optional[FileModel] = None,
     ):
         existed_vehicle_category = await self.vehicle_category_repository.get(
             id=dto.category_id

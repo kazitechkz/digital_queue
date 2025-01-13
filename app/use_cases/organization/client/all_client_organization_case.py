@@ -1,7 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.adapters.dto.organization.organization_dto import OrganizationWithRelationsDTO
-from app.adapters.filters.organization.client.organization_client_filter import OrganizationClientFilter
-from app.adapters.repositories.organization.organization_repository import OrganizationRepository
+from app.adapters.filters.organization.client.organization_client_filter import (
+    OrganizationClientFilter,
+)
+from app.adapters.repositories.organization.organization_repository import (
+    OrganizationRepository,
+)
 from app.use_cases.base_case import BaseUseCase
 
 
@@ -10,8 +15,7 @@ class AllClientOrganizationCase(BaseUseCase[list[OrganizationWithRelationsDTO]])
         self.repository = OrganizationRepository(db)
 
     async def execute(
-        self, filter: OrganizationClientFilter,
-            client_id:int
+        self, filter: OrganizationClientFilter, client_id: int
     ) -> list[OrganizationWithRelationsDTO]:
         models = await self.repository.get_with_filters(
             order_by=filter.order_by,

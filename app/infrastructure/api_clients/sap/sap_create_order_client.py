@@ -1,10 +1,14 @@
 import random
 from datetime import date, datetime
-from typing import Union, Optional
+from typing import Optional, Union
 
 import requests
 
-from app.adapters.dto.sap.create_sap_order_dto import CreateLegalSapOrderDTO, CreateIndividualSapOrderDTO, SapStatusDTO
+from app.adapters.dto.sap.create_sap_order_dto import (
+    CreateIndividualSapOrderDTO,
+    CreateLegalSapOrderDTO,
+    SapStatusDTO,
+)
 from app.adapters.dto.sap.sap_bearer_token_dto import SapBearerTokenDTO
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.config import app_config
@@ -12,10 +16,11 @@ from app.infrastructure.redis_client import redis_client
 
 
 class SapCreateOrderApiClient:
-    ACCESS_TOKEN_SAP088="access_token_sap088"
+    ACCESS_TOKEN_SAP088 = "access_token_sap088"
 
-
-    async def create_sap_order(self, order_data: Union[CreateLegalSapOrderDTO, CreateIndividualSapOrderDTO])->SapStatusDTO:
+    async def create_sap_order(
+        self, order_data: Union[CreateLegalSapOrderDTO, CreateIndividualSapOrderDTO]
+    ) -> SapStatusDTO:
         if app_config.sap_use_fake_service:
             data = self._fake_create_order_response(order_data=order_data)
             items_list_data = {
@@ -30,7 +35,7 @@ class SapCreateOrderApiClient:
                 basic_url = app_config.sap_088_create_order_https_url
             headers = {
                 "Content-Type": "application/json",
-                "Authorization": f"Bearer {token}"
+                "Authorization": f"Bearer {token}",
             }
             payload = self._create_sap_order_payload(order_data=order_data)
             try:
@@ -47,8 +52,9 @@ class SapCreateOrderApiClient:
                     message=f"Ошибка при создании заказа в системе SAP 088 {str(e)}"
                 )
 
-
-    def _fake_create_order_response(self,order_data: Union[CreateLegalSapOrderDTO, CreateIndividualSapOrderDTO]):
+    def _fake_create_order_response(
+        self, order_data: Union[CreateLegalSapOrderDTO, CreateIndividualSapOrderDTO]
+    ):
         zakaz = random.randint(1000000000, 9999999999)
         percentage = random.randint(0, 100)
         now = datetime.now()
@@ -66,7 +72,7 @@ class SapCreateOrderApiClient:
                         "TEXT": "Не найдена позиция заказа (фейковый сервис)",
                         "DATE": f"{current_date}",
                         "TIME": f"{current_time}",
-                        "ORDER_ID": order_data.ORDER_ID
+                        "ORDER_ID": order_data.ORDER_ID,
                     }
                 }
             }
@@ -80,13 +86,14 @@ class SapCreateOrderApiClient:
                         "TEXT": None,
                         "DATE": f"{current_date}",
                         "TIME": f"{current_time}",
-                        "ORDER_ID": order_data.ORDER_ID
+                        "ORDER_ID": order_data.ORDER_ID,
                     }
                 }
             }
 
-
-    def _create_sap_order_payload(self, order_data:Union[CreateLegalSapOrderDTO, CreateIndividualSapOrderDTO])->dict:
+    def _create_sap_order_payload(
+        self, order_data: Union[CreateLegalSapOrderDTO, CreateIndividualSapOrderDTO]
+    ) -> dict:
         if isinstance(order_data, CreateLegalSapOrderDTO):
             payload = {
                 "items": {
@@ -95,7 +102,7 @@ class SapCreateOrderApiClient:
                             "DOGOVOR": order_data.DOGOVOR,
                             "MATNR": order_data.MATNR,
                             "QUAN": order_data.QUAN,
-                            "ORDER_ID": order_data.ORDER_ID
+                            "ORDER_ID": order_data.ORDER_ID,
                         }
                     ]
                 }
@@ -122,15 +129,14 @@ class SapCreateOrderApiClient:
             }
         return payload
 
-
-    async def get_access_token(self)->str:
-        access_token:Optional[str] = redis_client.get(self.ACCESS_TOKEN_SAP088)
+    async def get_access_token(self) -> str:
+        access_token: Optional[str] = redis_client.get(self.ACCESS_TOKEN_SAP088)
         if not access_token:
             token_dto = await self._make_call_to_sap_auth()
             return token_dto.access_token
         return access_token
 
-    async def _make_call_to_sap_auth(self)->SapBearerTokenDTO:
+    async def _make_call_to_sap_auth(self) -> SapBearerTokenDTO:
         payload = {
             "grant_type": app_config.sap_088_grant_type,
             "client_id": app_config.sap_088_client_id,
@@ -140,16 +146,16 @@ class SapCreateOrderApiClient:
         if app_config.auth_contract_https_enabled:
             basic_url = app_config.sap_auth_https_url
 
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
+        headers = {"Content-Type": "application/x-www-form-urlencoded"}
 
         try:
             response = requests.post(basic_url, data=payload, headers=headers)
             response.raise_for_status()
             token_data = response.json()
             token_dto = SapBearerTokenDTO.parse_obj(token_data)
-            redis_client.setex(self.ACCESS_TOKEN_SAP088, token_dto.expires_in, token_dto.access_token)
+            redis_client.setex(
+                self.ACCESS_TOKEN_SAP088, token_dto.expires_in, token_dto.access_token
+            )
             return token_dto
         except requests.exceptions.RequestException as e:
             raise AppExceptionResponse.internal_error(

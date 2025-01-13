@@ -2,8 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.adapters.dto.operation.operation_dto import OperationWithRelationsDTO
-from app.adapters.repositories.operation.operation_repository import \
-    OperationRepository
+from app.adapters.repositories.operation.operation_repository import OperationRepository
 from app.use_cases.base_case import BaseUseCase
 
 

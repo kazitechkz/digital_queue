@@ -3,8 +3,10 @@ from typing import Optional
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.dto.workshop.workshop_dto import (WorkshopCDTO,
-                                                    WorkshopWithRelationsDTO)
+from app.adapters.dto.workshop.workshop_dto import (
+    WorkshopCDTO,
+    WorkshopWithRelationsDTO,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.infrastructure.database import get_db
 from app.shared.app_file_constants import AppFileExtensionConstants
@@ -14,8 +16,7 @@ from app.use_cases.workshop.all_workshop_case import AllWorkshopCase
 from app.use_cases.workshop.create_workshop_case import CreateWorkshopCase
 from app.use_cases.workshop.delete_workshop_case import DeleteWorkshopCase
 from app.use_cases.workshop.get_workshop_by_id_case import GetWorkshopByIdCase
-from app.use_cases.workshop.get_workshop_by_value_case import \
-    GetWorkshopByValueCase
+from app.use_cases.workshop.get_workshop_by_value_case import GetWorkshopByValueCase
 from app.use_cases.workshop.update_workshop_case import UpdateWorkshopCase
 
 

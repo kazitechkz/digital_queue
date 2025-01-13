@@ -1,9 +1,12 @@
-from typing import Optional, List
+from typing import List, Optional
+
 from pydantic import BaseModel
+
 from app.adapters.dto.file.file_dto import FileRDTO
 from app.adapters.dto.role.role_dto import RoleRDTO
 from app.adapters.dto.user_type.user_type_dto import UserTypeRDTO
 from app.shared.dto_constants import DTOConstant
+
 
 class UserDTO(BaseModel):
     id: DTOConstant.StandardID()
@@ -84,6 +87,7 @@ class UserKeycloakCDTO(BaseModel):
     class Config:
         from_attributes = True
 
+
 class UserOrganizationRDTO(BaseModel):
     id: DTOConstant.StandardID()
     owner_id: DTOConstant.StandardNullableUnsignedIntegerField()
@@ -102,10 +106,12 @@ class UserOrganizationRDTO(BaseModel):
     class Config:
         from_attributes = True
 
+
 class UserWithRelationsDTO(UserRDTO):
     role: Optional[RoleRDTO] = None
     user_type: Optional[UserTypeRDTO] = None
     file: Optional[FileRDTO] = None
     organizations: Optional[List[UserOrganizationRDTO]] = None
+
     class Config:
         from_attributes = True

@@ -1,7 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.repositories.verified_vehicle.verified_verticle_repository import \
-    VerifiedVehicleRepository
+from app.adapters.repositories.verified_vehicle.verified_verticle_repository import (
+    VerifiedVehicleRepository,
+)
 from app.core.app_exception_response import AppExceptionResponse
 from app.use_cases.base_case import BaseUseCase
 

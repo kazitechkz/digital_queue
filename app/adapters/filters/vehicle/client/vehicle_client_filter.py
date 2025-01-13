@@ -30,9 +30,7 @@ class VehicleClientFilter(BasePaginationFilter[VehicleModel]):
         ] = AppQueryConstants.StandardOptionalIntegerArrayQuery(
             description="Поиск по цветам"
         ),
-        owner_id: Optional[
-            int
-        ] = AppQueryConstants.StandardOptionalIntegerQuery(
+        owner_id: Optional[int] = AppQueryConstants.StandardOptionalIntegerQuery(
             description="Поиск по владельцу"
         ),
         organization_ids: Optional[
@@ -65,7 +63,9 @@ class VehicleClientFilter(BasePaginationFilter[VehicleModel]):
             "vehicle_info",
         ]
 
-    def apply(self,user:UserWithRelationsDTO,check_verified:bool = False) -> List[SQLAlchemyQuery]:
+    def apply(
+        self, user: UserWithRelationsDTO, check_verified: bool = False
+    ) -> List[SQLAlchemyQuery]:
         filters = []
         if self.search:
             # Проверяем существование полей в модели
@@ -87,21 +87,29 @@ class VehicleClientFilter(BasePaginationFilter[VehicleModel]):
             filters.append(and_(self.model.color_id.in_(self.colors_ids)))
 
         organization_ids = [org.id for org in user.organizations]
-        filters.append(and_(
-            or_(
-                self.model.owner_id == user.id,
-                self.model.organization_id.in_(organization_ids)
+        filters.append(
+            and_(
+                or_(
+                    self.model.owner_id == user.id,
+                    self.model.organization_id.in_(organization_ids),
+                )
             )
-        ))
+        )
         if self.owner_id:
             if self.owner_id != user.id:
-                raise AppExceptionResponse().bad_request("Вы не можете просматривать ТС других пользователей")
+                raise AppExceptionResponse().bad_request(
+                    "Вы не можете просматривать ТС других пользователей"
+                )
             filters.append(and_(self.model.owner_id == self.owner_id))
         if self.organization_ids and user.organizations:
             valid_ids = {org.id for org in user.organizations}
-            invalid_ids = [org_id for org_id in self.organization_ids if org_id not in valid_ids]
+            invalid_ids = [
+                org_id for org_id in self.organization_ids if org_id not in valid_ids
+            ]
             if invalid_ids:
-                raise AppExceptionResponse().bad_request("Вы не можете просматривать ТС других организаций")
+                raise AppExceptionResponse().bad_request(
+                    "Вы не можете просматривать ТС других организаций"
+                )
             filters.append(and_(self.model.organization_id.in_(self.organization_ids)))
         if self.is_trailer is not None:
             filters.append(and_(self.model.is_trailer == self.is_trailer))

@@ -4,12 +4,12 @@ from sqlalchemy import and_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.adapters.dto.material.material_dto import (MaterialCDTO,
-                                                    MaterialWithRelationsDTO)
-from app.adapters.repositories.material.material_repository import \
-    MaterialRepository
-from app.adapters.repositories.workshop.workshop_repository import \
-    WorkshopRepository
+from app.adapters.dto.material.material_dto import (
+    MaterialCDTO,
+    MaterialWithRelationsDTO,
+)
+from app.adapters.repositories.material.material_repository import MaterialRepository
+from app.adapters.repositories.workshop.workshop_repository import WorkshopRepository
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import FileModel
 from app.use_cases.base_case import BaseUseCase
