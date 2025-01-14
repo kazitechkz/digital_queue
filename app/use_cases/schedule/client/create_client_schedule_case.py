@@ -186,7 +186,8 @@ class CreateClientScheduleCase(BaseUseCase[ScheduleWithRelationsDTO]):
                     ),
                     self.order_repository.model.is_paid == True
                 )
-            ]
+            ],
+            options=self.order_repository.default_relationships()
         )
         if not order:
             raise AppExceptionResponse.bad_request(message="Заказ не найден")
@@ -216,17 +217,10 @@ class CreateClientScheduleCase(BaseUseCase[ScheduleWithRelationsDTO]):
                 return True
         raise AppExceptionResponse.bad_request(message="Недостаточно места в выбранное время")
 
-    async def _validate_organization_access(self, dto: CreateScheduleDTO, user: UserWithRelationsDTO):
-        organization_ids = [organization.id for organization in user.organizations if organization.is_verified]
-        if not dto.organization_id:
-            raise AppExceptionResponse.bad_request(message="Не указана организация")
-        if dto.organization_id not in organization_ids:
-            raise AppExceptionResponse.bad_request(message="У вас нет доступа к этой организации")
-
-        for organization in user.organizations:
-            if organization.id == dto.organization_id:
-                self.organization = organization
-                break
+    async def _validate_organization_access(self):
+        if not self.order.organization:
+            raise AppExceptionResponse.bad_request("Не указана организация")
+        self.organization = self.order.organization
 
     async def _validate_driver_access(self, dto: CreateScheduleDTO, user: UserWithRelationsDTO):
         if not dto.driver_id:

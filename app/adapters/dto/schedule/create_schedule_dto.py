@@ -21,9 +21,6 @@ class CreateScheduleDTO(BaseModel):
         description="Забронированный объем в тоннах"
     )
     # Поля для юридических лиц
-    organization_id: DTOConstant.StandardNullableIntegerField(
-        description="Идентификатор организации (только для юр. лиц)"
-    )
     driver_id: DTOConstant.StandardNullableIntegerField(
         description="Идентификатор водителя (только для юр. лиц)"
     )
