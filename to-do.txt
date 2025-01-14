@@ -1,2 +1,0 @@
-1.Add Operations Seeders
-2.Check for order status seeders
