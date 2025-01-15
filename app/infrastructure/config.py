@@ -183,6 +183,8 @@ class AppConfiguration(BaseSettings):
     )
     max_booked_quan_t: float = Field(default=15.0, env="MAX_BOOKED_QUAN_T")
     min_booked_quan_t: float = Field(default=1.0, env="MIN_BOOKED_QUAN_T")
+    initial_weighting_days: int = Field(default=31, env="INITIAL_WEIGHTING_DAYS")
+    strict_time_check_entry: bool = Field(default=True, env="STRICT_TIME_CHECK_ENTRY")
 
     @property
     def get_connection_url(self) -> str:

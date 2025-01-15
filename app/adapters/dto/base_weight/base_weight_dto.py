@@ -25,7 +25,7 @@ class BaseWeightRDTO(BaseWeightDTO):
 
 
 class BaseWeightCDTO(BaseModel):
-    vehicle_id: DTOConstant.StandardUnsignedIntegerField()
+    vehicle_id: DTOConstant.StandardNullableIntegerField()
     car_number: DTOConstant.StandardVarcharField()
     vehicle_tara_kg: DTOConstant.StandardIntegerField()
     measured_at: DTOConstant.StandardDateTimeField()

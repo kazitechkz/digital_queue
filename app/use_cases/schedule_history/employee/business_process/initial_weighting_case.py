@@ -1,24 +1,28 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional, List
+
 from sqlalchemy import and_
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.adapters.dto.schedule_history.make_decision_dto import MakeDecisionDTO
 from app.adapters.dto.schedule_history.schedule_history_dto import ScheduleHistoryWithRelationsDTO, ScheduleHistoryCDTO
 from app.adapters.dto.user.user_dto import UserWithRelationsDTO
+from app.adapters.repositories.base_weight.base_weight_repository import BaseWeightRepository
 from app.adapters.repositories.schedule_history.schedule_history_repository import ScheduleHistoryRepository
 from app.core.app_exception_response import AppExceptionResponse
-from app.entities import ScheduleModel, ScheduleHistoryModel, OperationModel
+from app.entities import ScheduleModel, OperationModel, ScheduleHistoryModel
 from app.infrastructure.config import app_config
+from app.infrastructure.helpers.vehicle_helper import VehicleHelper
 from app.shared.db_constants import AppDbValueConstants
 from app.use_cases.base_case import BaseUseCase
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from app.use_cases.schedule_history.employee.take_schedule_case import TakeScheduleCase
 
 
-class EntryCheckPointCase(BaseUseCase[ScheduleHistoryWithRelationsDTO]):
+class InitialWeightingCase(BaseUseCase[ScheduleHistoryWithRelationsDTO]):
 
     def __init__(self, db: AsyncSession):
         self.schedule_history_repository = ScheduleHistoryRepository(db)
+        self.base_weight_repository = BaseWeightRepository(db)
         self.take_schedule_use_case = TakeScheduleCase(db)
         self.dto: Optional[MakeDecisionDTO] = None
         self.schedule: Optional[ScheduleModel] = None
@@ -32,7 +36,7 @@ class EntryCheckPointCase(BaseUseCase[ScheduleHistoryWithRelationsDTO]):
         dto: MakeDecisionDTO,
         schedule: ScheduleModel,
         employee: UserWithRelationsDTO,
-        operations: List[OperationModel]
+        operations: List[OperationModel],
     ) -> ScheduleHistoryModel:
         self.schedule = schedule
         self.employee = employee
@@ -41,7 +45,7 @@ class EntryCheckPointCase(BaseUseCase[ScheduleHistoryWithRelationsDTO]):
 
         # Определяем текущую операцию
         self.current_operation = next(
-            (op for op in operations if op.value == AppDbValueConstants.ENTRY_CHECKPOINT),
+            (op for op in operations if op.value == AppDbValueConstants.INITIAL_WEIGHING),
             None
         )
 
@@ -49,40 +53,34 @@ class EntryCheckPointCase(BaseUseCase[ScheduleHistoryWithRelationsDTO]):
         return await self.transform()
 
     async def validate(self):
-        now = datetime.now()
-
-        # Проверка времени
-        if app_config.strict_time_check_entry:
-            if self.schedule.start_at > now:
-                raise AppExceptionResponse.bad_request("Время начала ещё не наступило")
-            if self.schedule.end_at < now:
-                raise AppExceptionResponse.bad_request("Время окончания уже прошло")
-
-        # Проверка текущей операции
+        # Проверка на соответствие операции
         if not self.current_operation:
             raise AppExceptionResponse.bad_request("Текущая операция не найдена")
-        if self.schedule.current_operation_value != AppDbValueConstants.ENTRY_CHECKPOINT:
-            raise AppExceptionResponse.bad_request("Расписание не соответствует текущему этапу")
+        if self.schedule.current_operation_value != AppDbValueConstants.INITIAL_WEIGHING:
+            raise AppExceptionResponse.bad_request("Расписание не соответствует текущей операции")
 
-        # Проверка прав
-        if self.employee.role.keycloak_value != self.current_operation.role_value:
-            raise AppExceptionResponse.forbidden("У вас нет прав на выполнение данной операции")
-        if self.schedule.responsible_id != self.employee.id:
-            raise AppExceptionResponse.forbidden("Вы не являетесь ответственным за выполнение данной операции")
+        # Проверка прав пользователя
+        if self.employee.role.keycloak_value != self.current_operation.role_value or self.schedule.responsible_id != self.employee.id:
+            raise AppExceptionResponse.forbidden("Вы не имеете права принимать решения по данному процессу")
+
+        # Проверка веса тары
+        if self.dto.is_passed and not self.dto.vehicle_tara_t:
+            raise AppExceptionResponse.bad_request("Введите вес тары транспортного средства")
 
     async def transform(self) -> ScheduleHistoryModel:
         current_datetime = datetime.now()
 
-        # Получаем актуальную запись истории
+        # Получаем или создаём запись в истории
         schedule_history = await self._get_or_create_schedule_history()
 
-        # Обновляем запись истории
-        schedule_history_dto = self._prepare_schedule_history_update(
-            schedule_history, current_datetime
-        )
+        # Обновляем данные истории
+        schedule_history_dto = self._prepare_schedule_history_update(schedule_history, current_datetime)
         await self.schedule_history_repository.update(obj=schedule_history, dto=schedule_history_dto)
 
-        # Возвращаем обновленную запись
+        # Создаём базовый вес (если операция прошла успешно)
+        await self._create_base_weight_if_passed()
+
+        # Возвращаем обновлённую запись истории
         return await self._get_actual_schedule_history()
 
     async def _get_or_create_schedule_history(self) -> ScheduleHistoryModel:
@@ -121,9 +119,17 @@ class EntryCheckPointCase(BaseUseCase[ScheduleHistoryWithRelationsDTO]):
         schedule_history_dto.end_at = current_datetime
         return schedule_history_dto
 
-
-
-
-
-
-
+    async def _create_base_weight_if_passed(self):
+        if self.dto.is_passed:
+            vehicle_registration_number = VehicleHelper.get_vehicle_registration_number(
+                self.schedule.vehicle, self.schedule.trailer
+            )
+            await self.base_weight_repository.create(
+                obj=self.base_weight_repository.model(
+                    vehicle_id=self.schedule.vehicle_id,
+                    car_number=vehicle_registration_number,
+                    vehicle_tara_kg=self.dto.vehicle_tara_t * 1000,
+                    measured_at=datetime.now(),
+                    measured_to=datetime.now() + timedelta(days=app_config.initial_weighting_month)
+                )
+            )

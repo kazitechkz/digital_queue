@@ -114,7 +114,7 @@ class ScheduleCDTO(BaseModel):
     current_operation_value: DTOConstant.StandardVarcharField()
 
     start_at:DTOConstant.StandardDateTimeField()
-    end_at:DTOConstant.StandardDateTimeField()
+    end_at:DTOConstant.StandardNullableDateTimeField()
     rescheduled_start_at:DTOConstant.StandardNullableDateTimeField()
     rescheduled_end_at:DTOConstant.StandardNullableDateTimeField()
 

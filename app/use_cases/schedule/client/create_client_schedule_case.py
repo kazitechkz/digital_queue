@@ -23,6 +23,7 @@ from app.adapters.repositories.workshop_schdedule.workshop_schedule_repository i
 from app.core.app_exception_response import AppExceptionResponse
 from app.entities import OrderModel, OrganizationModel, VehicleModel, ScheduleModel, OperationModel
 from app.infrastructure.config import app_config
+from app.infrastructure.helpers.vehicle_helper import VehicleHelper
 from app.shared.db_constants import AppDbValueConstants
 from app.use_cases.base_case import BaseUseCase
 from app.use_cases.order.recalculate_order_by_id_case import RecalculateOrderByIdCase
@@ -57,15 +58,9 @@ class CreateClientScheduleCase(BaseUseCase[ScheduleWithRelationsDTO]):
         dto: CreateScheduleDTO,
     ):
         await self.validate(dto=dto, user=user)
-        operation = await self.operation_repository.get_first_with_filters(
-            filters=[
-                and_(
-                    self.operation_repository.model.value == AppDbValueConstants.ENTRY_CHECKPOINT,
-                )
-            ]
-        )
+        operation = await self.operation_repository.first_operation()
         if not operation:
-            raise AppExceptionResponse.bad_request(message="Операция вход в контрольную точку не найдена")
+            raise AppExceptionResponse.bad_request(message="Первичная операция не найдена")
         self.operation = operation
         cdto = await self.transform(dto=dto,user=user)
         model = await self.repository.create(obj=ScheduleModel(**cdto.dict()))
@@ -96,7 +91,7 @@ class CreateClientScheduleCase(BaseUseCase[ScheduleWithRelationsDTO]):
             vehicle_info = self.vehicle.vehicle_info if self.vehicle else None,
             trailer_id = self.trailer.id if self.trailer else None,
             trailer_info = self.trailer.vehicle_info if self.trailer else None,
-            car_number = self.vehicle.registration_number if self.vehicle else None,
+            car_number = VehicleHelper.get_vehicle_registration_number(self.vehicle,self.trailer),
             workshop_schedule_id = dto.workshop_schedule_id,
             current_operation_id=self.operation.id,
             current_operation_name=self.operation.title,
